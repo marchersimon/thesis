@@ -3,12 +3,6 @@
 % LaTeX Template
 % Version 1.2 (4/1/2020)
 %
-% This template originates from:
-% https://www.LaTeXTemplates.com
-%
-% For the latest template development version and to make contributions:
-% https://github.com/fmarotta/kaobook
-%
 % Authors:
 % Federico Marotta (federicomarotta@mail.com)
 % Based on the doctoral thesis of Ken Arroyo Ohori (https://3d.bk.tudelft.nl/ken/en)
@@ -27,7 +21,7 @@
 \documentclass[
 	fontsize=10pt, % Base font size
 	twoside=false, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
-	%open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
+	open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
 	%chapterprefix=true, % Uncomment to use the word "Chapter" before chapter numbers everywhere they appear
 	%chapterentrydots=true, % Uncomment to output dots from the chapter name to the page number in the table of contents
 	numbers=noenddot, % Comment to output dots after chapter numbers; the most common values for this option are: enddot, noenddot and auto (see the KOMAScript documentation for an in-depth explanation)
@@ -40,7 +34,7 @@
 \usepackage[english=british]{csquotes} % English quotes
 
 % Load packages for testing
-\usepackage{blindtext}
+%\usepackage{blindtext}
 %\usepackage{showframe} % Uncomment to show boxes around the text area, margin, header and footer
 %\usepackage{showlabels} % Uncomment to output the content of \label commands to the document where they are used
 
@@ -141,10 +135,10 @@
 %	DEDICATION
 %----------------------------------------------------------------------------------------
 
-\dedication{
-	The harmony of the world is made manifest in Form and Number, and the heart and soul and all the poetry of Natural Philosophy are embodied in the concept of mathematical beauty.\\
-	\flushright -- D'Arcy Wentworth Thompson
-}
+%\dedication{
+%	The harmony of the world is made manifest in Form and Number, and the heart and soul and all the poetry %of Natural Philosophy are embodied in the concept of mathematical beauty.\\
+%	\flushright -- D'Arcy Wentworth Thompson
+%}
 
 %----------------------------------------------------------------------------------------
 %	OUTPUT TITLE PAGE AND PREVIOUS
@@ -198,23 +192,20 @@
 \mainmatter % Denotes the start of the main document content, resets page numbering and uses arabic numbers
 \setchapterstyle{kao} % Choose the default chapter heading style
 
-\input{chapters/introduction.tex}
+\pagelayout{wide} % No margins
+\addpart{The Tesla Coil}
+\pagelayout{margin} % Restore margins
+\input{simon/main.tex}
 
 \pagelayout{wide} % No margins
-\addpart{Class Options, Commands and Environments}
+\addpart{Design and Building}
 \pagelayout{margin} % Restore margins
-
-\input{chapters/options.tex}
-\input{chapters/textnotes.tex}
-\input{chapters/figsntabs.tex}
-\input{chapters/references.tex}
+\input{kassandra/main}
 
 \pagelayout{wide} % No margins
-\addpart{Design and Additional Features}
+\addpart{MIDI Interrupter}
 \pagelayout{margin} % Restore margins
-
-\input{chapters/layout.tex}
-\input{chapters/mathematics.tex}
+\input{felix/main.tex}
 
 \appendix % From here onwards, chapters are numbered with letters, as is the appendix convention
 
@@ -244,44 +235,13 @@
 
 % The nomenclature needs to be compiled on the command line with 'makeindex main.nlo -s nomencl.ist -o main.nls' from the template directory
 
-\nomenclature{$c$}{Speed of light in a vacuum inertial frame}
-\nomenclature{$h$}{Planck constant}
+\nomenclature{SSTC}{Solid State Tesla Coil}
+\nomenclature{CW}{Continuous wave}
 
 \renewcommand{\nomname}{Notation} % Rename the default 'Nomenclature'
 \renewcommand{\nompreamble}{The next list describes several symbols that will be later used within the body of the document.} % Prepend this text to the nomenclature
 
 \printnomenclature % Output the nomenclature
-
-%----------------------------------------------------------------------------------------
-%	GREEK ALPHABET
-% 	Originally from https://gitlab.com/jim.hefferon/linear-algebra
-%----------------------------------------------------------------------------------------
-
-\vspace{1cm}
-
-{\usekomafont{chapter}Greek Letters with Pronounciation} \\[2ex]
-\begin{center}
-	\newcommand{\pronounced}[1]{\hspace*{.2em}\small\textit{#1}}
-	\begin{tabular}{l l @{\hspace*{3em}} l l}
-		\toprule
-		Character & Name & Character & Name \\ 
-		\midrule
-		$\alpha$ & alpha \pronounced{AL-fuh} & $\nu$ & nu \pronounced{NEW} \\
-		$\beta$ & beta \pronounced{BAY-tuh} & $\xi$, $\Xi$ & xi \pronounced{KSIGH} \\ 
-		$\gamma$, $\Gamma$ & gamma \pronounced{GAM-muh} & o & omicron \pronounced{OM-uh-CRON} \\
-		$\delta$, $\Delta$ & delta \pronounced{DEL-tuh} & $\pi$, $\Pi$ & pi \pronounced{PIE} \\
-		$\epsilon$ & epsilon \pronounced{EP-suh-lon} & $\rho$ & rho \pronounced{ROW} \\
-		$\zeta$ & zeta \pronounced{ZAY-tuh} & $\sigma$, $\Sigma$ & sigma \pronounced{SIG-muh} \\
-		$\eta$ & eta \pronounced{AY-tuh} & $\tau$ & tau \pronounced{TOW (as in cow)} \\
-		$\theta$, $\Theta$ & theta \pronounced{THAY-tuh} & $\upsilon$, $\Upsilon$ & upsilon \pronounced{OOP-suh-LON} \\
-		$\iota$ & iota \pronounced{eye-OH-tuh} & $\phi$, $\Phi$ & phi \pronounced{FEE, or FI (as in hi)} \\
-		$\kappa$ & kappa \pronounced{KAP-uh} & $\chi$ & chi \pronounced{KI (as in hi)} \\
-		$\lambda$, $\Lambda$ & lambda \pronounced{LAM-duh} & $\psi$, $\Psi$ & psi \pronounced{SIGH, or PSIGH} \\
-		$\mu$ & mu \pronounced{MEW} & $\omega$, $\Omega$ & omega \pronounced{oh-MAY-guh} \\
-		\bottomrule
-	\end{tabular} \\[1.5ex]
-	Capitals shown are the ones that differ from Roman capitals.
-\end{center}
 
 %----------------------------------------------------------------------------------------
 %	GLOSSARY

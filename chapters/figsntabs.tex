@@ -23,11 +23,11 @@ want to change something about captions you can use the command
 you want to reference a figure, the label must come \emph{after} the 
 caption!
 
-\begin{figure}[hb]
+\begin{marginfigure}[hb]
 	\includegraphics[width=0.45\textwidth]{monalisa}
 	\caption[Mona Lisa, again]{It's Mona Lisa again. \blindtext}
 	\labfig{normalmonalisa}
-\end{figure}
+\end{marginfigure}
 
 While the format of the caption is managed by \Package{caption}, its 
 position is handled by the \Package{floatrow} package. Achieving this 
@@ -56,7 +56,7 @@ following code:
 
 which results in the useless \vreftab{useless}.
 
-\begin{table}[h]
+\begin{margintable}[h]
 \caption[A useless table]{A useless table.}
 \labtab{useless}
 \begin{tabular}{ c c c c }
@@ -71,7 +71,7 @@ which results in the useless \vreftab{useless}.
 	cell8 & cell9 & cell10 \\
 	\bottomrule
 \end{tabular}
-\end{table}
+\end{margintable}
 
 I don't have much else to say, so I will just insert some blind text. 
 \blindtext

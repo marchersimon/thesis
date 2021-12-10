@@ -1,0 +1,16 @@
+\setchapterstyle{kao}
+%\setchapterpreamble[u]{\margintoc}
+\chapter{Theory of operation}
+\labch{tc-theory-of-operation}
+
+Tesla coils come in a huge variety of sizes, power and modes of operation. From simple SGTCs\sidenote{Spark Gap Tesla Coil}, which consist of only a few passive components, to SSTCs\sidenote{Solid State Tesla Coil}, whose only limitations are one's technical skills, every single one amazes anew by combining the world of High Voltage and High Frequency.
+
+In order to understand the class E topology which this thesis is about, we have to understand the basics first. 
+
+\section{The Tesla Resonator}
+
+A tesla resonator, also called tesla coil, is a resonant transformer consisting of two loosely coupled air-cored windings: the primary and secondary coil. The primary coil, hooked up to the driver circuit one one side and grounded on the other, is usually made out of very few turns of thick wire. It is placed around the bottom of the secondary coil, either shaped like an flat spiral, a concentric cylinder, or at any angle in between. The secondary coil on the other hand has a lot more turns and is a lot higher.
+
+As every real component, a coil has parasitic effects. The one relevant to a tesla coil's operation is the parasitic capacitance. A capacitance is just two different isolated voltage potentials, which is exactly, what we have along every single winding of a coil.\todo{TODO: add image of equivalent circuit} This makes clear that every coil is actually an LC oscillator. The lower the inductance and capacitance of the coil, the higher the resonant frequency. This means that in order to lower the frequency to the desired one, many tesla coils have a top load, which, amongst others, acts like as an additional capacity towards ground.
+
+If a high voltage, whose frequency is the resonant frequency of the secondary, is now applied to the primary coil, the LC circuit in the secondary coil starts oscillating and a very high voltage builds up gradually. Depending on the size and power of the tesla coil, this voltage can be from a few thousand to a few million volts. Once the voltage is high enough to ionise the air around the top\sidenote{This usually happens at a designated spark point}, it quickly discharges and the cycle starts over again.
