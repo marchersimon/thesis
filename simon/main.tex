@@ -3,8 +3,9 @@
 \chapter{Theory of operation}
 \labch{tc-theory-of-operation}
 
+The tesla coil was invented by Nikola Tesla in 1891. His vision was to build a gigantic tesla coil to wirelessly transmit power via an magnetic field to people all over the world. While his plans didn't meet the expectations by far, he still opened up a whole new field of physics, which today helps power the modern world.
+
 Tesla coils come in a huge variety of sizes, power and modes of operation. From simple spark gap tesla coils, which consist of only a few passive components, to solid state tesla coils, whose only limitations are one's technical skills, every single one amazes anew by combining the world of High Voltage and High Frequency.
-\todo[shadow]{Talk about the Nikola Tesla and free energy}
 
 In order to understand the class E topology which this thesis is about, we have to understand the basics first. 
 
@@ -34,4 +35,13 @@ There are various circuits which can be used for the excitation of the coil. Dep
 \labfig{teslaCoilStrayCapacintance}
 \end{marginfigure}
 
-The simplest of all drivers is the spark gap driver. In the first stage, the 230V mains voltage is transformed to a few kilovolts. Neon sign or microwave transformers are popular choices for this task. The capacitor gets charged up until the voltage is high enough to break through the spark gap. The spark gap then has a very low resistance and allows the current to oscillate between the capacitor and the primary coil. This oscillation frequency is usually in the order of ten to hundred kilohertz and is the same frequency as the resonant frequency of the secondary coil. In every cycle, a little energy is transferred to the secondary via the magnetic coupling of the coils. When the voltage in the secondary gets too high, a breakout occurs. This can happen one or more times within a period of the AC mains voltage. Once all the energy in the primary circuit has been transferred to the secondary or dissipated as heat, the spark gap \enquote{squenches} allowing the capacitor to charge up again.
+The simplest of all drivers is the spark gap driver. In the first stage, the 230V mains voltage is transformed to a few kilovolts. Neon sign or microwave transformers are popular choices for this task. The capacitor gets charged up until the voltage is high enough to break through the spark gap. The spark gap then has a very low resistance and allows the current to oscillate between the capacitor and the primary coil. This oscillation frequency is usually in the order of ten to hundred kilohertz and is the same frequency as the resonant frequency of the secondary coil. In every cycle, a little energy is transferred to the secondary via the magnetic coupling of the coils. When the voltage in the secondary gets too high, a breakout occurs. This can happen one or more times within a period of the AC mains voltage. Once all the energy in the primary circuit has been transferred to the secondary or dissipated as heat, the spark gap \enquote{quenches} allowing the capacitor to charge up again.
+
+Today, spark gap tesla coils are mostly only used for educational purposes anymore. Due to their many disadvantages they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
+
+\begin{itemize}
+    \item A spark gap dissipates a lot of power, part of it in heat and part of in in creating a lot of ozone, which also posses a health hazard, when operated in closed rooms.
+    \item The rapid igniting and quenching of the spark gap creates a lot of noise.
+    \item The whole operation cycle only depends on passive component values, which makes it impossible to control the power output and play music.
+\end{itemize}
+
