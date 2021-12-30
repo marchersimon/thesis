@@ -1,88 +1,9 @@
 \setchapterstyle{kao}
 \setchapterpreamble[u]{\margintoc}
 
-\chapter{Theory of Operation} % How it should work in theory
-\labch{tc-theory-of-operation}
-
-The tesla coil was invented by Nikola Tesla in 1891. His vision was to use this technology to wirelessly transmit power to people all over the world. While his plans didn't meet the expectations by far, he still opened up a whole new field of physics, which today helps power the modern world.
-
-Tesla coils come in a huge variety of sizes, power and modes of operation. From simple spark gap tesla coils, which consist of only a few passive components, to solid state tesla coils, whose only limitations are one's technical skills, every single one amazes anew by combining the world of High Voltage and High Frequency.
-
-In order to understand the class E topology which this thesis is about, we have to understand the basics first. 
-
-\section{The Tesla Resonator}
-
-A tesla resonator, also called tesla coil, is a resonant transformer consisting of two loosely coupled air-cored windings: the primary and secondary coil. The primary coil, hooked up to the driver circuit on one side and grounded on the other, is usually made out of every few turns of thick wire. It is placed around the bottom of the secondary coil, either shaped like an flat spiral, a concentric cylinder, or at any angle in between. The secondary coil on the other hand has a lot more turns and is a lot higher.
-
-\begin{marginfigure}[*-5]
-\includegraphics[width=\textwidth]{simon/images/teslaCoilStrayCapacitance.png}
-\caption{Stray capacitances of the secondary coil}
-\labfig{teslaCoilStrayCapacintance}
-\end{marginfigure}
-
-As every real component, a coil has parasitic effects. The one relevant to a tesla coil's operation is the parasitic capacitance. A capacitance is just two different isolated voltage potentials, which is exactly, what we have along every single winding of a coil. This makes clear that every coil is actually an LC oscillator. The lower the inductance and capacitance of the coil, the higher the resonant frequency. This means that in order to lower the frequency to the desired one, many tesla coils have a top load, which, amongst others, acts like as an additional capacity towards ground.
-
-If a high voltage, whose frequency is the resonant frequency of the secondary, is now applied to the primary coil, the LC circuit in the secondary coil starts oscillating and a very high voltage builds up gradually. Depending on the size and power of the tesla coil, this voltage can range from a few thousand to a few million volts. Once the voltage is high enough to ionise the air around the top\sidenote{This usually happens at a designated spark point}, it quickly discharges and the cycle starts over again.
-
-\section{Exciting The Resonator}
-
-There are various circuits which can be used for the excitation of the coil. Depending on the desired spark length, size\sidenote{The size of the secondary coil mostly determines its resonant frequency}, sensitivity to external effects, noise level and efficiency, different tesla coil drivers can be used. While Tesla's coils all used a spark gap topology, today we are able to use solid state devices to control the coil instead.
-
-\subsection{The Spark Gap Tesla Coil}
-
-\begin{marginfigure}
-\includegraphics[width=\textwidth]{simon/images/sparkGapTeslaCoil.png}
-\caption{A simple spark gap tesla coil}
-\labfig{teslaCoilStrayCapacintance}
-\end{marginfigure}
-
-The simplest of all drivers is the spark gap driver. In the first stage, the 230V mains voltage is transformed to a few kilovolts. Neon sign or microwave transformers are popular choices for this task. The capacitor gets charged up until the voltage is high enough to break through the spark gap. The spark gap then has a very low resistance and allows the current to oscillate between the capacitor and the primary coil. This oscillation frequency is usually in the order of ten to hundred kilohertz and is the same frequency as the resonant frequency of the secondary coil. In every cycle, a little energy is transferred to the secondary via the magnetic coupling of the coils. When the voltage in the secondary gets too high, a breakout occurs. This can happen one or more times within a period of the AC mains voltage. Once all the energy in the primary circuit has been transferred to the secondary or dissipated as heat, the spark gap \enquote{quenches} allowing the capacitor to charge up again.
-
-Today, spark gap tesla coils are mostly only used for educational purposes anymore. Due to their many \textbf{disadvantages} they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
-
-\begin{itemize}
-    \item A spark gap dissipates a lot of power, part of it in heat and part of in in creating a lot of ozone, which also posses a health hazard, when operated in closed rooms.
-    \item The rapid igniting and quenching of the spark gap creates a lot of noise.
-    \item The whole operation cycle only depends on passive component values, which makes it impossible to control the power output and play music.
-\end{itemize}
-
-\subsection{Solid State Tesla Coils}
-
-Aside from vacuum tube tesla coils, which have existed before, semiconductor technology\sidenote{Unlike relays or hard disk drives, their semiconductor counterparts have no moving components. Hence the name \enquote{solid state}.} opened up a whole new world of possibilities for tesla coils. It was now possible to build up sophisticated amplifier circuits to excite the primary coil. Some of them still rely on resonant circuits and only use a Transistor to replace the spark gap, others use frequency feedback loops to self-excite the primary coil, and again others use a completely different kind of driver circuit to generate the necessary power.
-
-\section{Class-E Amplifier}
-
-\subsection{Theory of Operation}
-
-\subsection{The Class-E Amplifier as Tesla Coil Driver}
-
-\section{Playing Music}
-
-%%%%%%%%%%%%%%%%%%%
-
-\chapter{Design and Simulation} % How I thought it was going to work
-\labch{tc-design-and-simulation}
-
-\textbf{Disclaimer:} This process was a lot more length and tedious than depicted in the following chapter. It mostly consisted of trial and error, which started with an more or less educated guess and ended in cluelessness and despair. But those errors don't add a lot of value to understanding the topic, so I won't go into much detail.
-
-\section{The Coil}
-
-\section{The Class-E Stage}
-
-\section{The Interrupter}
-
-%%%%%%%%%%%%%%%%%
-
-\chapter{Practice and Measurements} % How it actually works
-\labch{tc-practice-and-measurements}
-
-\section{The Coil}
-
-\section{The Class-E Stage}
-
-\section{The Interrupter}
-
-%%%%%%%%%%%%%%%%%%
+\include{simon/theory.tex}
+\include{simon/design.tex}
+\include{simon/practice.tex}
 
 \chapter{Future improvements}
 \labch{tc-future-improvements}
