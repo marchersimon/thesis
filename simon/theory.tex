@@ -60,25 +60,77 @@ The slayer exciter topology is the most common under hobbyist coilers\sidenote{T
 
 Since the timing of the circuit only depends on the values of L1, L2, and C, the circuit tunes itself, which makes it very stable to operate. But because of its simplicity it comes with a few disadvantages. Firstly, when T is conducting, it basically shorts L1, which leads to a high current and therefore power dissipated in T. This power can be reduced by choosing R to be rather high. This reduces the base current and therefore also the collector current. While this helps reducing the power dissipation it also reduces the output power of the coil. With a bit of extra complexity this circuit can however be made more efficient\todo{add some source}.
 
+\begin{figure}[h!]
+\centering
 \begin{circuitikz}[european, american inductors]
-  \draw (2,5) to[short, *-] (0,5) to[battery, l=V] (0,0) node[ground]{};
-  \draw (2,5) to[R, l=R] (2,2) to[D-, l=D] (2,0) node[ground]{};
-  \draw (4,2) node[npn](npn){T};
-  \draw (2,5) -- (4,5) to[L, l_=L\textsubscript{1}] (npn.C);
+  \draw (2,4) to[short, *-] (0,4) to[battery, l=V] (0,0) node[ground]{};
+  \draw (2,4) to[R, l=R] (2,1) to[D-, l=D] (2,0) node[ground]{};
+  \draw (4,1.5) node[npn](npn){T};
+  \draw (2,4) -- (4,4) to[L, l_=L\textsubscript{1}] (npn.C);
   \draw (npn.C) ++(-.2,.4) node[circ]{};
   \draw (npn.E) -- (4,0) node[ground]{};
-  \draw (npn.B) to[short, -*] (2,2);
-  \ctikzset{inductors/coils=10, inductors/width=2.5}
-  \draw (5,.5) to[L, l=L\textsubscript{2}] (5,5) -- (6,5) to[C, l=C] (6,0) node[ground]{};
-  \draw (5,5) ++(.2,-.4) node[circ]{};
-  \draw (3,2) to[short, *-] (3,.5) to[crossing] (5,.5);
+  \draw (npn.B) to[short, -*] (2,1.5);
+  \ctikzset{inductors/coils=10, inductors/width=2}
+  \draw (5,.5) to[L, l=L\textsubscript{2}] (5,4) -- (6,4) to[C, l=C] (6,0) node[ground]{};
+  \draw (5,4) ++(.2,-.4) node[circ]{};
+  \draw (3,1.5) to[short, *-] (3,.5) to[crossing] (5,.5);
 \end{circuitikz}
+\caption{Slayer exciter circuit}
+\end{figure}
 
 \subsubsection{Half-Bridge / Full-Bridge}
 
-\todo{Add schematics?}This design is drives the primary coil by a half or full bridge. This requires large and expensive power MOSFETs or IGBTs, but offers a lot of flexibility and power up to many kW.
+This design drives the primary coil by a half or full bridge. While this requires large and expensive power MOSFETs or IGBTs as well as carefully designed GDTs\sidenote{Gate drive transformer}, it offers a lot of flexibility and power up to many kW.
 
-\section{Class-E Amplifier}
+\begin{figure}
+\captionsetup[subfigure]{labelformat=empty}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \begin{circuitikz}[european, american inductors]
+  \draw (0,0) node[nigfete](n2){};
+  \draw (n2.S) node[tlground](g1){};
+  \draw (0,2) node[nigfete](n1){};
+  \draw (n1.S) -- (n2.D);
+  \draw (0,1) node[circ]{} to[L] (2,1) node[circ]{};
+  \draw (g1 -| 2,2) node[tlground]{} to[C] (2,1) to[C] (n1.D -| 2,1) -- ++(-2,0);
+  \draw (n1.D -| 1,2) node[vcc]{};
+  \end{circuitikz}
+  \caption{Half bridge design}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \begin{circuitikz}[european, american inductors]
+  \draw (0,0) node[nigfete](n2){};
+  \draw (n2.S) node[tlground](g1){};
+  \draw (0,2) node[nigfete](n1){};
+  \draw (n1.S) -- (n2.D);
+  \draw (0,1) node[circ]{} to[L] (2,1) node[circ]{};
+  \draw (2,0) node[nigfete, xscale=-1](n4){};
+  \draw (2,2) node[nigfete, xscale=-1](n3){};
+  \draw (n3.S) -- (n4.D);
+  \draw (n4.S) node[tlground]{};
+  \draw (n1.D -| 1,2) node[vcc]{};
+  \draw (n3.D) -- (n1.D);
+  \end{circuitikz}
+  \caption{Full bridge design}
+\end{subfigure}
+\end{figure}
+
+The decision between a half bridge or full bridge design is a tradeoff between the number of parts and the output power. Due to the two capacitors in the half bridge design, the second end of the primary coil is biased at  \(\nicefrac{V_{CC}}{2}\), which means that the maximum voltage across the primary coil can also be only \(\nicefrac{V_{CC}}{2}\). However, a working half bridge design can rather easily be expanded to a full bridge design, which can then utilize the whole supply voltage.
+
+A half or full bridge design can be deployed either single or dual resonant\sidenote{Mostly known as Dual Resonant SSTC or DRSSTC}. In order to turn a single resonant design into a double resonant design, a capacitor is added to the primary circuit which turns it into an resonator with the same resonant frequency as the secondary coil. Since the reactance of an LC circuit is the lowest at its resonant frequency, it draws a lot more current than the primary coil alone, resulting in more power transmitted to the secondary coil.
+
+This design is often used for medium-sized to large tesla coils due to its high output power. However, due to the MOSFETs\sidenote{Or other switching device, like an IGBT} switching a high current at a high voltage, a lot of power is dissipated and they have to be adequately cooled. The stress on the MOSFETs can be reduced a bit by interrupting\sidenote{Turning the coil off and on very quickly} the tesla coil. Additionally, this allows the plasma channels to quench during each interrupting cycle, raising its resistance and therefore the breakout voltage, which in turn raises the length of the arcs. So this technique lowers the stress on the switching devices, lowers the input power and raises the arc length. The only drawback is that the arcs sound a lot harsher and louder.
+
+A big advantage of the bridge design is, that unless a dual resonant design is chosen, the switching frequency is only determined by the circuit driving the bridge. This allows it to work across a very wide range of frequencies and even follow the slightly changing resonant frequency of the secondary coil in real time.
+
+\subsubsection{Class E}
+
+This topology uses a class E RF amplifier to produce the necessary power for driving the primary coil. By utilizing a technique called ZVS\sidenote{Zero voltage switching} and ZCS\sidenote{Zero current switching}, the dissipated power in the switching device is drastically reduced, making this type of amplifier nearly 100\% efficient in theory. A class E amplifier is capable of switching very high frequencies, which makes it an ideal driver for smaller tesla coils operating at a few MHz.
+
+\section{Class E Amplifier}
+The class E amplifier was first introduced by N. O. Sokal and A. D. Sokal in 1975. Since then there have been many attempts to derive  and then simplify analytical design equations.
 
 \subsection{Theory of Operation}
 
