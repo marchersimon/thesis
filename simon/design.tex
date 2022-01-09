@@ -4,7 +4,53 @@
 
 \textbf{Disclaimer:} This process was a lot more length and tedious than depicted in the following chapter. It mostly consisted of trial and error, which started with an more or less educated guess and ended in cluelessness and despair. But those errors don't add a lot of value to understanding the topic, so I won't go into much detail.
 
-\section{The Coil}
+\section{The Secondary Coil}
+
+The goal was to design an air coil with a resonant frequency of 4MHz. This frequency was chosen, since it is high enough to work well with an class E amplifier, but low enough to not run into too many RF related problems. It was also already known to have worked with a few other class E tesla coils.
+
+\subsection{Rough Estimation of the Size}
+
+The inductance of a single-layered air solenoid coil can be calculated with
+
+\begin{equation}
+    L = \mu_0 \frac{N^2 A}{l}
+\end{equation}
+
+The parasitic capacitance, depending on its length \(l\) and its diameter \(D\) can be calculated with\sidecite{self-capacitance}
+
+\begin{equation}
+    C_L = \frac{4\varepsilon_0}{\pi} \cdot l \cdot \left( 1 + 0.8249 \frac{D}{l} + 2.329 \left(\frac{D}{l}\right)^{1.5}\right)
+\end{equation}
+
+Defining the length to diameter ratio of the coil to be 4, and \(d_w\) to be the diameter of the wire, both formulas can be rewritten to only depend on \(l\) and \(d_w\). 
+
+\begin{equation}
+    L = \mu_0 \frac{l^3\ \pi}{32 d_w^2}
+\end{equation}
+
+\begin{equation}
+    C_L = \frac{4\varepsilon_0}{\pi} \cdot l \cdot 1.49735
+\end{equation}
+
+Those equations can then be set into the formula for the resonant frequency of an LC circuit.
+
+\begin{equation}
+    f = \frac{1}{2\pi \sqrt{\mu_0 \dfrac{l^3\ \pi}{32 d_w^2} \cdot \dfrac{4\varepsilon_0}{\pi} \cdot l \cdot 1.49735}}
+\end{equation}
+
+Simplifying the equation gives
+
+\begin{equation}
+    f = \frac{1}{2\pi \cdot \sqrt{0.1872 \cdot \dfrac{1}{d_w^2} \cdot \mu_0 \varepsilon_0 \cdot l^4}}
+\end{equation}
+
+Rearranging the equation to \(l\)
+
+\begin{equation}
+    l = \frac{1}{\sqrt[\scalebox{1}{4}]{4\pi^2 f^2 \cdot0.1872 \cdot \dfrac{1}{d_w^2} \cdot \mu_0 \varepsilon_0}}
+\end{equation}
+
+With a frequency of 4MHz and a wire diameter of 0.35mm, the length of the coil turns out to be around 100mm and the diameter therefore around 25mm.
 
 \section{The Class-E Stage}
 

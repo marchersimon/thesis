@@ -6,20 +6,40 @@
 \chapter{The MIDI Protocol}
 \labch{mi-midi-protocol}
 
-
-\section{Why use MIDI}
-
-AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA
-
-\section{Live MIDI ver MIDI Dateien}
-
-AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA
-
 \section{What is MIDI}
 
 \subsection{General information about MIDI}
 
-Musical Instrument Digital Interface short MIDI is a "Protocol" for exchanging musical Control program information between
+Musical Instrument Digital Interface short MIDI is a protocol for exchanging musical events between devices like synthesizer, keyboards or electrical drums. The first MIDI protocol, MIDI 1.0, appeared 1982. Dave Smith with the cooperation of Ikutaro Kakehashi, developed MIDI. 2013 they were awarded the technical Grammy. Today we use MIDI 2.0.
+
+\subsection{Live MIDI ver MIDI Files}
+
+Live MIDI is like a USB connection just another protocol and another cable. MIDI files have all the events in one file and you can play it anywhere if you have the right program.
+
+\begin{center}
+\begin{tabular}{@{}cc@{}}
+\toprule
+\multicolumn{2}{c}{Differences}             \\\midrule
+Live MIDI            & MIDI File            \\
+cable                & file                 \\
+no delta Time        & delta Time           \\\bottomrule
+\end{tabular}
+\end{center}
+\phantom{Hello}
+
+\section{Why use MIDI}
+
+We used MIDI because it is the easiest to convert to PWM signals. MIDI is also much smaller than MP3 and WAV so it is perfect for micro-controllers which only have little storage space.  
+
+\section{MIDI File}
+
+MIDI files are Binary files. A MIDI file consists of chunks. A chunk begins with 4 ASCII characters after that follow 32 Bit which give the number of bytes in a chunk. MIDI files begin with a header chunk. After the header chunk can be one track chunk or more. The 4 ASCII characters for a header chunk are \textbf{MThd} and for track chunks it is \textbf{MTrk}.
+
+\subsection{Header Chunk}
+
+
+
+
 
 \chapter{Programming the Interrupter}
 

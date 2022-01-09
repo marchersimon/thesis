@@ -18,6 +18,13 @@
 \usepackage{nicefrac}
 \usepackage{subcaption}
 
+
+\usepackage{array} % for custom conditions environment
+
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+
 % Load packages for testing
 %\usepackage{blindtext}
 %\usepackage{showframe} % Uncomment to show boxes around the text area, margin, header and footer
