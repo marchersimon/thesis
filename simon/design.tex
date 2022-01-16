@@ -4,11 +4,11 @@
 
 \textbf{Disclaimer:} This process was a lot more length and tedious than depicted in the following chapter. It mostly consisted of trial and error, which started with an more or less educated guess and ended in cluelessness and despair. But those errors don't add a lot of value to understanding the topic, so I won't go into much detail.
 
-\section{The Secondary Coil}
+\section{The Coils}
 
 The goal was to design an air coil with a resonant frequency of 4MHz. This frequency was chosen, since it is high enough to work well with an class E amplifier, but low enough to not run into too many RF related problems. It was also already known to have worked with a few other class E tesla coils.
 
-\subsection{Rough Estimation of the Size}
+\subsection{Rough Estimation of the Secondary Coil}
 
 The inductance of a single-layered air solenoid coil can be calculated with
 
@@ -35,12 +35,6 @@ Defining the length to diameter ratio of the coil to be 4, and \(d_w\) to be the
 Those equations can then be set into the formula for the resonant frequency of an LC circuit.
 
 \begin{equation}
-    f = \frac{1}{2\pi \sqrt{\mu_0 \dfrac{l^3\ \pi}{32 d_w^2} \cdot \dfrac{4\varepsilon_0}{\pi} \cdot l \cdot 1.49735}}
-\end{equation}
-
-Simplifying the equation gives
-
-\begin{equation}
     f = \frac{1}{2\pi \cdot \sqrt{0.1872 \cdot \dfrac{1}{d_w^2} \cdot \mu_0 \varepsilon_0 \cdot l^4}}
 \end{equation}
 
@@ -57,16 +51,22 @@ Due to the materials available, a 30 mm tube was used to wind the wire around. B
 \begin{equation}
     f = \frac{1}{2\pi \dfrac{D}{d_w} \sqrt{\mu_0 \varepsilon_0 \left( l^2 + 0.8245 D l + 2.329 D^{1.5} \sqrt{l} \right)}}
 \end{equation}
-\todo{solve whole expression for l}
 
-Using Wolfram Alpha for solving this equation for \(l\) with a \(D\) of 30 mm gives a length of 112 mm.
+Using Wolfram Alpha to solve this equation for \(l\) with a \(D\) of 30 mm gives a length of 112 mm.
 % 4000000 = 1/(2π(0.03/0.00035)Sqrt[11.1265e-18*(Power[x,2]+0.8245*0.03*x+2.329*Power[0.03,1.5]*Sqrt[x])]) solve for x
 
-\subsection{Tuning the Coil}
+\subsection{Tuning the Secondary Coil}\label{TC-tuningTheSecondary}
 
-Tuning the coil to the correct frequency is essential, because all calculated values from above are highly idealized. For example, equation \ref{eq-parasitic-capacitance} is said to have a standard deviation of \(\sigma_{CL} in pF = 3.6 \cdot D\), which leads to a standard deviation of around 116 kHz of the resonant frequency of the coil. In addition, the relative permeability and permittivity factor of the carrier material are not taken into consideration in the calculations.
+Tuning the coil to the correct frequency is essential, because all calculated values from above are highly idealized. For example, equation \ref{eq-parasitic-capacitance} is said to have a standard deviation of \(\sigma_{CL} \text{in pF} = 3.6 \cdot D\), which leads to a standard deviation of around 116 kHz of the resonant frequency of the coil. In addition, the relative permeability and permittivity factor of the carrier material are not taken into consideration in the calculations.
 
 The coil was tuned by exciting the base of the secondary coil with a sinusoidal voltage. An oscilloscope probe, formed into a current loop, was placed near the top of the coil. The closer the excitation frequency was to the resonant frequency of the coil, the higher the measured voltage on the oscilloscope. The frequency, at which the measured voltage was at its maximum, was the resonant frequency of the coil. By adding or removing windings, the resonant frequency could be lowered or raised, until it exactly matched 4MHz\sidenote{In order to avoid adding windings, which was more tedious than removing them, the coil was wound around 10\% longer than calculated}.\todo{Add how close the original calculations were}
+
+\subsection{Designing the Primary Coil} \label{TC-designingThePrimary}
+
+The primary coil offers a lot of design freedom and flexibility, but this also means, that there can be no \enquote{correct} or \enquote{ideal} design, but only designs, which have been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it's too low, not enough energy will be transferred to the secondary, but to raise it, the coils have to be moved closer together which leads to flashover, due to too low insulation.
+
+A good starting point is to use a conic coil with a slope of 30\textdegree{} and an outer diameter equal to the length of the secondary coil.\todo{add sauce and explain why conic shape eggsact}
+
 
 \section{The Class-E Stage}
 

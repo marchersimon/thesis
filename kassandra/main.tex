@@ -3,26 +3,42 @@
 
 \setcounter{chapter}{9}
 
+
 \chapter{Casing}
 \labch{db-section-1}
 
-AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA
+It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is very important. The simplest of casings often have multiple design stages and variations with different advantages. When designing something as complex and difficult as a tesla coil, the casing is even more rigours to construct. 
 
-\sidenote{Printed Circuit Board}
+
 \todo[backgroundcolor=blue,
 bordercolor=green!60!white, textcolor=red]{PDF Coil Construction aka Simons Buch auf Telegram}
 
 \section{Envision}
 
-AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA
+There are four main parts that are important to consider while constructing the tesla coil - the primary coil, the secondary coil, the PCB\sidenote{Printed Circuit Board} and the top electrode. All of those can be placed in anyway possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
+
+\begin{figure}
+    \centering
+    %\missingfigure
+    %\includegraphics{}
+    \caption{Concept design}
+    \label{BD-envision}
+\end{figure}
+
+As seen above the secondary coil is perpendicular and the primary coil is angled at 30°\sidenote{The primary coil design choices have already been explained in the previous part at the end of \ref{TC-designingThePrimary}} to the horizontal. This is the easiest way to calculate and most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeter above the secondary coil. \todo{testing using a longer top electrode}
+
+Technically the PCB can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry} as long as it can be connected to the coils. But to make transportation the easiest, the casing for the PCB should be right beneath the coils. This way everything needed stays in one place. 
 \todo[backgroundcolor=blue,
-bordercolor=green!60!white, textcolor=red]{Grob Design vorlage mit bild(in Inventor) aber nicht wie wir es umsetzen(aka die steher). Alles Modular sein tun}
+bordercolor=green!60!white, textcolor=red]{Grob Design vorlage mit bild(in Inventor) aber nicht wie wir es umsetzen(aka die steher). Alles Modular sein tun - arching point, top electrode, arching electrode für spitz}
 
 \section{Materials}
 
-AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA
+Deciding which materials should be used is also a tedious task, because there are a lot of details and possibilities that have to be considered when designing a tesla coil. The best working material is determined by many factors, most being ones that affect the coils directly and therefore being unsuitable but others are scrapped because their low availability or costly construction.
+
+Metals are one of the most used materials and rather easy to work with when it comes to all kinds of casings. But for a tesla coil the all metals do not come to question, mainly because of their low electrical resistivity and their 
+
 \todo[backgroundcolor=blue,
-bordercolor=green!60!white, textcolor=red]{Welche veraussetzung die materialen haben müssen und warum gewisse nicht in frage kommen. Berechnungen auch}
+bordercolor=green!60!white, textcolor=red]{Welche veraussetzung die materialen haben müssen und warum gewisse nicht in frage kommen. Berechnungen auch Permeabilität \& Permittivität}
 
 \section{Structure for the Coils}
 
