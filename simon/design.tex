@@ -1,3 +1,5 @@
+\setchapterstyle{kao}
+\setchapterpreamble[u]{\margintoc}
 
 \chapter{Design and Simulation} % How I thought it was going to work
 \labch{tc-design-and-simulation}
@@ -63,9 +65,9 @@ The coil was tuned by exciting the base of the secondary coil with a sinusoidal 
 
 \subsection{Designing the Primary Coil} \label{TC-designingThePrimary}
 
-The primary coil offers a lot of design freedom and flexibility, but this also means, that there can be no \enquote{correct} or \enquote{ideal} design, but only designs, which have been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it's too low, not enough energy will be transferred to the secondary, but to raise it, the coils have to be moved closer together which leads to flashover, due to too low insulation.
+The primary coil offers a lot of design freedom and flexibility, but this also means, that there is no \enquote{correct} or \enquote{ideal} design, but only one, which has been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it's too low, not enough energy will be transferred to the secondary, but to raise it, the coils have to be moved closer together which leads to flashover, due to too low insulation. \todo{Test tesla coil with coupling factor of 0.10 to 0.15}% Source: book page 55
+This limitation can be bypassed by making the primary coil smaller at the bottom, where the voltage is higher and larger at the top, where the voltage is higher. This results in the well-known conical shape known from many tesla coils.\todo{Maybe add marginfigure with small illustration}
 
-A good starting point is to use a conic coil with a slope of 30\textdegree{} and an outer diameter equal to the length of the secondary coil.\todo{add sauce and explain why conic shape eggsact}
 
 
 \section{The Class-E Stage}
