@@ -12,7 +12,7 @@ In order to understand the class E topology which this thesis is about, we have 
 A tesla resonator, also called tesla coil, is a resonant transformer consisting of two loosely coupled air-cored windings: the primary and secondary coil. The primary coil, hooked up to the driver circuit on one side and grounded on the other, is usually made out of every few turns of thick wire. It is placed around the bottom of the secondary coil, either shaped like an flat spiral, a concentric cylinder, or at any angle in between. The secondary coil on the other hand has a lot more turns and is a lot higher.
 
 \begin{marginfigure}[*-5]
-\includegraphics[width=\textwidth]{simon/images/teslaCoilStrayCapacitance.png}
+\includegraphics[width=\textwidth]{simon/resources/teslaCoilStrayCapacitance.png}
 \caption{Stray capacitances of the secondary coil}
 \labfig{teslaCoilStrayCapacintance}
 \end{marginfigure}
@@ -28,7 +28,7 @@ There are various circuits which can be used for the excitation of the coil. Dep
 \subsection{The Spark Gap Tesla Coil}
 
 \begin{marginfigure}
-\includegraphics[width=\textwidth]{simon/images/sparkGapTeslaCoil.png}
+\includegraphics[width=\textwidth]{simon/resources/sparkGapTeslaCoil.png}
 \caption{A simple spark gap tesla coil}
 \labfig{sparkGapTeslaCoil}
 \end{marginfigure}
@@ -56,9 +56,9 @@ The most common solid state topologies include:
 
 \subsubsection{Slayer Exciter Circuit}
 
-The slayer exciter topology is the most common under hobbyist coilers\sidenote{This is how people building tesla coils often call themselves}, because it's by far the simplest one, only consisting of very few components. At it's hard sits the Transistor T controlling the current through the primary coil L1. When first powering on the circuit, current flows through R into the base of T, allowing current to flow through L1, creating a magnetic field.\sidenote{It is important that the winding directions of the two coils are opposing each other, so that the voltage across the secondary won't be inverted.}\todo{Why is the winding direction the way it is?} The rapid change in the field induces a high voltage in the secondary coil L2. The parasitic capacitance C of L2 however only lets the voltage across it rise slowly, therefore pushing the potential of the bottom of the lower end of L2 to a negative voltage. As soon as the voltage falls below -0.7V, the diode D starts conducting and limits the negative voltage while providing current to charge up C\sidenote{The diode could be left out, since the base emitter junction also acts as diode, but in the most cases this damages the transistor}. Additionally, since the base emitter voltage is now negative, T stops conducting. This causes the magnetic field to start collapsing, causing the potential at the base to slowly rise, until T starts conducting again. The circuit is now in it's initial state, except that C is now charged to a high voltage and the process starts over again.
+The slayer exciter topology is the most common under hobbyist coilers\sidenote{This is how people building tesla coils often call themselves}, because it's by far the simplest one, only consisting of very few components. At it's hard sits the Transistor T controlling the current through the primary coil L1. When first powering on the circuit, current flows through R into the base of T, allowing current to flow through L1, creating a magnetic field.\sidenote{Since the magnetic field flows through both coils in the same direction, the winding direction of the secondary has to be reversed so that the output voltage won't be reversed.} The rapid change in the field induces a high voltage in the secondary coil L2. The parasitic capacitance C of L2 however only lets the voltage across it rise slowly, therefore pushing the potential of the bottom of the lower end of L2 to a negative voltage. As soon as the voltage falls below -0.7V, the diode D starts conducting and limits the negative voltage while providing current to charge up C\sidenote{The diode could be left out, since the base emitter junction also acts as diode, but in the most cases this damages the transistor}. Additionally, since the base emitter voltage is now negative, T stops conducting. This causes the magnetic field to start collapsing, causing the potential at the base to slowly rise, until T starts conducting again. The circuit is now in it's initial state, except that C is now charged to a high voltage and the process starts over again.
 
-Since the timing of the circuit only depends on the values of L1, L2, and C, the circuit tunes itself, which makes it very stable to operate. But because of its simplicity it comes with a few disadvantages. Firstly, when T is conducting, it basically shorts L1, which leads to a high current and therefore power dissipated in T. This power can be reduced by choosing R to be rather high. This reduces the base current and therefore also the collector current. While this helps reducing the power dissipation it also reduces the output power of the coil. With a bit of extra complexity this circuit can however be made more efficient\todo{add some source}.
+Since the timing of the circuit only depends on the values of L1, L2, and C, the circuit tunes itself, which makes it very stable to operate. But because of its simplicity it comes with a few disadvantages. Firstly, when T is conducting, it basically shorts L1, which leads to a high current and therefore power dissipated in T. This power can be reduced by choosing R to be rather high. This reduces the base current and therefore also the collector current. While this helps reducing the power dissipation it also reduces the output power of the coil. With a bit of extra complexity this circuit can however be made more efficient.
 
 \begin{figure}[h!]
 \centering
@@ -144,13 +144,83 @@ In a tesla coil's usual, uninterrupted operation mode, the high voltage in the s
 
 By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arc. Since the tesla coil has to complete at least one cycle before being turned off, the modulated frequency cannot be greater than the carrier frequency. The figure below shows this process in more detail. The first diagram shows the idealized displacement of the air, while the second diagram takes the inertia of the air molecules into account. The third diagram depicts the frequency components of this sound wave and shows, that both the carrier frequency and the modulated frequency are present. 
 
-\begin{minipage}{\linewidth}
-    \centering
-    \includegraphics{simon/images/sound_diagram.jpg}
-    \caption{Some caption}
-    %\label{fig:my_label}
-\end{minipage}
-\todo{Add either Matlab simulation or real measurements}
+\begin{tikzpicture}
+  \begin{axis}[
+    xmin=0,
+    xmax=3.75,
+    ymax = 1.2,
+    ytick = none,
+    xtick distance = 1,
+    width = \textwidth,
+    height = 5cm,
+    axis y line = left,
+    axis x line = middle,
+    xlabel = \(t\) in \(ms\),
+    ylabel = arcing activity,
+    scaled ticks = false,
+    tick align = inside,
+    x filter/.code=\pgfmathparse{#1 * 1000},
+    area style,
+    ]
+    \addplot+[draw=black, fill=black!5] table [x=t, y=rect, col sep=comma, mark=none]{simon/resources/signal.csv};
+    %\node at (02.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (12.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (22.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (32.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (42.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (52.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (62.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (72.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (82.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+    \node at (92.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
+  \end{axis}
+\end{tikzpicture}
+`
+\begin{tikzpicture}
+  \begin{axis}[
+    xmin=0,
+    xmax=3.75,
+    ytick = none,
+    xtick distance = 1,
+    width = \textwidth,
+    height = 5cm,
+    axis y line = left,
+    axis x line = middle,
+    xlabel = \(t\) in \(ms\),
+    ylabel = sound pressure,
+    scaled ticks = false,
+    x filter/.code=\pgfmathparse{#1 * 1000},
+    area style,
+    ]
+    \addplot+[draw=black, fill=black!5] table [x=t, y=disp, col sep=comma, mark=none]{simon/resources/signal.csv};
+  \end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \begin{axis}[
+    xmode = log,
+    xmin = 300,
+    xmax = 22000,
+    ymax = 60,
+    ytick = {0},
+    yticklabels = \empty,
+    xticklabels = \empty,
+    extra x ticks = {500,1500,2500,10000},
+    width = \textwidth,
+    height = 5cm,
+    axis y line = left,
+    axis x line = middle,
+    tick align = inside,
+    log ticks with fixed point,
+    % 1000 sep = {\,},
+    xticklabel style={/pgf/number format/.cd,1000 sep = {\;},fixed},
+    scaled ticks = false,
+    xlabel = \(f\) in \(Hz\),
+    ylabel = magnitude
+    ]
+    \addplot+[ycomb, draw=black, mark options={black!50}] table [x=f, y=mag, col sep=comma]{simon/resources/fourier.csv};
+  \end{axis}
+\end{tikzpicture}
 
 \todo{Add section on how to play multiple tones}
 
