@@ -127,7 +127,7 @@ A big advantage of the bridge design is, that unless a dual resonant design is c
 
 \subsubsection{Class E}
 
-This topology uses a class E RF amplifier to produce the necessary power for driving the primary coil. By utilizing a technique called ZVS and ZCS\sidenote{Zero voltage switching and zero current switching}, the dissipated power in the switching device is drastically reduced, making this type of amplifier nearly 100\% efficient in theory. A class E amplifier is capable of switching very high frequencies, which makes it an ideal driver for smaller tesla coils operating at a few MHz.
+This topology uses a class E RF amplifier to produce the necessary power for driving the primary coil. By utilizing a technique called ZVS and ZCS\sidenote{\underline{Z}ero \underline{v}oltage \underline{s}witching and \underline{z}ero \underline{c}urrent \underline{s}witching}, the dissipated power in the switching device is drastically reduced, making this type of amplifier nearly 100\% efficient in theory. A class E amplifier is capable of switching very high frequencies, which makes it an ideal driver for smaller tesla coils operating at a few MHz.
 
 \section{Class E Amplifier}
 The class E amplifier was first introduced by N. O. Sokal and A. D. Sokal in 1975. Since then there have been many attempts to derive  and then simplify analytical design equations.
@@ -142,8 +142,11 @@ Musical Tesla coils have been getting a lot of attraction since the mid-2000s an
 
 In a tesla coil's usual, uninterrupted operation mode, the high voltage in the secondary coil causes a plasma channel (the arc) to form, discharging the coil. Since the plasma takes up a much higher volume, it expands rapidly and pushes air away from the coil. Once discharged, the plasma channel extinguishes and the secondary coil begins to charge up again. A single discharge creates a \enquote{snapping} sound well known from arcs, but in a tesla coil this cycle repeats many times a second, resulting in a harsh, square-wave-like sound. Mostly depending on the size of the coil, this frequency can be a few hundred hertz to tens of kilohertz; some smaller coils even exceed the human-audible range, creating a noiseless flame-like discharge.
 
-By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arc. Since the tesla coil has to complete at least one cycle before being turned off, the modulated frequency cannot be greater than the carrier frequency. The figure below shows this process in more detail. The first diagram shows the idealized displacement of the air, while the second diagram takes the inertia of the air molecules into account. The third diagram depicts the frequency components of this sound wave and shows, that both the carrier frequency and the modulated frequency are present. 
+By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arcs. Since the tesla coil has to complete at least one cycle before being turned off, the modulated frequency cannot be greater than the carrier frequency. 
 
+Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word} of the tesla coil for the example of a 500 Hz signal modulated onto a 10 kHz carrier wave. Figure \ref{fig:sound-pressure} visualizes the movement of the air molecules around the tesla coil\sidenote{This graph is very likely not accurate and only indented for demonstration purposes}. By performing a Fourier analysis on figure \ref{fig:sound-pressure}, a graph of all frequency components of the sound wave can be created as shown in figure \ref{fig:frequency-magnitude}. It is clearly visible, that not only the modulated signal, but also the carrier frequency is audible, which distorts the sound. A method to counteract this is by using smaller tesla coils, which often have carrier frequencies well above the hearing range of humans.
+
+\begin{figure}[h!]
 \begin{tikzpicture}
   \begin{axis}[
     xmin=0,
@@ -156,13 +159,13 @@ By modulating another frequency onto this carrier frequency, a.k.a. turning the 
     axis y line = left,
     axis x line = middle,
     xlabel = \(t\) in \(ms\),
-    ylabel = arcing activity,
+    %ylabel = arcing activity,
     scaled ticks = false,
     tick align = inside,
     x filter/.code=\pgfmathparse{#1 * 1000},
     area style,
     ]
-    \addplot+[draw=black, fill=black!5] table [x=t, y=rect, col sep=comma, mark=none]{simon/resources/signal.csv};
+    \addplot+[draw=black, fill=black!10] table [x=t, y=rect, col sep=comma, mark=none]{simon/resources/signal.csv};
     %\node at (02.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
     \node at (12.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
     \node at (22.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
@@ -175,7 +178,11 @@ By modulating another frequency onto this carrier frequency, a.k.a. turning the 
     \node at (92.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
   \end{axis}
 \end{tikzpicture}
-`
+\caption{Arcing Activity}
+\labfig{arcing-activity}
+\end{figure}
+
+\begin{figure}[h!]
 \begin{tikzpicture}
   \begin{axis}[
     xmin=0,
@@ -187,15 +194,19 @@ By modulating another frequency onto this carrier frequency, a.k.a. turning the 
     axis y line = left,
     axis x line = middle,
     xlabel = \(t\) in \(ms\),
-    ylabel = sound pressure,
+    %ylabel = sound pressure,
     scaled ticks = false,
     x filter/.code=\pgfmathparse{#1 * 1000},
     area style,
     ]
-    \addplot+[draw=black, fill=black!5] table [x=t, y=disp, col sep=comma, mark=none]{simon/resources/signal.csv};
+    \addplot+[draw=black, fill=black!10] table [x=t, y=disp, col sep=comma, mark=none]{simon/resources/signal.csv};
   \end{axis}
 \end{tikzpicture}
+\caption{Sound Pressure}
+\labfig{sound-pressure}
+\end{figure}
 
+\begin{figure}[h!]
 \begin{tikzpicture}
   \begin{axis}[
     xmode = log,
@@ -216,12 +227,19 @@ By modulating another frequency onto this carrier frequency, a.k.a. turning the 
     xticklabel style={/pgf/number format/.cd,1000 sep = {\;},fixed},
     scaled ticks = false,
     xlabel = \(f\) in \(Hz\),
-    ylabel = magnitude
+    %ylabel = magnitude
     ]
     \addplot+[ycomb, draw=black, mark options={black!50}] table [x=f, y=mag, col sep=comma]{simon/resources/fourier.csv};
   \end{axis}
 \end{tikzpicture}
+\caption{Frequency Magnitude}
+\labch{frequency-magnitude}
+\end{figure}
 
 \todo{Add section on how to play multiple tones}
 
+a
+
 \subsection{Analog modulation}
+
+.

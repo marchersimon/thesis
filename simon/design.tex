@@ -72,7 +72,9 @@ This limitation can be bypassed by making the primary coil smaller at the bottom
 \includegraphics[width=0.7\textwidth]{simon/resources/teslaCoilSketch.png}
 \end{marginfigure}
 
+\subsection{Simulating the Coupling Coefficient}
 
+In order to simulate the resonant transformer in LTspice\sidenote{The analog electronic circuit simulator used for this project}, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. However, the simulation tool, EleFAnT2D\sidenote{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed IGTE, TU Graz}, cannot simulate the coupling factor directly, but only the magnetic flux.
 
 \section{The Class-E Stage}
 

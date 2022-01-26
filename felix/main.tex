@@ -51,20 +51,40 @@ MThd are the four ASCII characters that define, that this is a header chunk. The
 
 The track chunks begins like the header chunk with 4 ASCII characters which are \textbf{MTrk}. After the 4 characters comes the 4 bytes long length. The length indicates how many bytes are in the track chunk. At last comes the \textbf{track event}.
 
-\subsubsection{Track event}
-
 A track event starts with the \textbf{delta time}. The delta time is the time between one event to the next event. Then comes which type of event it is. There can be three different event types, \textbf{MIDI event}, \textbf{META event} and \textbf{SYSEX event}. We never needed the \textbf{SYSEX event} so there will not be an explanation for it. If the event type is a META event it begins with 0xFF after that comes which META event it is. Then the length of the META event data. At the end comes the META event data. For example if you have a Track event which is META event for instance \textbf{Set Tempo} and a delta time of 0 and the tempo in set tempo is 666667 microseconds per quarter note. It would look like this.
 
-\begin{table}
-\centering
-\begin{tabular}{|llll|llll|c|lll|lll|}
-0x4D & 0x54 & 0x72 & 0x6B    & 0x00 & 0x00 & 0x02 & 0x22      & 0x00       & 0xFF & 0x51 & 0x03             & 0x0A & 0x2C & 0x2B           \\ 
+\begin{figure}[h!]
+    \centering
+\begin{tabular}{|c|c|c|c|c|}
+0x4D\;\;0x54\;\;0x72\;\;0x6B    & 0x00\;\;0x00\;0x02\;0x22      & 0x00       & 0xFF\;0x51\;0x03             & 0x0A\;0x2C\;0x2B           \\ 
 \hline
-\multicolumn{4}{|c|}{MTrk}   & \multicolumn{4}{c|}{546 bytes} & delta Time & \multicolumn{3}{c|}{Set Tempo} & \multicolumn{3}{c|}{666667} 
+MTrk   & 546 bytes & delta Time & Set Tempo & 666667
 \end{tabular}
-\end{table}
+\end{figure}
 
-\phantom{Simon hilfe das steht nicht da wo es sein soll das ist so ein dreck}
+
+\subsubsection{META-Event}
+
+META-Events are not a necessity to play the music. They show when a track ends or set the tempo. Every META-Event begins with 0xFF, then comes the META-Event type. After the type comes the length of the Meta-Event data. At last comes the actual data. The table below shows most META-Events with the hex index.
+https://de.overleaf.com/project/61ab774514d774fc68276af5
+\begin{tabular}{|l|l|l|l|}
+    \hline
+        Type & Event & Type & Event \\ \hline
+        0x00 & Sequence number & 0x20 & MIDI channel prefix assignment \\ \hline
+        0x01 & Text event & 0x2F & End of track \\ \hline
+        0x02 & Copyright notice & 0x51 & Tempo setting \\ \hline
+        0x03 & Sequence or track name & 0x54 & SMPTE offset \\ \hline
+        0x04 & Instrument name & 0x58 & Time signature \\ \hline
+        0x05 & Lyric text & 0x59 & Key signature \\ \hline
+        0x06 & Marker text & 0x7F & Sequencer specific event \\ \hline
+        0x07 & Cue point & ~ & ~ \\ \hline
+    \end{tabular}
+
+\subsubsection{MIDI-Event}
+
+MIDI-Events carry the actual music data like note on or note off. Every MIDI-Event has an MSB of one. The 4 MSB show the type of the MIDI-Event and the 4 LSB show the MIDI-Channel number. The next one or more bytes show the actual data of the MIDI-Event.
+
+
 
 \chapter{Programming the Interrupter}
 
