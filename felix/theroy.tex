@@ -1,0 +1,92 @@
+\chapter{Theory}
+\labch{mi-theory}
+
+\section{MIDI}
+
+\subsection{General information about MIDI}
+
+Musical Instrument Digital Interface short MIDI is a protocol for exchanging musical events between devices like synthesizer, keyboards or electrical drums. The first MIDI protocol, MIDI 1.0, appeared 1982. Dave Smith with the cooperation of Ikutaro Kakehashi, developed MIDI. 2013 they were awarded the technical Grammy. Today we use MIDI 2.0.
+
+\subsection{Live MIDI ver MIDI Files}
+
+Live MIDI is like a USB connection just another protocol and another cable. MIDI files have all the events in one file and you can play it anywhere if you have the right program.
+
+\begin{center}
+\begin{tabular}{@{}cc@{}}
+\toprule
+\multicolumn{2}{c}{Differences}             \\\midrule
+Live MIDI            & MIDI File            \\
+cable                & file                 \\
+no delta Time        & delta Time           \\\bottomrule
+\end{tabular}
+\end{center}
+\phantom{Hello}
+
+\subsection{Why use MIDI}
+
+We used MIDI because it is the easiest to convert to PWM signals. MIDI is also much smaller than MP3 and WAV so it is perfect for micro-controllers which only have little storage space.  
+
+\subsection{MIDI File}
+
+MIDI files are Binary files. A MIDI file consists of chunks. A chunk begins with 4 ASCII characters after that follow 32 Bit which give the number of bytes in a chunk. MIDI files begin with a header chunk. After the header chunk can be one track chunk or more. The 4 ASCII characters for a header chunk are \textbf{MThd} and for track chunks it is \textbf{MTrk}.
+
+\subsection{Header Chunk}
+
+A header chunk can looks like this.
+
+\begin{tabular}{llll|llll|ll|ll|ll}
+\hline
+4D & 54 & 68 & 64 & 00     & 00     & 00     & 06     & 00           & 00          & 00                                        & 01                                        & 01            & E0           \\ \hline
+M  & T  & h  & d  & \multicolumn{4}{l}{Header Length} & \multicolumn{2}{l}{format} & \multicolumn{2}{l}{\begin{tabular}[c]{|@{}l@{}|}number of \\ track chunks\end{tabular}} & \multicolumn{2}{l}{division}
+\end{tabular}
+
+MThd are the four ASCII characters that define, that this is a header chunk. The next four bytes are the header length. The length is always six bytes long. Next two bytes are format, which can be 0 for single track format, 1 for multiple track format and 2 for multiple song format. Currently we only can play \textbf{single track format}. The 2 bytes after the format are the number of track chunks that come after the header chunk because we currently can only play \textbf{single track format} the program can not play more than 1 track chunk. The last two bytes are the division.
+
+\subsection{Track Chunk}
+
+The track chunks begins like the header chunk with 4 ASCII characters which are \textbf{MTrk}. After the 4 characters comes the 4 bytes long length. The length indicates how many bytes are in the track chunk. At last comes the \textbf{track event}.
+
+A track event starts with the \textbf{delta time}. The delta time is the time between one event to the next event. Then comes which type of event it is. There can be three different event types, \textbf{MIDI event}, \textbf{META event} and \textbf{SYSEX event}. We never needed the \textbf{SYSEX event} so there will not be an explanation for it. If the event type is a META event it begins with 0xFF after that comes which META event it is. Then the length of the META event data. At the end comes the META event data. For example if you have a Track event which is META event for instance \textbf{Set Tempo} and a delta time of 0 and the tempo in set tempo is 666667 microseconds per quarter note. It would look like this.
+
+\begin{figure}[h!]
+    \centering
+\begin{tabular}{|c|c|c|c|c|}
+0x4D\;\;0x54\;\;0x72\;\;0x6B    & 0x00\;\;0x00\;0x02\;0x22      & 0x00       & 0xFF\;0x51\;0x03             & 0x0A\;0x2C\;0x2B           \\ 
+\hline
+MTrk   & 546 bytes & delta Time & Set Tempo & 666667
+\end{tabular}
+\end{figure}
+
+
+\subsubsection{META-Event}
+
+META-Events are not a necessity to play the music. They show when a track ends or set the tempo. Every META-Event begins with 0xFF, then comes the META-Event type. After the type comes the length of the Meta-Event data. At last comes the actual data. The table below shows most META-Events with the hex index.
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+        Type & Event & Type & Event \\ \hline
+        0x00 & Sequence number & 0x20 & MIDI channel prefix assignment \\ \hline
+        0x01 & Text event & 0x2F & End of track \\ \hline
+        0x02 & Copyright notice & 0x51 & Tempo setting \\ \hline
+        0x03 & Sequence or track name & 0x54 & SMPTE offset \\ \hline
+        0x04 & Instrument name & 0x58 & Time signature \\ \hline
+        0x05 & Lyric text & 0x59 & Key signature \\ \hline
+        0x06 & Marker text & 0x7F & Sequencer specific event \\ \hline
+        0x07 & Cue point & ~ & ~ \\ \hline
+    \end{tabular}
+
+\subsubsection{MIDI-Event}
+
+MIDI-Events carry the actual music data like note on or note off. Every MIDI-Event has an MSB of one. The 4 MSB show the type of the MIDI-Event and the 4 LSB show the MIDI-Channel number. The next one or more bytes show the actual data of the MIDI-Event.
+
+\section{FatFs}
+
+%Explain FAT File System Theory 
+
+\section{LCD}
+
+%Ben Eater Link: https://odysee.com/@beneater:6/connecting-an-lcd-to-our-computer:7
+
+\section{Rotary Encoder Theory}
+
+\section{Fiber Optic Theory}
