@@ -1,0 +1,31 @@
+\setchapterstyle{kao}
+\setchapterpreamble[u]{\margintoc}
+
+\chapter{External Storage}
+
+\section{Interfacing the SD Card}
+\label{sec:interfacing-the-sd-card}
+
+clusters\sidenote{A cluster is block of data which usually contains 512 Bytes}
+
+\section{File System}
+
+\subsection{FAT}
+
+The FAT\sidenote{short for File Allocation Table} file system is one of the most basic file systems. There are FAT 12, 16 and 32, while FAT 12 was only ever used on old devices like floppy disks. Because of its simplicity it is very often used for small portable storage devices like USB drives or SD cards. 
+
+The disk starts with the File Allocation Table, which contains a map of all clusters in the system. One cell of the table represents a cluster and shows it's allocation status. Following the File Allocation Table are two types of clusters: data and directory cluster. Directory clusters store the structure of the file tree and give information about the files, while data clusters hold the actual file content.
+
+\subsection{FatFs}
+
+In order to interface this file system a very popular library called FatFs was used. Because of the limited resources available on the low-powered microcontrollers, a smaller version called Petit FatFs was used instead. All information about this library as well as its documentation can be found on \href{http://elm-chan.org/}{http://elm-chan.org}.
+
+As FatFs was written to be as portable as possible it does not provide any communication with the storage device. Therefore the user has to implement the communication layer for their own device. The communication layer has to provide the following functions:
+
+\begin{tabular}{ll}
+    \lstinline[language=C]!disk_initialize()! &  Initializes the SD card as described in section \ref{sec:interfacing-the-sd-card}\\
+    \lstinline[language=C]!disk_readp()! & Reads a partial sector at a specific address\\
+    \lstinline[language=C]!disk_writep()! & Writes a partial sector at a specific address\\
+\end{tabular}
+
+In order to use the SD device it needs to be mounted with the following command:  \lstinline[language=C]!pf_mount! 

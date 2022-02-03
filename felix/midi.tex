@@ -1,11 +1,40 @@
-\chapter{Theory}
+\setchapterstyle{kao}
+\setchapterpreamble[u]{\margintoc}
+
+\chapter{MIDI}
 \labch{mi-theory}
 
-\section{MIDI}
-
-\subsection{General information about MIDI}
+\section{What is MIDI}
 
 Musical Instrument Digital Interface short MIDI is a protocol for exchanging musical events between devices like synthesizer, keyboards or electrical drums. The first MIDI protocol, MIDI 1.0, appeared 1982. Dave Smith with the cooperation of Ikutaro Kakehashi, developed MIDI. 2013 they were awarded the technical Grammy. Today we use MIDI 2.0.
+
+We used MIDI because it is the easiest to convert to PWM signals. MIDI is also much smaller than MP3 and WAV so it is perfect for micro-controllers which only have little storage space.
+
+\subsection{META-Event}
+
+META-Events are not a necessity to play the music. They show when a track ends or set the tempo. Every META-Event begins with 0xFF, then comes the META-Event type. After the type comes the length of the Meta-Event data. At last comes the actual data. The table below shows most META-Events with the hex index.
+
+\begin{tabular}{|l|l|l|l|}
+    \hline
+        Type & Event & Type & Event \\ \hline
+        0x00 & Sequence number & 0x20 & MIDI channel prefix assignment \\ \hline
+        0x01 & Text event & 0x2F & End of track \\ \hline
+        0x02 & Copyright notice & 0x51 & Tempo setting \\ \hline
+        0x03 & Sequence or track name & 0x54 & SMPTE offset \\ \hline
+        0x04 & Instrument name & 0x58 & Time signature \\ \hline
+        0x05 & Lyric text & 0x59 & Key signature \\ \hline
+        0x06 & Marker text & 0x7F & Sequencer specific event \\ \hline
+        0x07 & Cue point & ~ & ~ \\ \hline
+    \end{tabular}
+
+
+\subsection{MIDI-Event}
+
+MIDI-Events carry the actual music data like note on or note off. Every MIDI-Event has an MSB of one. The 4 MSB show the type of the MIDI-Event and the 4 LSB show the MIDI-Channel number. The next one or more bytes show the actual data of the MIDI-Event.
+
+\section{Standard MIDI File}
+
+MIDI files are Binary files. A MIDI file consists of chunks. A chunk begins with 4 ASCII characters after that follow 32 Bit which give the number of bytes in a chunk. MIDI files begin with a header chunk. After the header chunk can be one track chunk or more. The 4 ASCII characters for a header chunk are \textbf{MThd} and for track chunks it is \textbf{MTrk}.
 
 \subsection{Live MIDI ver MIDI Files}
 
@@ -21,14 +50,6 @@ no delta Time        & delta Time           \\\bottomrule
 \end{tabular}
 \end{center}
 \phantom{Hello}
-
-\subsection{Why use MIDI}
-
-We used MIDI because it is the easiest to convert to PWM signals. MIDI is also much smaller than MP3 and WAV so it is perfect for micro-controllers which only have little storage space.  
-
-\subsection{MIDI File}
-
-MIDI files are Binary files. A MIDI file consists of chunks. A chunk begins with 4 ASCII characters after that follow 32 Bit which give the number of bytes in a chunk. MIDI files begin with a header chunk. After the header chunk can be one track chunk or more. The 4 ASCII characters for a header chunk are \textbf{MThd} and for track chunks it is \textbf{MTrk}.
 
 \subsection{Header Chunk}
 
@@ -56,37 +77,3 @@ A track event starts with the \textbf{delta time}. The delta time is the time be
 MTrk   & 546 bytes & delta Time & Set Tempo & 666667
 \end{tabular}
 \end{figure}
-
-
-\subsubsection{META-Event}
-
-META-Events are not a necessity to play the music. They show when a track ends or set the tempo. Every META-Event begins with 0xFF, then comes the META-Event type. After the type comes the length of the Meta-Event data. At last comes the actual data. The table below shows most META-Events with the hex index.
-
-\begin{tabular}{|l|l|l|l|}
-    \hline
-        Type & Event & Type & Event \\ \hline
-        0x00 & Sequence number & 0x20 & MIDI channel prefix assignment \\ \hline
-        0x01 & Text event & 0x2F & End of track \\ \hline
-        0x02 & Copyright notice & 0x51 & Tempo setting \\ \hline
-        0x03 & Sequence or track name & 0x54 & SMPTE offset \\ \hline
-        0x04 & Instrument name & 0x58 & Time signature \\ \hline
-        0x05 & Lyric text & 0x59 & Key signature \\ \hline
-        0x06 & Marker text & 0x7F & Sequencer specific event \\ \hline
-        0x07 & Cue point & ~ & ~ \\ \hline
-    \end{tabular}
-
-\subsubsection{MIDI-Event}
-
-MIDI-Events carry the actual music data like note on or note off. Every MIDI-Event has an MSB of one. The 4 MSB show the type of the MIDI-Event and the 4 LSB show the MIDI-Channel number. The next one or more bytes show the actual data of the MIDI-Event.
-
-\section{FatFs}
-
-%Explain FAT File System Theory 
-
-\section{LCD}
-
-%Ben Eater Link: https://odysee.com/@beneater:6/connecting-an-lcd-to-our-computer:7
-
-\section{Rotary Encoder Theory}
-
-\section{Fiber Optic Theory}

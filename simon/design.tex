@@ -75,8 +75,37 @@ This limitation can be bypassed by making the primary coil smaller at the bottom
 
 \subsection{Simulating the Coupling Coefficient}
 
-In order to simulate the resonant transformer in LTspice\sidenote{The analog electronic circuit simulator used for this project}, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. The simulation tool EleFAnT2D\sidenote{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed IGTE, TU Graz} will be used to simulate the magnetic flux in the system. 
+In order to simulate the resonant transformer in LTspice\sidenote{The analog electronic circuit simulator used for this project}, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. The simulation tool EleFAnT2D\sidenote{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed IGTE, TU Graz} was used to simulate the magnetic flux in the system. The coupling coefficient can be described as
 
+\begin{equation}
+    k = \frac{\Phi_{ind}}{\sqrt{\Phi_P \cdot \Phi_S}}
+\end{equation}
+
+where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) and \(\Phi_S\) are the flux of the primary and secondary coil, respectively.\todo{Is it really?} By using this formula and the simulated values, the coupling factor as a function of the vertical displacement of the primary coil has been calculated as can be seen in figure \ref{fig:coupling-factor}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width = 0.9\textwidth,
+    minor tick num = 1,
+    grid = both,
+    ymax = 25,
+    xmin = -20,
+    xmax = 20,
+    xlabel = Vertical displacement in mm,
+    ylabel = Coupling factor in \%
+    ]
+    \addplot+[mark options={black!50}, draw=black] table [x=d, y=k, col sep=comma]{simon/resources/couplingFactor.csv};
+    \draw (axis cs:0,-10) -- (axis cs:0,18.397) -- (axis cs:-20,18.397);
+    \draw (axis cs:-18,18.9) node(){\(18.4\)};
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Position dependent coupling factor}
+    \label{fig:coupling-factor}
+\end{figure}
+
+As expected, the coupling factor gets smaller the farther away the primary coil moves from the middle of the secondary coil.
 
 \section{The Class-E Stage}
 
