@@ -1,0 +1,52 @@
+\chapter{Printed Circuit Board}
+
+\todo{der fakt das es bei dem hohen frequenzbereich und den kleinen kapazitäten(datenblätter für breadboards). Unsere mit einzelnen Bauteilen bestückte Platinen}
+
+\section{Component Selection}
+
+Because almost none of the needed components where on hand in the school laboratories, most of them had to be ordered online. Due to the special requirements of some parts, they were rather hard to find and some compromises had to be made. For example, many of the needed components were only available as \acrshort{smd}s, which made prototyping a lot harder.
+
+\subsection{\acrshort{ic}s}
+
+When searching up the needed semiconductor parts, there was hardly any choice in terms of the packages. Therefore the board design changed to be smaller with less \acrshort{tht} parts. 
+
+\subsection{Passive Elements}
+
+
+
+\subsection{Connectors}
+
+
+% Took some time to find all components
+
+% SMD
+% This is the final list of selected components:
+
+\begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Part name} & \textbf{Footprint} & \textbf{Description}\\\midrule
+    BSC12DN20N & PG-TDSON-8 & MOSFET\\
+    IX4310 & SOT-23 & MOSFET driver\\
+    LTC1799 & SOT-23 & Oscillator\\
+    LM7805 & TO252 & Voltage regulator\\
+    PKE3316 & Custom THT & boost converter\\
+    74HC72 & SOIC127 & D-type latch\\
+    TC7SZ08F & SOT-32 & AND gate\\
+    RUM001L02 & SOT-723 & MOSFET\\
+    47\(\mu\)H choke & Custom SMD &\\
+    Various Capacitors & 0805 &\\
+    Various Resistors & 0805 &\\
+    Potentiometers & PT-10&\\
+    Fuse 250mA & 1206 &\\
+    Clamp & ? &\\
+    Connector & CON06 &\\
+    \bottomrule
+\end{tabular}
+
+\section{Physical arrangement}
+
+\section{PCB Layout}
+
+%\section{Manufacturing}
+
+%\section{life time calculation}

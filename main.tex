@@ -14,12 +14,19 @@
 \usepackage[english=american]{csquotes} % English quotes
 
 \usepackage{lipsum}
+\usepackage{tikz}
 \usepackage{circuitikz}
+\usepackage{tikz-timing}
 \usepackage{nicefrac}
 \usepackage{subcaption}
 \usepackage{pgfplots}
 \usepackage{listings}
 
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=black!50]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=black!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, aspect=1.5, text centered, draw=black, fill=black!10]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 
 \usepackage{array} % for custom conditions environment
 
@@ -188,8 +195,12 @@
 }
 
 % Glossary entries (used in text with e.g. \acrfull{fpsLabel} or \acrshort{fpsLabel})
-\newacronym[longplural={Frames per Second}]{fpsLabel}{FPS}{Frame per Second}
-\newacronym[longplural={Tables of Contents}]{tocLabel}{TOC}{Table of Contents}
+\newacronym[longplural={Printed Circuit Board}]{pcb}{PCB}{Printed Circuit Board}
+\newacronym[longplural={Integrated Circuit}]{ic}{IC}{Integrated Circuit}
+\newacronym[longplural={Surface Mount Device}]{smd}{SMD}{Surface Mount Device}
+\newacronym[longplural={Surface Mount Technology}]{smt}{SMT}{Surface Mount Technology}
+\newacronym[longplural={Through Hole Device}]{thd}{THD}{Through Hole Device}
+\newacronym[longplural={Through Hole Technology}]{tht}{THT}{Through Hole Technology}
 
 \setglossarystyle{listgroup} % Set the style of the glossary (see https://en.wikibooks.org/wiki/LaTeX/Glossary for a reference)
 \printglossary[title=Special Terms, toctitle=List of Terms] % Output the glossary, 'title' is the chapter heading for the glossary, toctitle is the table of contents heading
