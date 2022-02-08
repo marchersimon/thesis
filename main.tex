@@ -22,10 +22,16 @@
 \usepackage{pgfplots}
 \usepackage{listings}
 
-\usetikzlibrary{shapes.geometric, arrows}
-\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=black!50]
-\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=black!30]
-\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, aspect=1.5, text centered, draw=black, fill=black!10]
+\definecolor{gr10}{HTML}{e6e6e6}
+\definecolor{gr20}{HTML}{cccccc}
+\definecolor{gr30}{HTML}{b3b3b3}
+\definecolor{gr40}{HTML}{999999}
+
+\usetikzlibrary{shapes.geometric, arrows, fit}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=gr40]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=gr20]
+\tikzstyle{command} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=gr10]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, aspect=1.5, text centered, draw=black, fill=gr30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
 \usepackage{array} % for custom conditions environment
@@ -154,6 +160,18 @@
 \addpart{Appendix}
 \pagelayout{margin} % Restore margins
 
+\chapter*{Special Thanks ...}
+
+... to \textbf{Federico Marotta} for providing \enquote{kaobook}, the \LaTeX{} document class this thesis is built upon. It is licensed under the \href{https://www.latex-project.org/lppl/lppl-1-3c/}{LPPL-1.3c} and can be found on \href{https://github.com/fmarotta/kaobook}{github.com/fmarotta/kaobook}.
+
+... to \textbf{Overleaf} for taking so long to compile documents, that we had plenty of time to reconsider our wording.
+
+... to our headmaster \textit{Hofrat Günter Schweigler}. Well no, actually not.
+
+... to some others too.
+
+\pagebreak
+
 %----------------------------------------------------------------------------------------
 
 \backmatter % Denotes the end of the main document content
@@ -181,7 +199,7 @@
 \renewcommand{\nomname}{Notation} % Rename the default 'Nomenclature'
 \renewcommand{\nompreamble}{The next list describes several symbols that will be later used within the body of the document.} % Prepend this text to the nomenclature
 
-\printnomenclature % Output the nomenclature
+%\printnomenclature % Output the nomenclature
 
 %----------------------------------------------------------------------------------------
 %	GLOSSARY
@@ -195,14 +213,16 @@
 }
 
 % Glossary entries (used in text with e.g. \acrfull{fpsLabel} or \acrshort{fpsLabel})
-\newacronym[longplural={Printed Circuit Board}]{pcb}{PCB}{Printed Circuit Board}
-\newacronym[longplural={Integrated Circuit}]{ic}{IC}{Integrated Circuit}
-\newacronym[longplural={Surface Mount Device}]{smd}{SMD}{Surface Mount Device}
-\newacronym[longplural={Surface Mount Technology}]{smt}{SMT}{Surface Mount Technology}
-\newacronym[longplural={Through Hole Device}]{thd}{THD}{Through Hole Device}
-\newacronym[longplural={Through Hole Technology}]{tht}{THT}{Through Hole Technology}
+%          {label} {short} {long}
+\newacronym{pcb}   {PCB}   {Printed Circuit Board}
+\newacronym{ic}    {IC}    {Integrated Circuit}
+\newacronym{smd}   {SMD}   {Surface Mount Device}
+\newacronym{smt}   {SMT}   {Surface Mount Technology}
+\newacronym{thd}   {THD}   {Through Hole Device}
+\newacronym{tht}   {THT}   {Through Hole Technology}
 
-\setglossarystyle{listgroup} % Set the style of the glossary (see https://en.wikibooks.org/wiki/LaTeX/Glossary for a reference)
+% This groups all entries alphabetically
+% \setglossarystyle{listgroup} % Set the style of the glossary (see https://en.wikibooks.org/wiki/LaTeX/Glossary for a reference)
 \printglossary[title=Special Terms, toctitle=List of Terms] % Output the glossary, 'title' is the chapter heading for the glossary, toctitle is the table of contents heading
 
 %----------------------------------------------------------------------------------------

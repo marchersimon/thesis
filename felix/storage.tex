@@ -43,7 +43,7 @@ The disk starts with the File Allocation Table, which contains a map of all clus
 
 \subsection{FatFs}
 
-In order to interface this file system a very popular library called FatFs was used. Because of the limited resources available on the low-powered microcontrollers, a smaller version called Petit FatFs was used instead. All information about this library as well as its documentation can be found on \href{http://elm-chan.org/}{http://elm-chan.org}.
+In order to interface this file system a very popular library called FatFs was used. Because of the limited resources available on the low-powered microcontrollers, a smaller version called Petit FatFs was used instead. All information about this library as well as its documentation can be found on \href{http://elm-chan.org/}{elm-chan.org}.
 
 As FatFs was written to be as portable as possible it does not provide any communication with the storage device. Therefore the user has to implement the communication layer by themselves. % is correct?
 The communication layer has to provide the following functions:
@@ -54,9 +54,46 @@ The communication layer has to provide the following functions:
     \lstinline[language=C]!disk_writep()! & Writes a partial sector at a specific address\\
 \end{tabular}
 
-In order to use the SD device it first needs to be mounted with the command \lstinline[language=C]!pf_mount(FATFS* fs)!, where \lstinline[language=C]!fs! is a pointer to the working area of FatFs.
-
-
+\begin{marginfigure}
+    \centering
+    \resizebox{4cm}{!}{
+    \begin{tikzpicture}[node distance = 2cm]
+      \node(start)[startstop]{Start};
+      \node(pfmount)[command, below of = start]{pf\_mount()};
+      \node(pfopendir)[command, below of = pfmount]{pf\_opendir()};
+      \node(pfreaddir)[command, below of = pfopendir]{pf\_readdir()};
+      \node(allfilesread)[decision, below of = pfreaddir, aspect = 2]{All files read?};
+      \node(resetpointer)[process, below of = allfilesread, yshift=-3mm]{Reset file poniter};
+      \node(pfreaddir2)[command, below of = resetpointer]{pf\_readdir()};
+      \node(allfilesread2)[decision, below of = pfreaddir2, aspect = 2]{All files read?};
+      \node(chosefile)[process, below of = allfilesread2, yshift=-3mm]{Chose a file};
+      \node(pfopen)[command, below of = chosefile]{pf\_open()};
+      \node(pfread)[command, below of = pfopen]{pf\_read()};
+      \node(stop)[startstop, below of = pfread]{Done};
+    
+      \draw [arrow] (start) -- (pfmount);
+      \draw [arrow] (pfmount) -- (pfopendir);
+      \draw [arrow] (pfopendir) -- (pfreaddir);
+      \draw [arrow] (pfreaddir) -- (allfilesread);
+      \draw [arrow] (allfilesread.east) node[above right]{no} -- ++(1,0) node(allfilesreadedge){} |- (pfreaddir);
+      \draw [arrow] (allfilesread) -- node[right]{yes} (resetpointer);
+      \draw [arrow] (resetpointer) -- (pfreaddir2);
+      \draw [arrow] (pfreaddir2) -- (allfilesread2);
+      \draw [arrow] (allfilesread2.east) node[above right]{no} -- ++(1,0) node(allfilesreadedge2){} |- (pfreaddir2);
+      \draw [arrow] (allfilesread2) -- node[right]{yes} (chosefile);
+      \draw [arrow] (chosefile) -- (pfopen);
+      \draw [arrow] (pfopen) -- (pfread);
+      \draw [arrow] (pfread) -- (stop);
+    
+      \node [fit=(pfreaddir) (allfilesread) (allfilesreadedge), draw, dotted, darkgray, thick, rounded corners, inner sep = 2mm](firstbox){};
+      \node[rotate = 90, above] at (firstbox.west){Get number of files};
+      \node [fit=(pfreaddir2) (allfilesread2) (allfilesreadedge2), draw, dotted, darkgray, thick, rounded corners, inner sep = 2mm](secondbox){};
+      \node[rotate = 90, above] at (secondbox.west){Read file information};
+    \end{tikzpicture}
+    }
+    \caption{Caption}
+    \label{fig:my_label}
+\end{marginfigure}
 
 In our case we need to open the root directory, because we do not know where the exact midi file we should read is located. After the root directory is opened you read the directory with the appropriate command.
 

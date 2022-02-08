@@ -38,14 +38,14 @@ The simplest of all drivers is the spark gap driver. In the first stage, the 230
 Today, spark gap tesla coils are mostly only used for educational purposes anymore. Due to their many \textbf{disadvantages} they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
 
 \begin{itemize}
-\item A spark gap dissipates a lot of power, part of it in heat and part of in in creating a lot of ozone, which also posses a health hazard, when operated in closed rooms.
+\item A spark gap dissipates a lot of power, part of it as heat and part of it in creating a ozone, which also poses a health hazard, when operated in closed rooms.
 \item The rapid igniting and quenching of the spark gap creates a lot of noise.
-\item The whole operation cycle only depends on passive component values, which makes it impossible to control the power output and play music.
+\item The whole operation cycle only depends on passive component values, which makes it very hard to control the power output and other characteristics.
 \end{itemize}
 
 \subsection{Solid State Tesla Coils}
 
-Aside from vacuum tube tesla coils, which have existed before, semiconductor technology\sidenote{Unlike relays or hard disk drives, their semiconductor counterparts have no moving components. Hence the name \enquote{solid state}.} opened up a whole new world of possibilities for tesla coils. It was now possible to build up sophisticated amplifier circuits to excite the primary coil. Some of them still rely on resonant circuits, others use feedback loops to self-excite the primary coil, and again others use ICs to control the driver.
+Aside from vacuum tube tesla coils, which have existed before, semiconductor technology\sidenote{Unlike relays or hard disk drives, their semiconductor counterparts have no moving components. Hence the name \enquote{solid state}.} opened up a whole new world of possibilities for tesla coils. It was now possible to build up sophisticated amplifier circuits to excite the primary coil. Some of them still rely on resonant circuits, others use feedback loops to self-excite the primary coil, and again others use \glspl{ic} to control the driver.
 
 The most common solid state topologies include:
 \begin{itemize}
@@ -144,7 +144,7 @@ In a tesla coil's usual, uninterrupted operation mode, the high voltage in the s
 
 By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arcs. Since the tesla coil has to complete at least one cycle before being turned off, the modulated frequency cannot be greater than the carrier frequency. 
 
-Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word} of the tesla coil for the example of a 500 Hz signal modulated onto a 10 kHz carrier wave. Figure \ref{fig:sound-pressure} visualizes the movement of the air molecules around the tesla coil\sidenote{This graph is very likely not accurate and only indented for demonstration purposes}. By performing a Fourier analysis on figure \ref{fig:sound-pressure}, a graph of all frequency components of the sound wave can be created as shown in figure \ref{fig:frequency-magnitude}. It is clearly visible, that not only the modulated signal, but also the carrier frequency is audible, which distorts the sound. A method to counteract this is by using smaller tesla coils, which often have carrier frequencies well above the hearing range of humans.
+Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word} of the tesla coil for the example of a 500 Hz signal modulated onto a 10 kHz carrier wave. Figure \ref{fig:sound-pressure} visualizes the movement of the air molecules around the tesla coil\sidenote{This graph is very likely not accurate and only indented for demonstration purposes}. By performing a Fourier analysis on figure \ref{fig:sound-pressure}, a graph of all frequency components of the sound wave can be created as shown in figure \ref{fig:frequency-magnitude}. It is clearly visible, that not only the modulated signal, but also the carrier frequency is audible, which distorts the sound. A method to counteract this is by using smaller tesla coils, which often have carrier frequencies well above the human hearing range.
 
 \begin{figure}[h!]
 \begin{tikzpicture}
@@ -165,7 +165,7 @@ Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word
     x filter/.code=\pgfmathparse{#1 * 1000},
     area style,
     ]
-    \addplot+[draw=black, fill=black!10] table [x=t, y=rect, col sep=comma, mark=none]{simon/resources/signal.csv};
+    \addplot+[draw=black, fill=gr10] table [x=t, y=rect, col sep=comma, mark=none]{simon/resources/signal.csv};
     %\node at (02.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
     \node at (12.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
     \node at (22.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
@@ -199,7 +199,7 @@ Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word
     x filter/.code=\pgfmathparse{#1 * 1000},
     area style,
     ]
-    \addplot+[draw=black, fill=black!10] table [x=t, y=disp, col sep=comma, mark=none]{simon/resources/signal.csv};
+    \addplot+[draw=black, fill=gr10] table [x=t, y=disp, col sep=comma, mark=none]{simon/resources/signal.csv};
   \end{axis}
 \end{tikzpicture}
 \caption{Sound Pressure}
@@ -229,11 +229,11 @@ Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word
     xlabel = \(f\) in \(Hz\),
     %ylabel = magnitude
     ]
-    \addplot+[ycomb, draw=black, mark options={black!50}] table [x=f, y=mag, col sep=comma]{simon/resources/fourier.csv};
+    \addplot+[ycomb, draw=black, mark options={gr40}] table [x=f, y=mag, col sep=comma]{simon/resources/fourier.csv};
   \end{axis}
 \end{tikzpicture}
 \caption{Frequency Magnitude}
-\labch{frequency-magnitude}
+\labfig{frequency-magnitude}
 \end{figure}
 
 \todo{Add section on how to play multiple tones}
