@@ -49,9 +49,9 @@ As FatFs was written to be as portable as possible it does not provide any commu
 The communication layer has to provide the following functions:
 
 \begin{tabular}{ll}
-    \lstinline[language=C]!disk_initialize()! &  Initializes the SD card as described in section \ref{sec:interfacing-the-sd-card}\\
-    \lstinline[language=C]!disk_readp()! & Reads a partial sector at a specific address\\
-    \lstinline[language=C]!disk_writep()! & Writes a partial sector at a specific address\\
+    \lstinline[language=C]!disk_initialize! &  Initializes the SD card as described in section \ref{sec:interfacing-the-sd-card}\\
+    \lstinline[language=C]!disk_readp! & Reads a partial sector at a specific address\\
+    \lstinline[language=C]!disk_writep! & Writes a partial sector at a specific address\\
 \end{tabular}
 
 \begin{marginfigure}
@@ -95,10 +95,10 @@ The communication layer has to provide the following functions:
     \label{fig:my_label}
 \end{marginfigure}
 
-In our case we need to open the root directory, because we do not know where the exact midi file we should read is located. After the root directory is opened you read the directory with the appropriate command.
+Before any operations can be done on the SD card, it needs to be mounted with the function  \cinline{pf_mount(FATFS* fs)}, where \cinline{fs} is the working area of FatFs. Since the file to be played should be chosen interactively, all file information has to be read out first. In order to read a directory it has to be opened with \cinline{pf_opendir(DIR* dp, const char* path)}.
 
+To read the directory's content, the function \cinline{pf_readdir (DIR* dp, FILINFO* fno)} is used, which reads the next directory entry on each call. %It writes all available file information into *fno. After it read all entries it returns an empty file name. Because there are no variable length arrays C++ for AVR, the number of files has to be determined in order to store their information. That can be done by counting how often \cinline{pf_readdir} returns a valid file name. This information can then be used to allocate a data structure of the correct size.
 
+In order to reread all directory entries and save their file names and file sizes, the internal directory index has to be rewound by calling \cinline{pf_readdir} and passing a null pointer instead of \cinline{*fno}. All important file information can then be saved by again repeatedly calling \cinline{pf_readdir}. 
 
-the command \lstinline[language=C]!pf_readdir(DIR* dp, FILINFO* fno)!, where \lstinline[language=C]!dp! is a pointer to the working area of FatFs.
-
-
+After choosing a file with the interactive menu as described in chapter \ref{ch:user-interface}, the file has to be read in memory. First, the selected file has to be opened with \cinline{pf_open(const char* path)}. After the needed memory has been allocated, the file can be read with \cinline{pf_read(void* buff, UINT btr, UINT *br)}.

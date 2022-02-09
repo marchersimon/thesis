@@ -35,6 +35,9 @@
 \definecolor{gr80}{HTML}{333333}
 \definecolor{gr90}{HTML}{191919}
 
+%%% Sans serif font
+\renewcommand{\familydefault}{\sfdefault}
+
 %%% Setup for flowcharts
 
 \usetikzlibrary{shapes.geometric, arrows, fit}
@@ -59,21 +62,25 @@
       arc (90:90-36*#2:\outerradius) -- (0,0);
     \fill[white] (0,0) circle (\innerradius);
 
-    \fill[gr20] (\outerradius + 5mm, \barypos{4}) rectangle ++(\barlength, \barheight)  node[gr70, yshift=-\barheight/2, xshift=3mm]{\faIcon[regular]{magnet}};
-    \fill[gr50] (\outerradius + 5mm, \barypos{4}) rectangle ++(\barlength * 0.1 * #3, \barheight);
-    
-    \fill[gr20] (\outerradius + 5mm, \barypos{3}) rectangle ++(\barlength, \barheight)  node[gr70, yshift=-\barheight/2, xshift=3mm]{\faIcon[regular]{fire}};
-    \fill[gr50] (\outerradius + 5mm, \barypos{3}) rectangle ++(\barlength * 0.1 * #4, \barheight);
+     \node[gr70] at (\outerradius + 5mm, \barypos{4} + \barheight / 2) {\faIcon{magnet}};
+     \fill[gr20] (\outerradius + 9mm, \barypos{4}) rectangle ++(\barlength, \barheight);
+     \fill[gr50] (\outerradius + 9mm, \barypos{4}) rectangle ++(\barlength * 0.1 * #3, \barheight);
 
-    \fill[gr20] (\outerradius + 5mm, \barypos{2}) rectangle ++(\barlength, \barheight)  node[black!70, yshift=-\barheight/2, xshift=3mm]{\faIcon[regular]{euro-sign}};
-    \fill[gr50] (\outerradius + 5mm, \barypos{2}) rectangle ++(\barlength * 0.1 * #5, \barheight);
+    \node[gr70] at (\outerradius + 5mm, \barypos{3} + \barheight / 2) {\faIcon{fire}};
+    \fill[gr20] (\outerradius + 9mm, \barypos{3}) rectangle ++(\barlength, \barheight);
+    \fill[gr50] (\outerradius + 9mm, \barypos{3}) rectangle ++(\barlength * 0.1 * #4, \barheight);
 
-    \fill[gr20] (\outerradius + 5mm, \barypos{1}) rectangle ++(\barlength, \barheight)  node[gr70, yshift=-\barheight/2, xshift=3mm]{\faIcon[regular]{eye}};
-    \fill[gr50] (\outerradius + 5mm, \barypos{1}) rectangle ++(\barlength * 0.1 * #6, \barheight);
+    \node[gr70] at (\outerradius + 5mm, \barypos{2} + \barheight / 2) {\faIcon{euro-sign}};
+    \fill[gr20] (\outerradius + 9mm, \barypos{2}) rectangle ++(\barlength, \barheight);
+    \fill[gr50] (\outerradius + 9mm, \barypos{2}) rectangle ++(\barlength * 0.1 * #5, \barheight);
+
+    \node[gr70] at (\outerradius + 5mm, \barypos{1} + \barheight / 2) {\faIcon{eye}};
+    \fill[gr20] (\outerradius + 9mm, \barypos{1}) rectangle ++(\barlength, \barheight);
+    \fill[gr50] (\outerradius + 9mm, \barypos{1}) rectangle ++(\barlength * 0.1 * #6, \barheight);
 
     \foreach \l in {1,...,4}{
       \foreach \p in {1,...,9}{
-        \draw[gr20, ultra thick] (\outerradius + 5mm + \barlength / 10 * \p, \barypos{\l}) -- ++(0, \barheight);
+        \draw[gr20, ultra thick] (\outerradius + 9mm + \barlength / 10 * \p, \barypos{\l}) -- ++(0, \barheight);
       }
     }
 
