@@ -6,28 +6,49 @@
 \section{Interfacing the SD Card}
 \label{sec:interfacing-the-sd-card}
 
-\subsection{Initializing}
-\begin{tikzpicture}[node distance = 2cm]
-  \node(start)[startstop]{Power on};
-  \node(cmd0)[process, below of = start]{CMD0};
-  \node(cmd8)[process, below of = cmd0]{CMD8};
-  \node(isillegal)[decision, below of = cmd8]{Is illegal?};
-  \node(acmd41)[process, right of = isillegal, xshift=1cm, yshift=-1.5cm]{ACMD41};
-  \node(idlestate)[decision, below of = acmd41]{In idle state?};
-  \node(done)[startstop, below of = idlestate]{Done};
-  \node(sdv1)[process, left of = isillegal, xshift = -1cm, yshift=-1.5cm]{SDv1};
-  \node(notsupported)[startstop, below of = sdv1]{Not supported};
+Most of the information in the following section was taken from \href{http://www.elm-chan.org/docs/mmc/mmc_e.html}{www.elm-chan.org/docs/mmc/mmc\_e.html}
 
-  \draw [arrow] (start) -- (cmd0);
-  \draw [arrow] (cmd0) -- (cmd8);
-  \draw [arrow]  (cmd8) -- (isillegal);
-  \draw [arrow] (isillegal) node[above, xshift=2cm]{no} -| (acmd41);
-  \draw [arrow] (acmd41) -- (idlestate);
-  \draw [arrow] (idlestate.east) -- ++(1,0) node[above, xshift=-5mm]{yes} |- (acmd41);
-  \draw [arrow] (idlestate) -- node[right]{no} (done);
-  \draw [arrow] (isillegal) node[above, xshift=-2cm]{yes} -| (sdv1);
-  \draw [arrow] (sdv1) -- (notsupported);
-\end{tikzpicture}
+A \gls{sdc} or \gls{mmc} is an easy way to store data on embedded systems. More powerful devices use the card in SD mode, which allows faster clock speeds, but microcontrollers mostly use the SPI mode, because of the already existing SPI hardware module. Since all SD devices only operate at voltages between 2.7 and 3.3 volts, a voltage translation has to be added in between the Arduino and the device. For this, a SD card adapter from AZ-Delivery was used. By reverse engineering it, following schematic could be reconstructed:
+
+% include schematic
+
+This adapter has two problems however. First, the voltage translation only goes in one way, so the MISO line still operates at 3.3V. Second, the bus buffer gate outputs are configured to be always in low impedance mode, which leads to problems, when more than two devices are communicating on the MOSI line.
+
+The commands used to communicate with the SD device is build up of a 6-bit command index, an 4-byte argument and a 7-bit \gls{crc}. After the command was send, the SD device sends an response within the \gls{ncr}, which is at most 8 bytes. During this time CLK has to be active and CS has to stay low. Then, the card sends a one or four byte response and depending on the command also a data packet up to 2051 bytes long.
+
+\subsection{Initializing}
+\label{sec:initializing}
+
+Before any commands can be send to the SD card, it has to be put into SPI mode by setting both MOSI and CS high and toggling CLK for at least 74 clock cycles. To start the initialization process, a CMD0 command has to be send, followed by a CMD8 to detect the kind of device. If it responds with an "Illegal command" flag, the device is a SDv1, otherwise it is a SDv2. The next step is to send a CMD55 followed by a CMD41, until the card leaves idle mode. This usually has to be done at least twice. 
+
+\begin{figure}[h!]
+    \centering
+    \resizebox{!}{10cm}{
+    \begin{tikzpicture}[node distance = 2cm]
+      \node(start)[startstop]{Power on};
+      \node(cmd0)[process, below of = start]{CMD0};
+      \node(cmd8)[process, below of = cmd0]{CMD8};
+      \node(isillegal)[decision, below of = cmd8]{Is illegal?};
+      \node(acmd41)[process, right of = isillegal, xshift=1cm, yshift=-1.5cm]{ACMD41};
+      \node(idlestate)[decision, below of = acmd41]{In idle state?};
+      \node(done)[startstop, below of = idlestate]{Done};
+      \node(sdv1)[process, left of = isillegal, xshift = -1cm, yshift=-1.5cm]{SDv1};
+      \node(notsupported)[startstop, below of = sdv1]{Not supported};
+    
+      \draw [arrow] (start) -- (cmd0);
+      \draw [arrow] (cmd0) -- (cmd8);
+      \draw [arrow]  (cmd8) -- (isillegal);
+      \draw [arrow] (isillegal) node[above, xshift=2cm]{no} -| (acmd41);
+      \draw [arrow] (acmd41) -- (idlestate);
+      \draw [arrow] (idlestate.east) -- ++(1,0) node[above, xshift=-5mm]{yes} |- (acmd41);
+      \draw [arrow] (idlestate) -- node[right]{no} (done);
+      \draw [arrow] (isillegal) node[above, xshift=-2cm]{yes} -| (sdv1);
+      \draw [arrow] (sdv1) -- (notsupported);
+    \end{tikzpicture}}
+    \caption{Caption}
+\end{figure}
+
+
 
 \subsection{Reading from the Card}
 
@@ -49,10 +70,12 @@ As FatFs was written to be as portable as possible it does not provide any commu
 The communication layer has to provide the following functions:
 
 \begin{tabular}{ll}
-    \lstinline[language=C]!disk_initialize! &  Initializes the SD card as described in section \ref{sec:interfacing-the-sd-card}\\
-    \lstinline[language=C]!disk_readp! & Reads a partial sector at a specific address\\
-    \lstinline[language=C]!disk_writep! & Writes a partial sector at a specific address\\
+    \cinline{disk_initialize} &  Initializes the SD card as described in section \ref{sec:initializing}\\
+    \cinline{disk_readp} & Reads a partial sector at a specific address\\
+    \cinline{disk_writep} & Writes a partial sector at a specific address\\
 \end{tabular}
+
+\subsubsection{Using FatFs}
 
 \begin{marginfigure}
     \centering
