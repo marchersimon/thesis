@@ -14,25 +14,58 @@ A \gls{sdc} or \gls{mmc} is an easy way to store data on embedded systems. More 
 
 This adapter has two problems however. First, the voltage translation only goes in one way, so the MISO line still operates at 3.3V. Second, the bus buffer gate outputs are configured to be always in low impedance mode, which leads to problems, when more than two devices are communicating on the MOSI line.
 
-The commands used to communicate with the SD device is build up of a 6-bit command index, an 4-byte argument and a 7-bit \gls{crc}. After the command was send, the SD device sends an response within the \gls{ncr}, which is at most 8 bytes. During this time CLK has to be active and CS has to stay low. Then, the card sends a one or four byte response and depending on the command also a data packet up to 2051 bytes long.
+The commands used to communicate with the SD device is build up of a 6-bit command index, an 4-byte argument and a 7-bit \gls{crc}. For example a CMD0 consists of "insert here how commands are build up and image". After the command was send, the SD device sends an response within the \gls{ncr}, which is at most 8 bytes. During this time CLK has to be active and CS has to stay low. Then, the card sends a one or four byte response and depending on the command also a data packet up to 2051 bytes long.
+
+\newcommand{\sdcmdvert}[1]{\draw[gray, dotted] (#1, 1.5) -- (#1, 1.2) (#1, -.2) -- (#1,-.8) (#1,-2.2) -- (#1,-2.8) (#1,-3.2) -- (#1,-3.6);}
+\newcommand{\sdcmdverta}[1]{\draw[gray, dotted] (#1, 1.5) -- (#1, .1) (#1, -.2) -- (#1,-.8) (#1,-2.2) -- (#1,-2.8) (#1,-3.2) -- (#1,-3.6);}
+\newcommand{\sdcmdvertb}[1]{\draw[gray, dotted] (#1, 1.5) -- (#1, 1.2) (#1, -.2) -- (#1,-.8) (#1,-1.2) -- (#1,-2.8) (#1,-3.2) -- (#1,-3.6);}
+\newcommand{\sdcmdvertc}[1]{\draw[gray, dotted] (#1, 1.5) -- (#1, 1.2) (#1, -.2) -- (#1,-.8) (#1,-1.2) -- (#1,-2.8) (#1,-4.2) -- (#1,-4.5);}
+\begin{figure}[h!]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tikztimingtable}[timing/yunit = 5mm, timing/xunit = 2.5mm]
+    CLK  & lllll 15{c} 32{0.5c 0.5c} 49{c} lll\\
+    MOSI & hhhh L N[rectangle, above, xshift=-1.2mm]{0} H N[rectangle, below, xshift=-1mm]{1} 6D{\Large Index} 16D{\Large Argument} 7D{\Large CRC}H N[rectangle, below, xshift=-1mm]{1} 36h\\
+    MISO & hhhh 5{16h} L N[rectangle, above, xshift=-1mm]{0}7D{\Large Flags} hhhh\\
+    \extracode
+    \foreach \t in {25,45,65} {
+      \sdcmdvert{\t mm}
+    }
+    \sdcmdvertc{105mm}
+    \sdcmdvertc{125mm}
+    \sdcmdvertb{85mm}
+    \sdcmdverta{5mm}
+    \sdcmdvert{35mm}
+    \sdcmdvert{55mm}
+    \fill[white] (93mm,1.5) .. controls (87mm,-1) and (97mm,-2) .. (93mm,-4.5) -- (97mm,-4.5) .. controls (101mm,-2) and (91mm,-1) .. (97mm,1.5);
+    \draw[gr50] (93mm,1.5) .. controls (87mm,-1) and (97mm,-2) .. (93mm,-4.5);
+    \draw[gr50] (97mm,-4.5) .. controls (101mm,-2) and (91mm,-1) .. (97mm,1.5);
+    \draw[gr50] (6mm,2.5) -- (84mm,2.5) (45mm, 2.5) node[rectangle, gr70, fill=white]{Command};
+    \draw[gr50] (86mm,2.5) -- (104mm,2.5) (95mm,2.5) node[rectangle, gr70, fill=white]{NCR};
+    \draw[gr50] (106mm,2.5) -- (124mm,2.5) (115mm,2.5) node[rectangle, gr70, fill=white]{R1};
+    \draw[gr50] (25mm, -4.2) -- (27mm,-4.5) -- (63mm,-4.5) -- (65mm,-4.2) (45mm,-4.5) node[rectangle, fill=white]{scaled 2x};
+  \end{tikztimingtable}}
+  \caption{Bottom text}
+  \label{fig:sd-command}
+\end{figure}
 
 \subsection{Initializing}
 \label{sec:initializing}
 
 Before any commands can be send to the SD card, it has to be put into SPI mode by setting both MOSI and CS high and toggling CLK for at least 74 clock cycles. To start the initialization process, a CMD0 command has to be send, followed by a CMD8 to detect the kind of device. If it responds with an "Illegal command" flag, the device is a SDv1, otherwise it is a SDv2. The next step is to send a CMD55 followed by a CMD41, until the card leaves idle mode. This usually has to be done at least twice. 
 
-\begin{figure}[h!]
+\begin{marginfigure}
     \centering
-    \resizebox{!}{10cm}{
+    \resizebox{!}{8cm}{
     \begin{tikzpicture}[node distance = 2cm]
       \node(start)[startstop]{Power on};
       \node(cmd0)[process, below of = start]{CMD0};
       \node(cmd8)[process, below of = cmd0]{CMD8};
       \node(isillegal)[decision, below of = cmd8]{Is illegal?};
-      \node(acmd41)[process, right of = isillegal, xshift=1cm, yshift=-1.5cm]{ACMD41};
+      \node(acmd41)[process, right of = isillegal, xshift=.5cm, yshift=-2cm]{ACMD41};
       \node(idlestate)[decision, below of = acmd41]{In idle state?};
       \node(done)[startstop, below of = idlestate]{Done};
-      \node(sdv1)[process, left of = isillegal, xshift = -1cm, yshift=-1.5cm]{SDv1};
+      \node(sdv1)[process, left of = isillegal, xshift = -.5cm, yshift=-2cm]{SDv1};
       \node(notsupported)[startstop, below of = sdv1]{Not supported};
     
       \draw [arrow] (start) -- (cmd0);
@@ -46,21 +79,29 @@ Before any commands can be send to the SD card, it has to be put into SPI mode b
       \draw [arrow] (sdv1) -- (notsupported);
     \end{tikzpicture}}
     \caption{Caption}
-\end{figure}
+\end{marginfigure}
 
 
 
 \subsection{Reading from the Card}
 
-clusters\sidenote{A cluster is block of data which usually contains 512 Bytes}
+\todo{find difference between block and sector}
+The SD card manages its data in so called block, which are usually chunks of 512 bytes. Those blocks can be read one at a time or as a continuous data stream, but the filesystem library Petit FatFs requires the read function to perform single block reads, so multiple block reading won't be discussed further.
+
+In order to read a single block, CMD17 has to be send to the card along with the sector number as argument. The card should respond with 0x00 and shortly after sends the requested data packet consisting of a 0xFE, 512 bytes of data and a 2-byte \gls{crc}.
+
+
+
+
 
 \section{File System}
 
 \subsection{FAT}
 
-The FAT\sidenote{short for File Allocation Table} file system is one of the most basic file systems. There are FAT 12, 16 and 32, while FAT 12 was only ever used on old devices like floppy disks. Because of its simplicity it is very often used for small portable storage devices like USB drives or SD cards. 
+The \gls{fat} file system is one of the most basic file systems. There are \gls{fat} 12, 16 and 32, while \gls{fat} 12 was only ever used on old devices like floppy disks. Because of its simplicity it is very often used for small portable storage devices like USB drives or SD cards. 
 
-The disk starts with the File Allocation Table, which contains a map of all clusters in the system. One cell of the table represents a cluster and shows it's allocation status. Following the File Allocation Table are two types of clusters: data and directory cluster. Directory clusters store the structure of the file tree and give information about the files, while data clusters hold the actual file content.
+The disk starts with the File Allocation Table, which contains a map of all clusters % what is cluster
+in the system. One cell of the table represents a cluster and shows it's allocation status. Following the File Allocation Table are two types of clusters: data and directory cluster. Directory clusters store the structure of the file tree and give information about the files, while data clusters hold the actual file content.
 
 \subsection{FatFs}
 
