@@ -8,13 +8,77 @@
 
 Most of the information in the following section was taken from \href{http://www.elm-chan.org/docs/mmc/mmc_e.html}{www.elm-chan.org/docs/mmc/mmc\_e.html}
 
-A \gls{sdc} or \gls{mmc} is an easy way to store data on embedded systems. More powerful devices use the card in SD mode, which allows faster clock speeds, but microcontrollers mostly use the SPI mode, because of the already existing SPI hardware module. Since all SD devices only operate at voltages between 2.7 and 3.3 volts, a voltage translation has to be added in between the Arduino and the device. For this, a SD card adapter from AZ-Delivery was used. By reverse engineering it, following schematic could be reconstructed:
+A \gls{sdc} or \gls{mmc} is an easy way to store data on embedded systems. More powerful devices use the card in SD mode, which allows faster clock speeds, but microcontrollers mostly use the SPI mode, because of the already existing SPI hardware module. Since all SD devices only operate at voltages between 2.7 and 3.3 volts, a voltage translation has to be added in between the Arduino and the device. For this, a SD card adapter from AZ-Delivery was used. By reverse engineering it, the schematic shown in figure \ref{fig:sd-card-adapter} could be reconstructed.
 
-% include schematic
+\begin{figure}[h!]
+    \centering
+    \begin{circuitikz}
+  \draw (0,0) node[dipchip, num pins=12, no topmark, hide numbers](c){};
+  \node [left, font=\footnotesize] at (c.bpin 7) {GND};
+  \node [left, font=\footnotesize] at (c.bpin 8) {CS};
+  \node [left, font=\footnotesize] at (c.bpin 9) {MOSI};
+  \node [left, font=\footnotesize] at (c.bpin 10) {CLK};
+  \node [left, font=\footnotesize] at (c.bpin 11) {MISO};
+  \node [left, font=\footnotesize] at (c.bpin 12) {VCC};
+  \draw[white, fill=white] (c.pin 1) ++(0,.5) rectangle ++(1,-4);
 
-This adapter has two problems however. First, the voltage translation only goes in one way, so the MISO line still operates at 3.3V. Second, the bus buffer gate outputs are configured to be always in low impedance mode, which leads to problems, when more than two devices are communicating on the MOSI line.
+  \draw (c.pin 7) -| ++(.2,-.2) node[rground]{};
 
-The commands used to communicate with the SD device is build up of a 6-bit command index, an 4-byte argument and a 7-bit \gls{crc}. For example a CMD0 consists of "insert here how commands are build up and image". After the command was send, the SD device sends an response within the \gls{ncr}, which is at most 8 bytes. During this time CLK has to be active and CS has to stay low. Then, the card sends a one or four byte response and depending on the command also a data packet up to 2051 bytes long.
+  \draw (2,1.75) node[rectangle,draw,
+  minimum width=.7cm,minimum height=.4cm,line width=.8pt]{};
+  \draw (c.pin 12) -- ++(.2,0) |- (1.65,1.75) node[above left, font=\tiny]{5V};
+  \draw (2,1.55) node[rground]{};
+  \draw (2.22,1.75) node(vout){} node[above, xshift=4mm, font=\tiny]{3.3V};
+  
+  \ctikzset{multipoles/dipchip/width=.8}
+  \draw (3,0) node[dipchip, num pins = 8, no topmark, hide numbers, scale=1](b){};
+  \draw (b.bpin 1) ++(.6,0) node[buffer port, scale=0.3, rotate=180](b1){};
+  \draw (b.bpin 2) ++(.6,0) node[buffer port, scale=0.3](b2){};
+  \draw (b.bpin 3) ++(.6,0) node[buffer port, scale=0.3](b3){};
+  \draw (b.bpin 4) ++(.6,0) node[buffer port, scale=0.3](b4){};
+  \draw (b.bpin 1) -- ++(.2,0) |- (b1.out) (b1.in 1) -- ++(.1,0) |- (b.bpin 8);
+  \draw (b.bpin 2) -- (b2.in 1) (b2.out) -- (b.bpin 7);
+  \draw (b.bpin 3) -- (b3.in 1) (b3.out) -- (b.bpin 6);
+  \draw (b.bpin 4) -- ++(.1,0) |- (b4.in 1) (b4.out) -- ++(.3,0) |- (b.bpin 5);
+  
+  \draw (b.south) node[rground]{};
+
+  \draw (c.pin 8) to[R, european, resistors/scale=0.6] (b.pin 4);
+  \draw (c.pin 10) to[R, european, resistors/scale=0.6] (b.pin 2);
+  \draw (c.pin 9) to[R, european, resistors/scale=0.6] (b.pin 3);
+  \draw (c.pin 11) -- (b.pin 1);
+
+  
+  \tikzset{shift={(5.75,-.5)}}
+  \tikzset{scale=.8}
+
+  \draw[fill=gray] (0,0) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{NC};
+  \draw[fill=gray] (0,.3) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{CS};
+  \draw[fill=gray] (0,.6) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{DI};
+  \draw[fill=gray] (-.1,.9) rectangle ++(.7,.2) node[yshift=-1mm, right, font=\tiny]{VDD};
+  \draw[fill=gray] (0,1.2) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{SCK};
+  \draw[fill=gray] (-.1,1.5) rectangle ++(.7,.2) node[yshift=-1mm, right, font=\tiny]{VSS};
+  \draw[fill=gray] (0,1.8) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{DO};
+  \draw[fill=gray] (0,2.1) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{NC};
+
+  \draw[rounded corners=1, thick] (-.2,-.2) -- (-.2,2.5) -- (3.75,2.5) -- ++(0,-3) -- ++(-1.25,0) -- ++(-.3,.2) -- ++(-.3,0) -- ++(0,-.2) -- ++(-.4,0) -- ++(-.3,.3) -- (-.2,-.2);
+  
+  \draw (b.pin 8) to[R, european, resistors/scale=0.6] ++(1,0) -- ++(.375,0) -- ++(0,.225) to[crossing] ++(.75,0) -- (0,1.9);
+  \draw (vout) -| (b.north);
+  \draw (vout-|b.north) to[short, *-] ++(2.8,0) |- (-.1,1.6);
+  \draw (b.pin 7) |- (0,1.3);
+  \draw (b.pin 6) -- ++(.5,0) |- (-1.2,0.7) to[crossing] (0,0.7);
+  \draw (b.pin 5) -- ++(1,0)|- (-1.2,0.4) to[crossing] (0,0.4);
+  \draw (-.1,1) -- ++(-.5,0) -- ++(0,-1.2) node[rground]{};
+\end{circuitikz}
+    \caption{SD Card Adapter}
+    \label{fig:sd-card-adapter}
+\end{figure}
+
+
+This adapter has two problems however. First, the voltage translation only goes in one way, so the \cinl{MISO} line still operates at 3.3V. Second, the bus buffer gate outputs are configured to be always in low impedance mode, which leads to problems, when more than two devices are communicating on the \cinl{MOSI} line.
+
+The commands used to communicate with the SD device are build up of a 6-bit command index, an 4-byte argument and a 7-bit \gls{crc} as shown in figure \ref{fig:sd-command}. After a command was send, the SD device sends back a response within the \gls{ncr}, which is at most 8 bytes. During this time \cinl{CLK} has to be active and \cinl{CS} has to stay low. Then, the card sends a one or four byte response and depending on the command also a data packet up to 2051 bytes long.
 
 \newcommand{\sdcmdvert}[1]{\draw[gray, dotted] (#1, 1.5) -- (#1, 1.2) (#1, -.2) -- (#1,-.8) (#1,-2.2) -- (#1,-2.8) (#1,-3.2) -- (#1,-3.6);}
 \newcommand{\sdcmdverta}[1]{\draw[gray, dotted] (#1, 1.5) -- (#1, .1) (#1, -.2) -- (#1,-.8) (#1,-2.2) -- (#1,-2.8) (#1,-3.2) -- (#1,-3.6);}
@@ -52,7 +116,7 @@ The commands used to communicate with the SD device is build up of a 6-bit comma
 \subsection{Initializing}
 \label{sec:initializing}
 
-Before any commands can be send to the SD card, it has to be put into SPI mode by setting both MOSI and CS high and toggling CLK for at least 74 clock cycles. To start the initialization process, a CMD0 command has to be send, followed by a CMD8 to detect the kind of device. If it responds with an "Illegal command" flag, the device is a SDv1, otherwise it is a SDv2. The next step is to send a CMD55 followed by a CMD41, until the card leaves idle mode. This usually has to be done at least twice. 
+Before any commands can be send to the SD card, it has to be put into SPI mode by setting both \cinl{MOSI} and \cinl{CS} high and toggling \cinl{CLK} for at least 74 clock cycles. To start the initialization process, a \cinl{CMD0} command has to be send, followed by a \cinl{CMD8} to detect the kind of device. If it responds with an "Illegal command" flag, the device is a \cinl{SDv1}, otherwise it is a \cinl{SDv2}. The next step is to send a \cinl{CMD55} followed by a \cinl{CMD41}, until the card leaves idle mode. This usually has to be done at least twice. 
 
 \begin{marginfigure}
     \centering
@@ -88,7 +152,7 @@ Before any commands can be send to the SD card, it has to be put into SPI mode b
 \todo{find difference between block and sector}
 The SD card manages its data in so called block, which are usually chunks of 512 bytes. Those blocks can be read one at a time or as a continuous data stream, but the filesystem library Petit FatFs requires the read function to perform single block reads, so multiple block reading won't be discussed further.
 
-In order to read a single block, CMD17 has to be send to the card along with the sector number as argument. The card should respond with 0x00 and shortly after sends the requested data packet consisting of a 0xFE, 512 bytes of data and a 2-byte \gls{crc}.
+In order to read a single block, \cinl{CMD17} has to be send to the card along with the sector number as argument. The card should respond with \cinl{0x00} and shortly after sends the requested data packet consisting of a \cinl{0xFE}, 512 bytes of data and a 2-byte \gls{crc}.
 
 
 
@@ -111,9 +175,9 @@ As FatFs was written to be as portable as possible it does not provide any commu
 The communication layer has to provide the following functions:
 
 \begin{tabular}{ll}
-    \cinline{disk_initialize} &  Initializes the SD card as described in section \ref{sec:initializing}\\
-    \cinline{disk_readp} & Reads a partial sector at a specific address\\
-    \cinline{disk_writep} & Writes a partial sector at a specific address\\
+    \cinl{disk_initialize} &  Initializes the SD card as described in section \ref{sec:initializing}\\
+    \cinl{disk_readp} & Reads a partial sector at a specific address\\
+    \cinl{disk_writep} & Writes a partial sector at a specific address\\
 \end{tabular}
 
 \subsubsection{Using FatFs}
@@ -159,10 +223,10 @@ The communication layer has to provide the following functions:
     \label{fig:my_label}
 \end{marginfigure}
 
-Before any operations can be done on the SD card, it needs to be mounted with the function  \cinline{pf_mount(FATFS* fs)}, where \cinline{fs} is the working area of FatFs. Since the file to be played should be chosen interactively, all file information has to be read out first. In order to read a directory it has to be opened with \cinline{pf_opendir(DIR* dp, const char* path)}.
+Before any operations can be done on the SD card, it needs to be mounted with the function  \cinl{pf_mount(FATFS* fs)}, where \cinl{fs} is the working area of FatFs. Since the file to be played should be chosen interactively, all file information has to be read out first. In order to read a directory it has to be opened with \cinl{pf_opendir(DIR* dp, const char* path)}.
 
-To read the directory's content, the function \cinline{pf_readdir (DIR* dp, FILINFO* fno)} is used, which reads the next directory entry on each call. %It writes all available file information into *fno. After it read all entries it returns an empty file name. Because there are no variable length arrays C++ for AVR, the number of files has to be determined in order to store their information. That can be done by counting how often \cinline{pf_readdir} returns a valid file name. This information can then be used to allocate a data structure of the correct size.
+To read the directory's content, the function \cinl{pf_readdir (DIR* dp, FILINFO* fno)} is used, which reads the next directory entry on each call. %It writes all available file information into *fno. After it read all entries it returns an empty file name. Because there are no variable length arrays C++ for AVR, the number of files has to be determined in order to store their information. That can be done by counting how often \cinl{pf_readdir} returns a valid file name. This information can then be used to allocate a data structure of the correct size.
 
-In order to reread all directory entries and save their file names and file sizes, the internal directory index has to be rewound by calling \cinline{pf_readdir} and passing a null pointer instead of \cinline{*fno}. All important file information can then be saved by again repeatedly calling \cinline{pf_readdir}. 
+In order to reread all directory entries and save their file names and file sizes, the internal directory index has to be rewound by calling \cinl{pf_readdir} and passing a null pointer instead of \cinl{*fno}. All important file information can then be saved by again repeatedly calling \cinl{pf_readdir}. 
 
-After choosing a file with the interactive menu as described in chapter \ref{ch:user-interface}, the file has to be read in memory. First, the selected file has to be opened with \cinline{pf_open(const char* path)}. After the needed memory has been allocated, the file can be read with \cinline{pf_read(void* buff, UINT btr, UINT *br)}.
+After choosing a file with the interactive menu as described in chapter \ref{ch:user-interface}, the file has to be read in memory. First, the selected file has to be opened with \cinl{pf_open(const char* path)}. After the needed memory has been allocated, the file can be read with \cinl{pf_read(void* buff, UINT btr, UINT *br)}.
