@@ -6,9 +6,49 @@
 
 \section{What is MIDI}
 
-Musical Instrument Digital Interface short MIDI is a protocol for exchanging musical events between devices like synthesizer, keyboards or electrical drums. The first MIDI protocol, MIDI 1.0, appeared 1982. Dave Smith with the cooperation of Ikutaro Kakehashi, developed MIDI. 2013 they were awarded the technical Grammy. Today we use MIDI 2.0.
+\gls{midi} is a protocol for exchanging musical events between devices like synthesizers, keyboards or other electrical instruments. It first appeared as \gls{midi} 1.0 in 1982 and is slowly being replaced by \gls{midi} 2.0, which was introduced in 2020.
 
-We used MIDI because it is the easiest to convert to PWM signals. MIDI is also much smaller than MP3 and WAV so it is perfect for micro-controllers which only have little storage space.
+Instead of describing the sound of a audio, like e.g. MP3 does, MIDI describes the pitch, volume and duration of every tone. This enables high flexibility for music production, while still being easy to use. For this project, the Interrupter will act as a very simple synthesizer which controls the tesla coil to create the described tones.
+
+As opposed to MIDI streams, which connect two or more devices together and lets them connect in real time, the Interrupter will use \glspl{smf}, which are binary files holding \gls{midi} data.
+
+\section{Standard MIDI File}
+
+Most of the information in the following section was taken from \href{http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html}{www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html}.
+
+\glspl{smf} are build up of a header chunk and one or more track chunks. The header chunk stores the file format, number of following track chunks and the divisions\sidenote{The time resolution of the file}. The track chunks then hold the actual \gls{midi} information. How these track chunks have to be read depends on the file format:
+
+\begin{tabular}{cll}
+    \midrule
+    0 & Single Track File Format   & \\
+    1 & Multiple Track File Format & All tracks are played simultaneously\\
+    2 & Multiple Song File Format  & All tracks are played after one another\\
+    \midrule
+\end{tabular}
+
+Every track is a series of delta times with a following \gls{midi}, meta, or sysex event.
+
+\subsection{Delta Time}
+
+Delta times specify the time offset to the previous event. They are encoded as Variable Length Quantities, which means they can take up one to four bytes, depending on their size. The MSB % acronym
+of each byte shows if another byte follows and the remaining 7 bits are the delta time. An example implementation for decoding a Variable Length Quantity in C++ can be seen in listing
+
+\begin{lstlisting}
+uint32_t deltaTime = 0;
+for(uint8_t i = 0; i < 4; i++) {
+    uint8_t byte = nextByte();
+    deltaTime = (deltaTime << 7) | (byte & 0x7F);
+    if(~byte & 0x80) {
+         break;
+    }
+}
+\end{lstlisting}
+
+The delta time is encoded as number of ticks, which by itself is not very useful. To convert the delta time into seconds, both the division and the tempo are needed. The division is part of the header chunk and the tempo can be set with a meta event. Equation \ref{eq:delta-time} shows how those values can be used to calculate the actual time.
+
+\begin{equation}\label{eq:delta-time}
+    \textnormal{time [\textmu s]} = \frac{{\textnormal{tempo} \left[ \frac{\textnormal{\textmu s}}{\textnormal{quarter note}} \right] \cdot \textnormal{delta time } \left[\frac{\textnormal{ticks}}{1}\right]}}{\textnormal{division}  \left[ \frac{\textnormal{ticks}}{\textnormal{quarter note}} \right]}
+\end{equation}
 
 \subsection{META-Event}
 
