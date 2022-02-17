@@ -35,7 +35,7 @@ of each byte shows if another byte follows and the remaining 7 bits are the delt
 
 \begin{lstlisting}
 uint32_t deltaTime = 0;
-for(uint8_t i = 0; i < 4; i++) {
+for (uint8_t i = 0; i < 4; i++) {
     uint8_t byte = nextByte();
     deltaTime = (deltaTime << 7) | (byte & 0x7F);
     if(~byte & 0x80) {
@@ -44,76 +44,39 @@ for(uint8_t i = 0; i < 4; i++) {
 }
 \end{lstlisting}
 
-The delta time is encoded as number of ticks, which by itself is not very useful. To convert the delta time into seconds, both the division and the tempo are needed. The division is part of the header chunk and the tempo can be set with a meta event. Equation \ref{eq:delta-time} shows how those values can be used to calculate the actual time.
+The delta time is the number of ticks, which by itself is not very useful. To convert the delta time into seconds, both the division and the tempo are needed. The division is part of the header chunk and the tempo can be set with a meta event. Equation \ref{eq:delta-time} shows how those values can be used to calculate the actual time.
 
 \begin{equation}\label{eq:delta-time}
     \textnormal{time [\textmu s]} = \frac{{\textnormal{tempo} \left[ \frac{\textnormal{\textmu s}}{\textnormal{quarter note}} \right] \cdot \textnormal{delta time } \left[\frac{\textnormal{ticks}}{1}\right]}}{\textnormal{division}  \left[ \frac{\textnormal{ticks}}{\textnormal{quarter note}} \right]}
 \end{equation}
 
-\subsection{META-Event}
+\subsection{Events}
 
-META-Events are not a necessity to play the music. They show when a track ends or set the tempo. Every META-Event begins with 0xFF, then comes the META-Event type. After the type comes the length of the Meta-Event data. At last comes the actual data. The table below shows most META-Events with the hex index.
+Events are instructions for reconstructing the audio of a song.
 
-\begin{tabular}{|l|l|l|l|}
-    \hline
-        Type & Event & Type & Event \\ \hline
-        0x00 & Sequence number & 0x20 & MIDI channel prefix assignment \\ \hline
-        0x01 & Text event & 0x2F & End of track \\ \hline
-        0x02 & Copyright notice & 0x51 & Tempo setting \\ \hline
-        0x03 & Sequence or track name & 0x54 & SMPTE offset \\ \hline
-        0x04 & Instrument name & 0x58 & Time signature \\ \hline
-        0x05 & Lyric text & 0x59 & Key signature \\ \hline
-        0x06 & Marker text & 0x7F & Sequencer specific event \\ \hline
-        0x07 & Cue point & ~ & ~ \\ \hline
-    \end{tabular}
+\subsubsection{MIDI-Events}
 
-
-\subsection{MIDI-Event}
-
-MIDI-Events carry the actual music data like note on or note off. Every MIDI-Event has an MSB of one. The 4 MSB show the type of the MIDI-Event and the 4 LSB show the MIDI-Channel number. The next one or more bytes show the actual data of the MIDI-Event.
-
-\section{Standard MIDI File}
-
-MIDI files are Binary files. A MIDI file consists of chunks. A chunk begins with 4 ASCII characters after that follow 32 Bit which give the number of bytes in a chunk. MIDI files begin with a header chunk. After the header chunk can be one track chunk or more. The 4 ASCII characters for a header chunk are \textbf{MThd} and for track chunks it is \textbf{MTrk}.
-
-\subsection{Live MIDI ver MIDI Files}
-
-Live MIDI is like a USB connection just another protocol and another cable. MIDI files have all the events in one file and you can play it anywhere if you have the right program.
-
-\begin{center}
-\begin{tabular}{@{}cc@{}}
-\toprule
-\multicolumn{2}{c}{Differences}             \\\midrule
-Live MIDI            & MIDI File            \\
-cable                & file                 \\
-no delta Time        & delta Time           \\\bottomrule
-\end{tabular}
-\end{center}
-\phantom{Hello}
-
-\subsection{Header Chunk}
-
-A header chunk can looks like this.
-
-\begin{tabular}{llll|llll|ll|ll|ll}
-\hline
-4D & 54 & 68 & 64 & 00     & 00     & 00     & 06     & 00           & 00          & 00                                        & 01                                        & 01            & E0           \\ \hline
-M  & T  & h  & d  & \multicolumn{4}{l}{Header Length} & \multicolumn{2}{l}{format} & \multicolumn{2}{l}{\begin{tabular}[c]{|@{}l@{}|}number of \\ track chunks\end{tabular}} & \multicolumn{2}{l}{division}
-\end{tabular}
-
-MThd are the four ASCII characters that define, that this is a header chunk. The next four bytes are the header length. The length is always six bytes long. Next two bytes are format, which can be 0 for single track format, 1 for multiple track format and 2 for multiple song format. Currently we only can play \textbf{single track format}. The 2 bytes after the format are the number of track chunks that come after the header chunk because we currently can only play \textbf{single track format} the program can not play more than 1 track chunk. The last two bytes are the division.
-
-\subsection{Track Chunk}
-
-The track chunks begins like the header chunk with 4 ASCII characters which are \textbf{MTrk}. After the 4 characters comes the 4 bytes long length. The length indicates how many bytes are in the track chunk. At last comes the \textbf{track event}.
-
-A track event starts with the \textbf{delta time}. The delta time is the time between one event to the next event. Then comes which type of event it is. There can be three different event types, \textbf{MIDI event}, \textbf{META event} and \textbf{SYSEX event}. We never needed the \textbf{SYSEX event} so there will not be an explanation for it. If the event type is a META event it begins with 0xFF after that comes which META event it is. Then the length of the META event data. At the end comes the META event data. For example if you have a Track event which is META event for instance \textbf{Set Tempo} and a delta time of 0 and the tempo in set tempo is 666667 microseconds per quarter note. It would look like this.
+\gls{midi}-events contain the actual music information, like \cinl{NOTE_ON} or \cinl{NOTE_OFF}. They consist of a 4-bit identifier, a 4-bit channel, and (in most cases) 2 bytes of data. For the example of \cinl{NOTE_ON} and \cinl{NOTE_OFF}, the first byte of the data contains the note number and the second byte contains the velocity, which can be interpreted as its loudness.
 
 \begin{figure}[h!]
-    \centering
-    \begin{tabular}{|c|c|c|c|c|}
-    0x4D\;\;0x54\;\;0x72\;\;0x6B    & 0x00\;\;0x00\;0x02\;0x22      & 0x00       & 0xFF\;0x51\;0x03             & 0x0A\;0x2C\;0x2B           \\ 
-    \hline
-    MTrk   & 546 bytes & delta Time & Set Tempo & 666667
-    \end{tabular}
+  \centering
+  \begin{bytefield}[bitwidth=1em]{26}
+    \bitbox{1}[bgcolor=gr10]{1} &
+    \bitbox{1}[bgcolor=white]{0} &
+    \bitbox{1}[bgcolor=white]{0} &
+    \bitbox{1}[bgcolor=white]{1} &
+    \bitbox{4}{channel} &
+    \bitbox[]{1}{} &
+    \bitbox{1}[bgcolor=gr10]{0} &
+    \bitbox{7}{note number} &
+    \bitbox[]{1}{} &
+    \bitbox{1}[bgcolor=gr10]{0} &
+    \bitbox{7}{velocity}\\
+  \end{bytefield}
+  \caption{Structure of a NOTE\_ON event}
+  \label{fig:note-on}
 \end{figure}
+
+\subsubsection{Meta-Events}
+
+Non-musical information like song names, lyric texts, tempo settings or end of track are contained is meta events. The most common meta events are \cinl{SET_TEMPO} and \cinl{END_OF_TRACK}, which has to be the last event of every track. Every meta event consists of a \cinl{0xFF}, an identifier and a variable amount of data.

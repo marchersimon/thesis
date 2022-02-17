@@ -1,9 +1,10 @@
 \chapter{Casing}
 
+% Since the tesla coil is intended as a consumer product, the casing plays an important role for its appearance. But apart from optics, there are a lot of safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along playing with open plasma.
+
+% Another point to note is, that the casing was build with modularity in mind. This enables us to repair 
 It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is very important. The simplest of casings often have multiple design stages and variations with different advantages. When designing something as complex and difficult as a tesla coil, the casing is even more rigours to construct. 
 
-\todo[backgroundcolor=blue,
-bordercolor=green!60!white, textcolor=red]{PDF Coil Construction aka Simons Buch auf Telegram}
 
 \section{Concept design}
 
@@ -37,38 +38,65 @@ One kind of material that isn't often used as a casing, especially for commercia
 
 \subsection{Glass}
 
-Glass is an electrical insulator, would not interfere with the magnetic field, has a very high temperature resistance and additionally it has a polished look. It also comes in a variety of opacities and surface finishes making the casing very customizable. The main disadvantage of glass is its high production costs. Due to the tesla coil not being commercial produced, this kind of casing is unsustainable.... for now
+Glass is an electrical insulator, would not interfere with the magnetic field, has a very high temperature resistance and additionally it has a polished look. It also comes in a variety of opacities and surface finishes making the casing very customizable. The main disadvantage of glass is its high production costs. Due to the tesla coil not being commercial produced, this kind of casing is unsustainable... for now.
 
 \subsection{Plastic}
 
-The only remaining option for the type of casings material would be plastic. But plastic is not plastic. The two types of plastic with the highest availability in this case would be \gls{pvcp} and \gls{pmma}. There is also \gls{pvcu} but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability but it can't provide the right characteristics for the tesla coil. One problem with \gls{pvcp} is its water absorption because due to waters diamagnetic properties, it heats up in an oscillating magnetic field i.e. it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma} in comparison has an absorption of 0.4\% at max. \gls{pvcu} on the other hand has an even more ideal water absorption at 0.1\%. Another reason why the casing shouldn't be out of \gls{pvcp} or \gls{pvcu} is its poor temperature resistance, which starts to deform at around 60°C, while \gls{pmma} only starts at about 100°C. \gls{pmma} isn't ideal in anyway but due to its easy availability and better properties 
+The only remaining option for the type of casings material would be plastic. But plastic is not plastic. The two types of plastic with the highest availability in this case would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu} but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability but it can't provide the right characteristics for the tesla coil. One problem with \gls{pvcp} is its water absorption because due to waters diamagnetic properties, it heats up in an oscillating magnetic field i.e. it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma} in comparison has an absorption of 0.4\% at max. \gls{pvcu} on the other hand has an even more ideal water absorption at 0.1\%. The reason why the casing shouldn't be out of \gls{pvcp} or \gls{pvcu} is its poor temperature resistance, which starts to deform at around 60°C\sidecite{blue-bible}, while \gls{pmma} only starts at about 100°C. \gls{pmma} isn't ideal in anyway but due to its easy availability and better properties it was chosen for the casing. 
+
+The most ideal plastic would be \gls{ptfe}\sidenote{also commercially known as Teflon}, which has a maximum of 0.01\% a tenth better than \gls{pvcu}. The temperature resistance is also a lot better than \gls{pmma}, because it can be used at a working temperature of 280°C\sidecite{blue-bible}. The reason \gls{ptfe} wasn't used as a casing, was because of it not being available, but it might be considered in a future build. 
 
 \todo{Welche veraussetzung die materialien haben müssen und warum gewisse nicht in frage kommen. Berechnungen auch Permeabilität \& Permittivität
 https://omnexus.specialchem.com/polymer-properties/properties/water-absorption-24-hours einbinden}
 
 \subsection{Conclusion}
 
+In figure \ref{fig:material-score}, all previously discussed materials are given a rather subjective score from 1 to 10 in the four most important categories. The score in the circle is then determined by the average points of these categories, easily visualizing which material is best suited for the tesla coil. Both \gls{ptfe} and \gls{pmma} have the same total score, but as already mentioned above \gls{ptfe} wasn't used because of the low availability.  
 
-\begin{tabular}[h!]{cc}
-  \materialscore{Metal}{4}{1}{8}{6}{3} & \materialscore{Wood}{5}{6}{2}{7}{6} \\
-  \materialscore{Glass}{7}{9}{9}{1}{10} & \materialscore{PMMA}{8}{8}{6}{9}{7} \\
-  \multicolumn{2}{l}{
-  \begin{tabular}{cl}
-    \\
-    {\color{gr70}\faIcon{magnet}} &  Magnetic and Electrical Properties \\
-    {\color{gr70}\faIcon{fire}} &  Temperature resistance \\
-    {\color{gr70}\faIcon{euro-sign}} &  Machinability and cost \\
-    {\color{gr70}\faIcon{eye}} &  Optics
-  \end{tabular}}
-\end{tabular}
+\begin{figure}[h!]
+    \centering
+    \begin{tabular}{cc}
+      \materialscore{Metal}{4}{1}{8}{6}{3} & \materialscore{Wood}{5}{6}{2}{7}{6} \\
+      \materialscore{Glass}{7}{9}{9}{1}{10} & \materialscore{PMMA}{8}{8}{6}{9}{7} \\
+      \materialscore{PVC-U}{7}{9}{6}{9}{5} & \materialscore{PTFE}{8}{10}{7}{8}{6} \\
+      \multicolumn{2}{l}{
+      \begin{tabular}{cl}
+        \\
+        {\color{gr70}\faIcon{magnet}} &  Magnetic and Electrical Properties \\
+        {\color{gr70}\faIcon{fire}} &  Temperature resistance \\
+        {\color{gr70}\faIcon{euro-sign}} &  Machinability and cost \\
+        {\color{gr70}\faIcon{eye}} &  Optics
+      \end{tabular}}
+    \end{tabular}
+    \caption{Bottom text}
+    \label{fig:material-score}
+\end{figure}
+
+
 
 \section{Structure for the Coils}
 
-\todo{Das Gerüst für die zwei spulen. Steher Desgin und funktion. Spitze mit Kupfer mit Spindel. Vlt erstes design mit Löt}
+
+
+\subsection{Primary Coil}
+
+The primary coil's holding structure consists of six supports, arranged in a hexagonal way. Every support is a triangular shaped slope with an angle of 30°, on top of which the primary coil rests. In order to keep the primary coil in place, small half circles have been cut out for every turn. But to keep the coil's shape the ten slots on each support have to be shifted up by one sixth of the distance between each other.
+
+% 3d image of primary stuff
+
+To avoid gluing the supports to the base plate, a mechanism as shown in figure aaaaaaa has been designed.
+
+% 2d image of stayer with cabel binder
+
+\subsection{Secondary Coil}
+
+The core of the secondary coil was one of the easier parts to design, because it essentially just consists of a 30mm \gls{pmma} tube with a thickness of 3mm. A few millimeters from the top of the tube, a small hole was drilled to bring the wire to the inside and connect it to the top electrode. The 330 turns of 0.35mm wire were then wound by hand and then coated with protective and insulating vanish to prevent the wire from loosening and cross-arcing to occur.
+
+\todo{Das Gerüst für die zwei spulen. Stayer Desgin und funktion.}
 
 \section{It's not a Bug, it's a Feature} % Top Electrode
 
-\todo{der Bug mit der Spitze aka Dach hohenverstellbar und wie. Auch Tests mit verschiedenen Anzahl an Kanten. Und aus was für einen Material, isolierung und so weita}
+\todo{der Bug mit der Spitze aka Dach hohenverstellbar und wie. Auch Tests mit verschiedenen Anzahl an Kanten. Und aus was für einen Material, isolierung und so weita. Spitze mit Kupfer mit Spindel.}
 
 \section{PCB Enclosure}
 

@@ -1,6 +1,16 @@
- \setchapterstyle{kao}
+\setchapterstyle{kao}
 \setchapterpreamble[u]{\margintoc}
- 
- \chapter{Choice of Hardware}
- 
- 
+
+% some intro
+
+\section{Requirements}
+
+\begin{tabular}{llll}
+    MCU & Timer & UART & SPI \\
+    ATtiny85 & 2x8 0x16 & USI only & yes \\
+    ATmega328 & 2x8 1x16 & yes & yes \\
+    ATmega32U4 & 1x8 2x16 & yes & yes \\
+    ATmega2560 & 2x8 4x16 & yes & yes \\
+\end{tabular}
+
+\chapter{Choice of Hardware}
