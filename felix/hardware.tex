@@ -3,14 +3,21 @@
 
 \chapter{Choice of Hardware}
 
-% some intro
+The first logical step to build a \glsunset{midi}\gls{midi} Interrupter is to select the right hardware. The project's budget was quite low and previous experience with microcontroller programming limited to 8-bit AVR \glspl{mcu}, which narrowed down the range of options to only a few controllers. Additionally, \glspl{mcu} which are already part of a development board like an Arduino were preferred, because they don't need an additional programming device.
 
-\section{Requirements}
+The biggest challenge was to find a \gls{mcu} with sufficient PWM capabilities. Each simultaneous played tone requires an independent hardware timer with both variable frequency and duty cycle, ideally 16 bit for better accuracy. Apart from the timers for tone generation, one more timer was needed to control the length of each tone. Because of the way the \gls{midi} protocol works, as explained in chapter \ref{ch:midi}, only one timer is needed for any amount of simultaneous notes. Since the human ear is much more sensitive to slightly wrong frequencies that it is to slightly too short or too long notes, an 8 bit timer should be accurate enough. Table \ref{tab:mcu-selection} shows that only the ATmega2560, part of the Arduino Mega, comes into question because of the low number of 16 bit timers of all others.
 
-\begin{tabular}{llll}
-    MCU & Timer & UART & SPI \\
-    ATtiny85 & 2x8 0x16 & USI only & yes \\
-    ATmega328 & 2x8 1x16 & yes & yes \\
-    ATmega32U4 & 1x8 2x16 & yes & yes \\
-    ATmega2560 & 2x8 4x16 & yes & yes \\
+\begin{margintable}[-5cm]
+\centering
+\caption{List of \glspl{mcu}}
+\labtab{mcu-selection}
+\begin{tabular}{ccc}
+    \multirow{2}*{\textbf{MCU}} & \multicolumn{2}{c}{\textbf{Timer}}\\\cmidrule{2-3}
+           & 8-bit & 16-bit\\\midrule
+    ATtiny85   & 2 & 0 \\
+    ATmega328  & 2 & 1 \\
+    ATmega32U4 & 1 & 2 \\
+    ATmega2560 & 2 & 4 \\
 \end{tabular}
+\end{margintable}
+

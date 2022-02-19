@@ -3,6 +3,50 @@
 
 \setcounter{chapter}{9}
 
+%%% For material score
+\newcommand{\outerradius}{1cm}
+\newcommand{\innerradius}{.75cm}
+\newcommand{\barlength}{2cm}
+\newcommand{\barheight}{1.5mm}
+\newcommand{\barypos}[1]{- \outerradius + #1 * \outerradius / 2 - \outerradius / 4 - \barheight / 2}
+
+\newcommand{\materialscore}[6]{
+\begin{tikzpicture}
+
+    \fill[gr20] (0,0) circle (\outerradius);
+    \fill[gr50] (0,0) -- (0, \outerradius)
+      arc (90:90-36*#2:\outerradius) -- (0,0);
+    \fill[white] (0,0) circle (\innerradius);
+
+     \node[gr70] at (\outerradius + 5mm, \barypos{4} + \barheight / 2) {\faIcon{magnet}};
+     \fill[gr20] (\outerradius + 9mm, \barypos{4}) rectangle ++(\barlength, \barheight);
+     \fill[gr50] (\outerradius + 9mm, \barypos{4}) rectangle ++(\barlength * 0.1 * #3, \barheight);
+
+    \node[gr70] at (\outerradius + 5mm, \barypos{3} + \barheight / 2) {\faIcon{fire}};
+    \fill[gr20] (\outerradius + 9mm, \barypos{3}) rectangle ++(\barlength, \barheight);
+    \fill[gr50] (\outerradius + 9mm, \barypos{3}) rectangle ++(\barlength * 0.1 * #4, \barheight);
+
+    \node[gr70] at (\outerradius + 5mm, \barypos{2} + \barheight / 2) {\faIcon{euro-sign}};
+    \fill[gr20] (\outerradius + 9mm, \barypos{2}) rectangle ++(\barlength, \barheight);
+    \fill[gr50] (\outerradius + 9mm, \barypos{2}) rectangle ++(\barlength * 0.1 * #5, \barheight);
+
+    \node[gr70] at (\outerradius + 5mm, \barypos{1} + \barheight / 2) {\faIcon{eye}};
+    \fill[gr20] (\outerradius + 9mm, \barypos{1}) rectangle ++(\barlength, \barheight);
+    \fill[gr50] (\outerradius + 9mm, \barypos{1}) rectangle ++(\barlength * 0.1 * #6, \barheight);
+
+    \foreach \l in {1,...,4}{
+      \foreach \p in {1,...,9}{
+        \draw[gr20, ultra thick] (\outerradius + 9mm + \barlength / 10 * \p, \barypos{\l}) -- ++(0, \barheight);
+      }
+    }
+
+    \foreach \a in {0,36,72,...,360}{
+      \draw[gr20, ultra thick] (\a+18:\innerradius) -- (\a+18:\outerradius);
+    }
+
+    \node at (\outerradius / 2 + \barlength / 2, \outerradius * 1.25){\large{\textbf{#1}}};
+\end{tikzpicture}}
+
 \include{kassandra/casing}
 \include{kassandra/pcb}
 \include{kassandra/future}
