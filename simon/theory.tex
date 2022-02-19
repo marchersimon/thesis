@@ -33,7 +33,7 @@ There are various circuits which can be used for the excitation of the coil. Dep
 \labfig{sparkGapTeslaCoil}
 \end{marginfigure}
 
-The simplest of all drivers is the spark gap driver. In the first stage, the 230V mains voltage is transformed to a few kilovolts. Neon sign or microwave transformers are popular choices for this task. The capacitor gets charged up until the voltage is high enough to break through the spark gap. The spark gap then has a very low resistance and allows the current to oscillate between the capacitor and the primary coil. This oscillation frequency is usually in the order of ten to hundred kilohertz and is the same frequency as the resonant frequency of the secondary coil. In every cycle, a little energy is transferred to the secondary via the magnetic coupling of the coils. When the voltage in the secondary gets too high, a breakout occurs. This can happen one or more times within a period of the AC mains voltage. Once all the energy in the primary circuit has been transferred to the secondary or dissipated as heat, the spark gap \enquote{quenches} allowing the capacitor to charge up again.
+The simplest and oldest of all drivers is the spark gap driver. In the first stage, the 230V mains voltage is transformed to a few kilovolts. Neon sign or microwave transformers are popular choices for this task. The capacitor gets charged up until the voltage is high enough to break through the spark gap. The spark gap then has a very low resistance and allows the current to oscillate between the capacitor and the primary coil. This oscillation frequency is usually in the order of ten to hundred kilohertz and is the same frequency as the resonant frequency of the secondary coil. In every cycle, a little energy is transferred to the secondary via the magnetic coupling of the coils. When the voltage in the secondary gets too high, a breakout occurs. This can happen one or more times within a period of the AC mains voltage. Once all the energy in the primary circuit has been transferred to the secondary or dissipated as heat, the spark gap \enquote{quenches} allowing the capacitor to charge up again.
 
 Today, spark gap tesla coils are mostly only used for educational purposes anymore. Due to their many \textbf{disadvantages} they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
 
@@ -127,12 +127,58 @@ A big advantage of the bridge design is, that unless a dual resonant design is c
 
 \subsubsection{Class E}
 
-This topology uses a class E RF amplifier to produce the necessary power for driving the primary coil. By utilizing a technique called \gls{zvs} and \gls{zcs}, the dissipated power in the switching device can be drastically reduced, making this type of amplifier nearly 100\% efficient in theory. A class E amplifier is capable of switching very high frequencies, which makes it an ideal driver for smaller tesla coils operating at and above a few MHz.\sidenote{Other conventional power amplifiers are also able to switch such high frequencies, but they need special and very costly power semiconductors.}
+This topology uses a class E amplifier to produce the necessary power for driving the primary coil. By utilizing a technique called \gls{zvs} and \gls{zcs}, the dissipated power in the switching device can be drastically reduced, making this type of amplifier nearly 100\% efficient in theory. A class E amplifier is capable of switching very high frequencies, which makes it an ideal driver for smaller tesla coils operating at and above a few MHz.\sidenote{Other conventional power amplifiers are also able to switch such high frequencies, but they need special and very costly power semiconductors.}
 
 \section{Class E Amplifier}
-The class E amplifier was first introduced by N. O. Sokal and A. D. Sokal in 1975. Since then there have been many attempts to derive  and then simplify analytical design equations.
+
+The problem with conventional class B or C amplifiers is that with increasing switching speed, the efficiency drastically falls. This is because the turn-on and turn-off times become an increasingly large part of the total period with higher frequencies. While the MOSFET transitions from low to high resistance or vice versa, it dissipates a lot of power, when a voltage is applied. By ensuring that the voltage across the switching device is zero during turn-off and turn-on, the class E amplifier aims to solve this problem.
 
 \subsection{Theory of Operation}
+
+The goal of the class E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, and by minimizing its power dissipation. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically simultaneous high current and voltage occur during the switching period, when the switching device has (in theory) non-zero, finite resistance. Therefore this kind of amplifier utilizes a reactive load network, which forces the voltage across the switching device to zero just before turn-on and the current to zero just before turn-off.\sidenote{This technique is commonly called \gls{zvs} / \gls{zcs}.} This also means, that the switching device is no longer used as an amplifier, but rather as a switch and the load network then shapes the output voltage. Figure \ref{fig:class-e-basic} shows the basic class E amplifier and figure \ref{fig:nominal-waveforms} its nominal voltage across and current through the a real MOSFET.
+
+\begin{figure}[h!]
+  \centering
+\begin{circuitikz}
+  \draw (0,0) node[nigfete](nmos){};
+  \ctikzset{capacitors/width=0.075, capacitors/height=0.25}
+  \draw[dashed] ([yshift=-7] nmos.D) -- ++(.35,0) -- ++(0,-.35) node(c1){};
+  \draw (c1) to[C] ++(0,-.35);
+  \draw[dashed] (c1) ++(0,-.35) -- ([yshift=7] c1 |- nmos.S) to[short] ++(-.35,0);
+  \ctikzset{capacitors/width=0.1, capacitors/height=0.4}
+  \draw (nmos.S) node[rground]{};
+  \draw (nmos.D) to[cute choke, twolineschoke, l_=L\textsubscript{1}] ++(0,2) node[vcc]{};
+  \draw (nmos.D) ++(0,.2) to[short,*-] ++(1.5,0) to[C, l=C\textsubscript{1}] ++(0,-1.75) node[rground]{};
+  \ctikzset{resistors/scale=.8}
+  \draw (nmos.D) ++(1.5,.2) to[short,*-] ++(.5,0) to[L, l=L\textsubscript{2}] ++(1,0) to[C, l=C\textsubscript{2}] ++(1,0) -| ++(.5,-.3) to[R, european, l=R\textsubscript{L}] ++(0,-1.45) node[rground]{};
+  \draw[dashed, gray] (nmos.D) ++(-.7,1.75) -- ++(1.5,0) -- ++(0,-.75) node[above right]{Load network} -- ++(3.25,0) -- ++(0,-1.25) -| ++(-1.6,-.8) -| ++(-1.5,1.4) -| ++(-1.65,1.4);
+\end{circuitikz}
+  \caption{Class-E amplifier}
+  \label{fig:class-e-basic}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+      grid=both,
+      ticks=none,
+      ]
+      \addplot table [x=x,y=y,col sep=comma, mark=none] {simon/resources/nominal_voltage.csv};
+      \addlegendentry{Voltage};
+      \addplot table [x=x,y=y,col sep=comma, mark=none, smooth] {simon/resources/nominal_current.csv};
+      \addlegendentry{Current};
+    \end{axis}
+    \draw (0,0) rectangle (3.432,-.25);
+    \node at (1.78,-.125) {\tiny OFF};
+    \draw (3.435,0) rectangle (6.855,-.25);
+    \node at (5.34,-.125) {\tiny ON};
+    \end{tikzpicture}
+    \caption{Nominal Class-E waveforms}
+    \label{fig:nominal-waveforms}
+\end{figure}
+
+
 
 \subsection{The Class-E Amplifier as Tesla Coil Driver}
 
