@@ -1,16 +1,18 @@
 \setchapterstyle{kao}
 \setchapterpreamble[u]{\margintoc}
 
-\chapter{Choice of Hardware}
+\chapter{Hardware and Setup}
+
+\section{The Microcontroller}
 
 The first logical step to build a \glsunset{midi}\gls{midi} Interrupter is to select the right hardware. The project's budget was quite low and previous experience with microcontroller programming limited to 8-bit AVR \glspl{mcu}, which narrowed down the range of options to only a few controllers. Additionally, \glspl{mcu} which are already part of a development board like an Arduino were preferred, because they don't need an additional programming device.
 
-The biggest challenge was to find a \gls{mcu} with sufficient PWM capabilities. Each simultaneous played tone requires an independent hardware timer with both variable frequency and duty cycle, ideally 16 bit for better accuracy. Apart from the timers for tone generation, one more timer was needed to control the length of each tone. Because of the way the \gls{midi} protocol works, as explained in chapter \ref{ch:midi}, only one timer is needed for any amount of simultaneous notes. Since the human ear is much more sensitive to slightly wrong frequencies that it is to slightly too short or too long notes, an 8 bit timer should be accurate enough. Table \ref{tab:mcu-selection} shows that only the ATmega2560, part of the Arduino Mega, comes into question because of the low number of 16 bit timers of all others.
+The biggest challenge was to find an \gls{mcu} with sufficient PWM capabilities. Each simultaneous played tone requires an independent hardware timer with both variable frequency and duty cycle, ideally 16 bit for better accuracy. Apart from the timers for tone generation, one more timer was needed to control the length of each tone. Because of the way the \gls{midi} protocol works, as explained in chapter \ref{ch:midi}, only one timer is needed for any amount of simultaneous notes. Since the human ear is much more sensitive to slightly wrong frequencies that it is to slightly too short or too long notes, an 8 bit timer should be accurate enough. Table \ref{tab:mcu-selection} shows that only the ATmega2560, part of the Arduino Mega, comes into question because of the low number of 16 bit timers of all others.
 
-\begin{margintable}[-5cm]
+\begin{margintable}[-3cm]
 \centering
+\label{tab:mcu-selection}
 \caption{List of \glspl{mcu}}
-\labtab{mcu-selection}
 \begin{tabular}{ccc}
     \multirow{2}*{\textbf{MCU}} & \multicolumn{2}{c}{\textbf{Timer}}\\\cmidrule{2-3}
            & 8-bit & 16-bit\\\midrule
@@ -21,3 +23,6 @@ The biggest challenge was to find a \gls{mcu} with sufficient PWM capabilities. 
 \end{tabular}
 \end{margintable}
 
+\section{Programming Environment}
+
+In order to have the maximum amount of flexibility for configuring the hardware, the programming language C++ was chosen over the Arduino Language\sidenote{Especially because some Arduino libraries tend to break, once the hardware it relies on has been configured manually.}. Instead of creating a Makefile for compiling and uploading to the board, the open-source tool PlatformIO was used, which offers not just one-click compiling and uploading, but also automatic port detection, an integrated serial monitor and much more. Additionally, the whole source code was version controlled by git.

@@ -2,11 +2,12 @@
 
 % Since the tesla coil is intended as a consumer product, the casing plays an important role for its appearance. But apart from optics, there are a lot of safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along playing with open plasma.
 
-% Another point to note is, that the casing was build with modularity in mind. This enables us to repair 
+% Another point to note is, that the casing was build with modularity in mind. This enables to repair 
 It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is very important. The simplest of casings often have multiple design stages and variations with different advantages. When designing something as complex and difficult as a tesla coil, the casing is even more rigours to construct. 
 
 
 \section{Concept design}
+\label{sec:concept-design}
 
 There are four main parts that are important to consider while constructing the tesla coil - the primary coil, the secondary coil, the PCB\sidenote{Printed Circuit Board} and the top electrode. All of those can be placed in anyway possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
 
@@ -76,17 +77,34 @@ In figure \ref{fig:material-score}, all previously discussed materials are given
 
 \section{Structure for the Coils}
 
-
+As already mentioned in section \ref{sec:concept-design} both coils have a fixed position and shape, but to ensure this the casing has to be build based on them. The secondary is easy to support, but the primary has a more unique shape that has to be kept in form. 
 
 \subsection{Primary Coil}
 
 The primary coil's holding structure consists of six supports, arranged in a hexagonal way. Every support is a triangular shaped slope with an angle of 30°, on top of which the primary coil rests. In order to keep the primary coil in place, small half circles have been cut out for every turn. But to keep the coil's shape the ten slots on each support have to be shifted up by one sixth of the distance between each other.
 
-% 3d image of primary stuff
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{kassandra/resources/endeMeinerHoffnung.png}
+    \caption{3D view of the primary supports}
+    \label{fig:primary-supports}
+\end{figure}
 
-To avoid gluing the supports to the base plate, a mechanism as shown in figure aaaaaaa has been designed.
+To avoid gluing the supports to the base plate, a bolt was used as shown in figure \ref{fig:stayer} to keep it in place. This mechanism was mostly designed for testing purposes as it is easier to assemble and disassemble. In a possible future version or commercial release it would be safer if the supports were glued on. Also as shown the supports have a unique design. This was mostly done, to make them look more elegant and not stand out too much. That makes them lighter, but given that the supports are just a small fraction of the tesla coil's weight, it doesn't make much of a difference.
 
-% 2d image of stayer with cabel binder
+\begin{figure}[h!]
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{kassandra/resources/endeMeinerHoffnungInSemi2DStayer.PNG}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{kassandra/resources/endeMeinerHoffnungIn3DStayer.PNG}
+    \end{subfigure}
+    \centering
+    \caption{Fastening of the supports}
+    \label{fig:stayer}
+\end{figure}
 
 \subsection{Secondary Coil}
 
@@ -94,7 +112,9 @@ The core of the secondary coil was one of the easier parts to design, because it
 
 \todo{Das Gerüst für die zwei spulen. Stayer Desgin und funktion.}
 
-\section{It's not a Bug, it's a Feature} % Top Electrode
+\section{Top Electrode}
+
+\subsection{It's not a Bug, it's a Feature}
 
 \todo{der Bug mit der Spitze aka Dach hohenverstellbar und wie. Auch Tests mit verschiedenen Anzahl an Kanten. Und aus was für einen Material, isolierung und so weita. Spitze mit Kupfer mit Spindel.}
 
