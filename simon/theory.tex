@@ -135,7 +135,7 @@ The problem with conventional class B or C amplifiers is that with increasing sw
 
 \subsection{Theory of Operation}
 
-The goal of the class E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, and by minimizing its power dissipation. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically simultaneous high current and voltage occur during the switching period, when the switching device has (in theory) non-zero, finite resistance. Therefore this kind of amplifier utilizes a reactive load network, which forces the voltage across the switching device to zero just before turn-on and the current to zero just before turn-off.\sidenote{This technique is commonly called \gls{zvs} / \gls{zcs}.} This also means, that the switching device is no longer used as an amplifier, but rather as a switch and the load network then shapes the output voltage. Figure \ref{fig:class-e-basic} shows the basic class E amplifier and figure \ref{fig:nominal-waveforms} its nominal voltage across and current through the a real MOSFET.
+The goal of the class E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, and by minimizing its power dissipation. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically simultaneous high current and voltage occur during the switching period, when the switching device has (in theory) non-zero, finite resistance. Therefore this kind of amplifier utilizes a reactive load network, which forces the voltage across the switching device to zero just before turn-on and the current to zero just before turn-off.\sidenote{This technique is commonly called \gls{zvs} / \gls{zcs}.} This also means, that the switching device is no longer used as an amplifier, but rather as a switch\sidenote{This type of amplifier is often referred to as switching mode amplifier} and the load network then shapes the output voltage. Figure \ref{fig:class-e-basic} shows the basic class E amplifier and figure \ref{fig:nominal-waveforms} its nominal voltage across and current through a real MOSFET.
 
 \begin{figure}[h!]
   \centering
@@ -178,6 +178,7 @@ The goal of the class E amplifier is to reach very high efficiencies for frequen
     \label{fig:nominal-waveforms}
 \end{figure}
 
+One big problem with this type of amplifier however, is that the voltage and current quickly exceed the safe operating range of the switching device. The voltage can get up to four times the supply voltage and the current up to three times the supply current. This is however highly dependent on the used duty cycle, which should also be taken into consideration, when designing such an amplifier. However, because this would add a lot of complexity to both the design process and the driver circuit, the duty cycle was defined to be 50\%.
 
 
 \subsection{The Class-E Amplifier as Tesla Coil Driver}

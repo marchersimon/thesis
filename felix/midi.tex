@@ -28,31 +28,9 @@ Most of the information in the following section was taken from \href{http://www
 
 Every track is a series of delta times with a following \gls{midi}, meta, or sysex event.
 
-\subsection{Delta Time}
-
-Delta times specify the time offset to the previous event. They are encoded as Variable Length Quantities, which means they can take up one to four bytes, depending on their size. The MSB % acronym
-of each byte shows if another byte follows and the remaining 7 bits are the delta time. An example implementation for decoding a Variable Length Quantity in C++ can be seen in listing
-
-\begin{lstlisting}
-uint32_t deltaTime = 0;
-for (uint8_t i = 0; i < 4; i++) {
-    uint8_t byte = nextByte();
-    deltaTime = (deltaTime << 7) | (byte & 0x7F);
-    if(~byte & 0x80) {
-         break;
-    }
-}
-\end{lstlisting}
-
-The delta time is the number of ticks, which by itself is not very useful. To convert the delta time into seconds, both the division and the tempo are needed. The division is part of the header chunk and the tempo can be set with a meta event. Equation \ref{eq:delta-time} shows how those values can be used to calculate the actual time.
-
-\begin{equation}\label{eq:delta-time}
-    \textnormal{time [\textmu s]} = \frac{{\textnormal{tempo} \left[ \frac{\textnormal{\textmu s}}{\textnormal{quarter note}} \right] \cdot \textnormal{delta time } \left[\frac{\textnormal{ticks}}{1}\right]}}{\textnormal{division}  \left[ \frac{\textnormal{ticks}}{\textnormal{quarter note}} \right]}
-\end{equation}
-
 \subsection{Events}
 
-Events are instructions for reconstructing the audio of a song.
+Events are instructions for reconstructing the audio of a song. They always consist of an identifier and a variable amount of data. The three types of events are \gls{midi}-Events, Meta-Events, and Sysex-Events, while the latter will not be discussed further, because they are mostly proprietary events from various companies. 
 
 \subsubsection{MIDI-Events}
 
@@ -79,4 +57,89 @@ Events are instructions for reconstructing the audio of a song.
 
 \subsubsection{Meta-Events}
 
-Non-musical information like song names, lyric texts, tempo settings or end of track are contained is meta events. The most common meta events are \cinl{SET_TEMPO} and \cinl{END_OF_TRACK}, which has to be the last event of every track. Every meta event consists of a \cinl{0xFF}, an identifier and a variable amount of data.
+Non-musical information like song names, lyric texts, tempo settings or end of track are contained in meta events. The most common meta events are \cinl{SET_TEMPO} and \cinl{END_OF_TRACK}, which has to be the last event of every track. Every meta event consists of a \cinl{0xFF}, an identifier and a variable amount of data.
+
+\subsection{Delta Time}
+
+Delta times specify the time offset to the previous event. They are encoded as Variable Length Quantities, which means they can take up one to four bytes, depending on their size. The MSB % acronym
+of each byte shows if another byte follows and the remaining 7 bits are the delta time. An example implementation for decoding a Variable Length Quantity in C++ can be seen in listing
+
+\begin{lstlisting}
+uint32_t deltaTime = 0;
+for (uint8_t i = 0; i < 4; i++) {
+    uint8_t byte = nextByte();
+    deltaTime = (deltaTime << 7) | (byte & 0x7F);
+    if(~byte & 0x80) {
+         break;
+    }
+}
+\end{lstlisting}
+
+The delta time is the number of ticks, which by itself is not very useful. To convert the delta time into seconds, both the division and the tempo are needed. The division is part of the header chunk and the tempo can be set with a meta event. Equation \ref{eq:delta-time} shows how those values can be used to calculate the actual time.
+
+\begin{equation}\label{eq:delta-time}
+    \textnormal{time [\textmu s]} = \frac{{\textnormal{tempo} \left[ \frac{\textnormal{\textmu s}}{\textnormal{quarter note}} \right] \cdot \textnormal{delta time } \left[\frac{\textnormal{ticks}}{1}\right]}}{\textnormal{division}  \left[ \frac{\textnormal{ticks}}{\textnormal{quarter note}} \right]}
+\end{equation}
+
+\subsection{Running Status}
+
+One thing all event types have in common is, that their first identifier byte has an \gls{msb} of 1 and their first argument byte has an \gls{msb} of 0. This way, in case the identifier is omitted, the argument is still cleary recognisable as such and cannot be mistaken for the identifier. The running status scheme now allows it to omit the identifier of an event, if it is of the same type as the previous event. For example, after a NOTE\_ON event, consisting of a delta time, an identifier and its argument, a following NOTE\_ON event could only consist of a delta time followed by the argument.
+
+By only by combining this with another trick, which is to turn all NOTE\_OFF events into NOTE\_ON events with a velocity of zero, does this become really useful. Now, for a simple \gls{midi} file, almost the whole file would consist of NOTE\_ON events stringed together and only the first one would need an identifier.
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+  \begin{bytefield}[bitwidth=1.5mm]{32}
+  \bitbox{8}{\small \(\Delta\)Time}&
+  \bitbox{8}{\small N\_ON}&
+  \bitbox{8}{\small Note}&
+  \bitbox{8}{\small Velocity}\\
+  \bitbox{8}{\small \(\Delta\)Time}&
+  \bitbox{8}{\small N\_OFF}&
+  \bitbox{8}{\small Note}&
+  \bitbox{8}{\small Velocity}\\
+  \bitbox{8}{\small \(\Delta\)Time}&
+  \bitbox{8}{\small N\_ON}&
+  \bitbox{8}{\small Note}&
+  \bitbox{8}{\small Velocity}\\
+  \bitbox{8}{\small \(\Delta\)Time}&
+  \bitbox{8}{\small N\_OFF}&
+  \bitbox{8}{\small Note}&
+  \bitbox{8}{\small Velocity}\\
+  \bitbox[]{32}{\(\vdots\)}
+\end{bytefield}
+\end{minipage}%
+    \begin{minipage}{0.1\textwidth}
+      \begin{center}
+        \raisebox{5mm}{\resizebox{5mm}{!}{\(\Rightarrow\)}}
+      \end{center}
+\end{minipage}%
+    \begin{minipage}{0.45\textwidth}
+    \begin{bytefield}[bitwidth=1.5mm]{32}
+      \bitbox{8}{\small \(\Delta\)Time}&
+      \bitbox{8}{\small N\_ON}&
+      \bitbox{8}{\small Note}&
+      \bitbox{8}{\small Velocity}\\
+      \bitbox{8}{\small \(\Delta\)Time}&
+      \bitbox{8}{\small Note}&
+      \bitbox{8}{\small 0}&
+      \bitbox[]{8}{}\\
+      \bitbox{8}{\small \(\Delta\)Time}&
+      \bitbox{8}{\small Note}&
+      \bitbox{8}{\small Velocity}&
+      \bitbox[]{8}{}\\
+      \bitbox{8}{\small \(\Delta\)Time}&
+      \bitbox{8}{\small Note}&
+      \bitbox{8}{\small 0}&
+      \bitbox[]{8}{}\\
+      \bitbox[]{32}{\(\vdots\)}
+      \end{bytefield} 
+\end{minipage}
+    \caption{Running Status}
+    \label{fig:running-status}
+\end{figure}
+
+\section{Simplifying the MIDI files}
+
+To not have to be able to decode every single MIDI message, most of which aren't useful to the \gls{midi}-Interrupter anyways, a tool called \emph{tinymid}\sidenote{Its source code can be found at \href{https://github.com/marchersimon/tinymid}{github.com/marchersimon/tinymid}.} was used. It removes all unnecessary events, moves them to channel 0, converts them to running status if possible, and most importantly, it merges all tracks of a multiple track file into a single track to make it a single track file. For this the whole file has to be decoded at once and all events sorted by their absolute delta time, which would have been much harder to do with the limited libraries and debugging capabilities available for AVR C++.
