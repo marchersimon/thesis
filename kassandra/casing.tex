@@ -9,7 +9,7 @@ It might seem like the casing is not very significant, even though the design an
 \section{Concept design}
 \label{sec:concept-design}
 
-There are four main parts that are important to consider while constructing the tesla coil - the primary coil, the secondary coil, the PCB\sidenote{Printed Circuit Board} and the top electrode. All of those can be placed in anyway possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
+There are four main parts that are important to consider while constructing the tesla coil - the primary coil, the secondary coil, the \gls{pcb} and the top electrode. All of those can be placed in anyway possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
 
 \begin{figure}
     \centering
@@ -19,7 +19,7 @@ There are four main parts that are important to consider while constructing the 
     \label{BD-envision}
 \end{figure}
 
-As seen above the secondary coil is perpendicular and the primary coil is angled at 30°\sidenote{The primary coil design choices have already been explained in the previous part at the end of \ref{TC-designingThePrimary}} to the horizontal. This is the easiest way to calculate and most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeter above the secondary coil. \todo{testing using a longer top electrode}
+As seen above the secondary coil is perpendicular and the primary coil is angled at 30°\sidenote{The primary coil design choices have already been explained in the previous part at the end of \ref{sec:designing-the-primary}} to the horizontal. This is the easiest way to calculate and most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeter above the secondary coil.
 
 Technically the PCB can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry} as long as it can be connected to the coils. But to make transportation the easiest, the casing for the PCB should be right beneath the coils. This way everything needed stays in one place. 
 \todo[backgroundcolor=blue,
@@ -41,7 +41,7 @@ One kind of material that isn't often used as a casing, especially for commercia
 
 Glass is an electrical insulator, would not interfere with the magnetic field, has a very high temperature resistance and additionally it has a polished look. It also comes in a variety of opacities and surface finishes making the casing very customizable. The main disadvantage of glass is its high production costs. Due to the tesla coil not being commercial produced, this kind of casing is unsustainable... for now.
 
-\subsection{Plastic}
+\subsection{Plastics}
 
 The only remaining option for the type of casings material would be plastic. But plastic is not plastic. The two types of plastic with the highest availability in this case would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu} but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability but it can't provide the right characteristics for the tesla coil. One problem with \gls{pvcp} is its water absorption because due to waters diamagnetic properties, it heats up in an oscillating magnetic field i.e. it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma} in comparison has an absorption of 0.4\% at max. \gls{pvcu} on the other hand has an even more ideal water absorption at 0.1\%. The reason why the casing shouldn't be out of \gls{pvcp} or \gls{pvcu} is its poor temperature resistance, which starts to deform at around 60°C\sidecite{blue-bible}, while \gls{pmma} only starts at about 100°C. \gls{pmma} isn't ideal in anyway but due to its easy availability and better properties it was chosen for the casing. 
 
@@ -114,9 +114,24 @@ The core of the secondary coil was one of the easier parts to design, because it
 
 \section{Top Electrode}
 
+Technically the tesla coil would also work without a top electrode by simply using the end of the secondary coil's wire as the arcing point. But given that the wire of the secondary has a small diameter and is made of copper it would likely melt or at least start to deform, when it emits a spark. To ensure the arcing point stays in tact the wire is connected to another material - in this case it's a welding electrode made of a tungsten alloy. 
+
+The holder, that keeps the electrode at the top of the coil is made of two parts. The first as seen in figure \ref{fig:top-electrode} are two copper pieces that are kept together with a thread and in between the wire of the secondary is clamped. There are also two notches on each to enable fastening and opening with a flat wrench. To mount the tungsten electrode, a small fit was drilled into the top surface of the copper piece. 
+
+The second part is a \gls{pmma} piece with another fit a the top this time for the copper piece. On one side there is also a gap to direct the wire of the secondary to the inner part. 
+
+\begin{marginfigure}[-8cm]
+    \centering
+    \includegraphics[width=0.7\textwidth]{kassandra/resources/endeMeinerHoffnungFürBlitz.PNG}
+    \caption{Mounting of the top electrode}
+    \label{fig:top-electrode}
+\end{marginfigure}
+
 \subsection{It's not a Bug, it's a Feature}
 
-\todo{der Bug mit der Spitze aka Dach hohenverstellbar und wie. Auch Tests mit verschiedenen Anzahl an Kanten. Und aus was für einen Material, isolierung und so weita. Spitze mit Kupfer mit Spindel.}
+Because the tesla coil driver was very underdimensioned, the plasma flame forming on the top electrode was very small and often had to be ignited and stabilized by another conductor held close to it. This was realized by placing a second, ancillary electrode over to main electrode. This ancillary electrode is held by a conapy-like structure, resting on three \gls{pmma} rods. It was press fitted into a flat copper cylinder, which was loosely screwed into the cap. This way its height, and therefore the gap between the two electrodes could be changed by turning the ancillary electrode. 
+
+To further examine the effect of the material of the cap, three different versions have been made. One out of \gls{pmma}, and two out of Aluminium, one of which is as smooth as possible and one as pointy as possible.
 
 \section{PCB Enclosure}
 

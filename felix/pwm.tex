@@ -9,17 +9,25 @@ The main task of the \gls{midi}-Interrupter is to create four PWM signals with f
 
 \subsection{Mode of Operation}
 
-The 16 bit timers of the ATmega2560 have five modes of operation. Each one differs in complexity and flexibility. But one common aspect of all of them is the Output Compare Unit. It constantly compares the counter value to the value set in the \cinl{OCRnx} register. When they match the unit can be configured to either generate an interrupt or set, clear or toggle the corresponding \cinl{OCnx} pin.
+The 16 bit timers of the ATmega2560 have five modes of operation. Each one differs in complexity and flexibility. One thing they all have in common however, is the Output Compare Unit. It constantly compares the counter value to the value set in the \cinl{OCRnx} register. When they match the unit can be configured to either generate an interrupt or set, clear or toggle the corresponding \cinl{OCnx} pin.
 
 \begin{enumerate}
     \item The \textbf{Normal Mode} just counts from zero to 2\textsuperscript{16}-1, sets an Overflow flag and jumps back to zero. Because it can only count at a few fixed speeds and because using a Compare Match Unit in this mode is not recommended, it is not capable of producing the desired waveforms.
     \item The \textbf{CTC Mode}, also called \enquote{Clear Timer on Compare Match}, counts up until a Compare Match occurs and then resets to zero. Since the value to compare to can be set by the user, this allows for variable frequencies, however the duty cycle will always be 50\%.
     \item The \textbf{Fast PWM Mode} counts from zero to TOP, which can be set by the user, and then resets back to zero. By setting a Compare Match somewhere between zero and TOP, \cinl{OCRnx} can be set on compare match and cleared at TOP. This way, both a variable frequency and a variable duty cycle can be achieved.\label{itm:fpm}
     \item The \textbf{Phase Correct PWM Mode} counts from zero to TOP and then back to zero. While upcounting, \cinl{OCRnx} will be set on compare match and while downcounting, \cinl{OCRnx} will be cleared. Since one period in this mode is twice as long as in the previous modes, the timer acts like a 17 bit timer, which doubles its accuracy.\label{itm:pcm} % explain why we don't use this mode already
-    \item The \textbf{Phase and Frequency Correct PWM Mode} is almost the same as mode \ref{itm:pcm}, except that it solves one problem. In mode \ref{itm:pcm}, while the timer is e.g. upcounting and almost reached the compare match, but then the compare match is set to a value lower than the current counter value, it will miss the compare match. The timer then counts all the way to TOP without setting \cinl{OCRnx}. The same can happen when changing TOP to a lower value, which makes the timer count to 2\textsuperscript{16}-1. This mode waits until the current period is finished and only updates the compare match or TOP value when the counter value reached zero.\label{itm:pfcm}
+    \item The \textbf{Phase and Frequency Correct PWM Mode} is almost the same as mode \ref{itm:pcm}, except that \cinl{OCRnx} and TOP are updated on BOTTOM instead of on TOP.\label{itm:pfcm}
 \end{enumerate}
 
-To summarize, modes \ref{itm:fpm}, \ref{itm:pcm}, and \ref{itm:pfcm} would be able to generate the desired waveforms. However, mode \ref{itm:fpm} has a lower accuracy than the others and mode \ref{itm:pcm} has issues with glitches when regularly updating the \cinl{OCRnx} and TOP values. So the mode which will be used is the \textbf{Phase and Frequency Correct PWM Mode}. Its timing diagram can be seen in figure \ref{fig:timer_diagram}.
+Both mode \ref{itm:pcm} and \ref{itm:pfcm} have the option to either use \cinl{ICRn} or \cinl{OCRnA} as TOP. \cinl{ICRn} is not double buffered, which means, that its value will be updated immediately, when it is written. This could lead to issues, when e.g. the timer is upcounting and TOP is set to a value lower then the counter value. The timer will then miss TOP and count all the way to 2\textsuperscript{16}-1, which has an impact on the generated PWM signal. To mitigate this issue, a double bufferd register like \cinl{OCRnA} can be used. In this case, TOP won't be updated until the timer reaches either TOP in mode \ref{itm:pcm} or BOTTOM in mode \ref{itm:pfcm}. The disadvantage of using \cinl{OCRnA} is that it's not possible anymore to use the Output Compare Unit A. This isn't a problem however, since only one PWM signal per timer is needed.
+
+To summarize, modes \ref{itm:fpm}, \ref{itm:pcm}, and \ref{itm:pfcm} would be able to generate the desired waveforms. However, modes \ref{itm:pcm} and \ref{itm:pfcm} are twice as accurate as mode \ref{itm:fpm}. Despite their names \enquote{Phase correct} and \enquote{Phase and Frequency correct}, the latter mode isn't more frequency correct than the former. They can both be equally correct or incorrect depending on if the TOP register is double buffered. There is practically no difference between those two, except for the time, the registers are updated. The data sheet however states that
+
+\begin{displayquote}
+\enquote{\emph{It is recommended to use the phase and frequency correct mode instead of the phase correct mode when changing the TOP value while the Timer/Counter is running.}}
+\end{displayquote}
+
+Since this is the case for the \gls{midi}-Interrupter, the \textbf{Phase and Frequency Correct PWM Mode} was chosen. Its timing diagram can be seen in figure \ref{fig:timer_diagram}.
 
 \begin{figure}[h!]
     \centering
@@ -44,7 +52,7 @@ Note that the maximum frequency is not actually the highest frequency possible f
         256 & 62.5 kHz & 16 \textmu s & 0.48 Hz & 625 Hz \\
         1024 & 15.625 kHz & 64 \textmu s & 0.12 Hz & 156 Hz \\
     \end{tabular}
-    \caption{AAAAA}
+    \caption{Prescalers}
     \label{tab:prescaler}
 \end{table}
 
@@ -58,7 +66,7 @@ Each Timer has three output compare units - A, B, and C - which each have their 
 \centering
 \label{tab:compare-pins}
 \caption{Output compare pins}
-\begin{tabular}{lr}
+\begin{tabular}{cc}
     \textbf{MCU pin} & \textbf{Arduino pin}\\\midrule
     OC1B & 12\\
     OC3B & 2\\
@@ -95,6 +103,7 @@ PWMTimer::PWMTimer(uint16_t _ocnb_port_addr,
 }
 
 void PWMTimer::start(uint16_t freq, uint8_t duty_cycle) {
+    isFree = false;
     uint16_t top = 1000000 / freq;
     _SFR_MEM16(top_addr) = top;
     _SFR_MEM16(com_addr) = top * duty_cycle / 100;
@@ -107,7 +116,65 @@ void PWMTimer::stop() {
     while(_SFR_MEM16(TCNTn_addr) < (top * duty_cycle / 100));
     // Set prescaler to 0 to stop the timer
     _SFR_MEM8(TCCRnB_addr) &= ~(1 << CSn1);
+    isFree = true;
 }
 \end{lstlisting}
 
+Each timer is its own instance of the \cinl{PWMTimer} class. To still be able to access all registers, the register addresses were passed to the constructor. Instead of writing e.g. \cinl{DDRB}, which is just defined as \cinl{_SFR_MEM8(0x24)}, the macros \cinl{_SFR_MEM8} and \cinl{_SFR_MEM16} are used directly with the register address.
+
+To ensure, that \cinl{OCnx} is low when the timer turns off, which will be important in section \ref{sec:signal-combinaton}, the turn-off will be delayed until the counter value is bigger than \cinl{OCRnx}, which means that \cinl{OCnx} has been cleared.
+
+Having to start and stop every timer manually is still a bit tedious, so an additional layer of abstraction was created. This layer was implemented as a namespace, which can be seen of as a singleton, because it doesn't have to be instantiated.
+
+\begin{lstlisting}[caption=PWM namespace, label=lst:pwm-namespace]
+namespace PWM {
+	namespace {
+		PWMTimer timers[4];
+	}
+	void init();
+	void start(uint16_t freq, uint8_t dc = 20);
+	void stop(uint16_t freq);
+}
+
+void PWM::init() {
+    timers[0] = PWMTimer(/* List of register addresses */);
+	timers[1] = PWMTimer(/* List of register addresses */);
+	timers[2] = PWMTimer(/* List of register addresses */);
+	timers[3] = PWMTimer(/* List of register addresses */);
+}
+
+void PWM::start(uint16_t freq, uint8_t dc) {
+    // Start the first free timer
+    for(PWMTimer & timer : timers) {
+        if(timer.isFree) {
+            timer.start(freq, dc);
+            break;
+        }
+    }
+}
+
+void PWM::stop(uint16_t freq) {
+    // Stop the timer playing this frequency
+    for(PWMTimer & timer : timers) {
+        if(timer.freq == freq) {
+            timer.stop();
+            break;
+        }
+    }
+}
+\end{lstlisting}
+
+Unfortunately, most C++ standard libraries aren't available for the AVR platform, so instead of storing the timers in a \cinl{std::vector<PWMTimer>}, they had to be stored in a fixed-size C array.
+
+This namespace allows very easy control over the timers like shown in listing \ref{lst:pwm-namespace-usage}.
+
+\begin{lstlisting}[caption=PWM namespace usage, label=lst:pwm-namespace-usage]
+PWM::start(500); // Starts Timer 1
+PWM::start(600); // Starts Timer 2
+PWM::stop(500);  // Stops  Timer 1
+PWM::start(700); // Starts Timer 1
+PWM::start(800); // Starts Timer 3
+\end{lstlisting}
+
 \section{Signal Combination}
+\label{sec:signal-combination}
