@@ -1,21 +1,24 @@
 \chapter{Printed Circuit Board}
 
-\glspl{pcb} were an essential part of this project. At frequencies of a few MHz, breadboards can cause issues because of parasitic inductance and capacitance. Also, a lot of components were only available as \glspl{smd}, so prototyping on breadboards wouldn't have been possible anyways. For every prototype a new \gls{pcb} had to be etched, soldered and tested.
+\glspl{pcb} played an essential role in this project. Because breadboards and other prototyping techniques tend to cause issues with parasitic inductance and capacitance and don't work with \gls{smd} components, \glspl{pcb} were the only way of connecting the components. Once a \gls{pcb} has been produced, it works reliable and usually don't add any erratic effects. On the downside, however, \glspl{pcb} take a lot of time to design, etch, and solder and once they're manufactured, they're very inflexible. This means that for every prototybe, a new \gls{pcb} had to be made.
 
 \section{Component Selection}
 
-Because almost none of the needed components where on hand in the school laboratories, they had to be ordered online\sidenote{The component reseller of choice was Digi-Key}. Due to the special requirements of some parts, like the MOSFET or the VCO, they were rather hard to find and some compromises had to be made.
-For example, many of the needed components were only available as \glspl{smd}, which made prototyping a lot harder. 
+Because almost none of the needed components where on hand in the school laboratories, they had to be ordered online. Due to the special requirements of some parts, like the MOSFET or the \gls{vco}, they were rather hard to find and either very costly or came in an impractical package.
+
+Since all the key components were only available as \glspl{smd}, most of the other components were also shifted to \gls{smt} for consistency.
+
 
 \subsection{ICs}
 
-When searching up the needed semiconductor parts, there was hardly any choice in terms of the packages. Therefore the board design changed to be smaller with less \gls{tht} parts.
+Most of the ICs were only available in one package and didn't leave much flexibility. The MOSFET driver, \gls{vco}, latch, AND gate and MOSFET for the phototransistor came in standard SOT and SOIC packages which were easy to solder, since they have the pins on their side. The class E MOSFET and the voltage regulator however were a bit more troublesome, because their packages had a big metal area on the underside, which was only indented for one-time reflow soldering. Especially the class E MOSFET however, needed to be replaced multiple times during the testing process.
 
 \subsection{Passive Elements}
 
+All capacitors and resistors have been ordered in a 0805 package, because it's not too big, but just big enough to be easy to work with. The small size compared to \glspl{thd} does however negatively affect the power rating of resistors and the voltage rating of capacitors, so it had to be made sure, that they still operated within the safe operating range. For the capacitors, X7R devices had been chosen, which means that their operating temperature ranges from -55\textdegree C to 125\textdegree C with at most 15\% capacitance change over this range\textsuperscript{\sidecite{epci}}.
 
+%\subsection{Connectors}
 
-\subsection{Connectors}
 
 
 % Took some time to find all components
@@ -46,8 +49,8 @@ When searching up the needed semiconductor parts, there was hardly any choice in
 
 \section{Physical arrangement}
 
+
+
 \section{PCB Layout}
 
 %\section{Manufacturing}
-
-%\section{life time calculation}

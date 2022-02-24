@@ -14,7 +14,7 @@ As opposed to MIDI streams, which connect two or more devices together and lets 
 
 \section{Standard MIDI File}
 
-Most of the information in the following section was taken from \href{http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html}{www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html}.
+Most of the information in the following section was taken from \sidecite{midi-spec}.
 
 \glspl{smf} are build up of a header chunk and one or more track chunks. The header chunk stores the file format, number of following track chunks and the divisions\sidenote{The time resolution of the file}. The track chunks then hold the actual \gls{midi} information. How these track chunks have to be read depends on the file format:
 

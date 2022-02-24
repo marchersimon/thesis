@@ -125,17 +125,14 @@ This design is often used for medium-sized to large tesla coils due to its high 
 
 A big advantage of the bridge design is, that unless a dual resonant design is chosen, the switching frequency is only determined by the circuit driving the bridge. This allows it to work across a very wide range of frequencies and even follow the slightly changing resonant frequency of the secondary coil in real time.
 
-\subsubsection{Class E}
-
-This topology uses a class E amplifier to produce the necessary power for driving the primary coil. By utilizing a technique called \gls{zvs} and \gls{zcs}, the dissipated power in the switching device can be drastically reduced, making this type of amplifier nearly 100\% efficient in theory. A class E amplifier is capable of switching very high frequencies, which makes it an ideal driver for smaller tesla coils operating at and above a few MHz.\sidenote{Other conventional power amplifiers are also able to switch such high frequencies, but they need special and very costly power semiconductors.}
 
 \section{Class E Amplifier}
 
-The problem with conventional class B or C amplifiers is that with increasing switching speed, the efficiency drastically falls. This is because the turn-on and turn-off times become an increasingly large part of the total period with higher frequencies. While the MOSFET transitions from low to high resistance or vice versa, it dissipates a lot of power, when a voltage is applied. By ensuring that the voltage across the switching device is zero during turn-off and turn-on, the class E amplifier aims to solve this problem.
+The problem with conventional class B or C amplifiers is that with faster switching speed, the efficiency falls drastically. This is because, with increasing frequencies, the turn-on and turn-off times become an increasingly large part of the total period. While the MOSFET transitions from low to high resistance or vice versa, it dissipates a lot of power, when a voltage is applied. By ensuring that the voltage across the switching device is zero during turn-off and turn-on, the class E amplifier aims to solve this problem.
 
 \subsection{Theory of Operation}
 
-The goal of the class E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, and by minimizing its power dissipation. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically simultaneous high current and voltage occur during the switching period, when the switching device has (in theory) non-zero, finite resistance. Therefore this kind of amplifier utilizes a reactive load network, which forces the voltage across the switching device to zero just before turn-on and the current to zero just before turn-off.\sidenote{This technique is commonly called \gls{zvs} / \gls{zcs}.} This also means, that the switching device is no longer used as an amplifier, but rather as a switch\sidenote{This type of amplifier is often referred to as switching mode amplifier} and the load network then shapes the output voltage. Figure \ref{fig:class-e-basic} shows the basic class E amplifier and figure \ref{fig:nominal-waveforms} its nominal voltage across and current through a real MOSFET.
+The goal of the class E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, by minimizing its power dissipation. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically, simultaneous high current and voltage occur during the switching process, when the switching device has non-zero, finite resistance. Therefore this kind of amplifier utilizes a reactive load network, which forces the voltage across the switching device to zero just before turn-on and the current to zero just before turn-off.\sidenote{This technique is commonly called \gls{zvs} / \gls{zcs}.} This also means, that the switching device is no longer used as an amplifier, but rather as a switch\sidenote{This type of amplifier is often referred to as switching mode amplifier} and the load network then shapes the output voltage. Figure \ref{fig:class-e-basic} shows the basic class E amplifier and figure \ref{fig:nominal-waveforms} its nominal voltage across and current through a real MOSFET.
 
 \begin{figure}[h!]
   \centering
@@ -172,7 +169,7 @@ The goal of the class E amplifier is to reach very high efficiencies for frequen
     \draw (0,0) rectangle (3.432,-.25);
     \node at (1.78,-.125) {\tiny OFF};
     \draw (3.435,0) rectangle (6.855,-.25);
-    \node at (5.34,-.125) {\tiny ON};
+    \node at (5.145,-.125) {\tiny ON};
     \end{tikzpicture}
     \caption{Nominal Class-E waveforms}
     \label{fig:nominal-waveforms}
@@ -182,6 +179,10 @@ One big problem with this type of amplifier however, is that the voltage and cur
 
 
 \subsection{The Class-E Amplifier as Tesla Coil Driver}
+
+So far, the class E amplifier has only been discussed for driving purely resistive loads. A tesla resonator however is everything but that. When taking into account factors like mutual inductance, the stray capacitances of the secondary coil, and the feedback from the secondary coil in general, it is impossible to assign a single impedance value to the load that holds true for more than a single frequency. Ideally, all harmonics should have been filtered out by the time they would have reached the tesla resonator, but in reality, the few harmonics which make their way through make it impossible to form an equivalent circuit.
+
+Luckily, there are already well-documented projects about class-E tesla coils online, like the ones from Eirik Taylor\textsuperscript{\sidecite{uzzors2k}}, Richie Burnett\textsuperscript{\sidecite[-3mm]{richieburnett}}, or Steve Ward\textsuperscript{\sidecite[-3mm]{steveward}}.
 
 \section{Musical Tesla Coils}
 

@@ -76,7 +76,7 @@ This limitation can be bypassed by making the primary coil smaller at the bottom
 
 \subsection{Simulating the Coupling Coefficient}
 
-In order to simulate the resonant transformer in LTspice\sidenote{The analog electronic circuit simulator used for this project}, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. The simulation tool EleFAnT2D\sidenote{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed IGTE, TU Graz} was used to simulate the magnetic flux in the system. The coupling coefficient can be described as
+In order to simulate the resonant transformer, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. The simulation tool EleFAnT2D\sidenote{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed IGTE, TU Graz} was used to simulate the magnetic flux in the system. The coupling coefficient can be described as
 
 \begin{equation}
     k = \frac{\Phi_{ind}}{\sqrt{\Phi_P \cdot \Phi_S}}
@@ -110,15 +110,15 @@ As expected, the coupling factor gets smaller the farther away the primary coil 
 
 \section{The Class-E Stage}
 
+
+
 \section{The Interrupter}
 
 \subsection{Fiber Optic Receiver}
 
-
-
 \subsection{MOSFET protection circuit}
 
-Directly applying the interrupting technique to the class E circuit by just turning it on and off at any given moment would violate both the ZVS and ZCS conditions. In the worst case, switching the MOSFET on when the voltage is at its maximum and turning it off when the current is at its maximum a few thousand times a second would result in huge switching losses and device failure. Therefore a security mechanism has to be implemented.
+Directly applying the interrupting technique to the class E circuit by just turning it on and off at any given moment would violate both the \gls{zvs} and \gls{zcs} conditions. In the worst case, switching the MOSFET on when the voltage is at its maximum and turning it off when the current is at its maximum a few thousand times a second would result in huge switching losses and device failure. Therefore a security mechanism has to be implemented.
 
 One solution is to sample the interrupter signal and only apply it on every falling edge of the 4MHz base signal. The sampling could be done with a falling-edge triggered D-type flip-flop, whose output gets fed into an AND gate along with the base signal.
 
