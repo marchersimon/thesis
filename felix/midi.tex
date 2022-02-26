@@ -55,6 +55,12 @@ Events are instructions for reconstructing the audio of a song. They always cons
   \label{fig:note-on}
 \end{figure}
 
+The 7-bit note number can range from 0 to 127, which corresponds to the musical notes C-1 to G9. For reference, a common 88-key piano ranges from A0 to C8 (note numbers 21 to 108). To convert this note number into a usable frequency, equation \ref{eq:note-number} can be used.
+
+\begin{equation}\label{eq:note-number}
+    f = 440 \cdot 2^{\frac{n - 69}{12}}
+\end{equation}
+
 \subsubsection{Meta-Events}
 
 Non-musical information like song names, lyric texts, tempo settings or end of track are contained in meta events. The most common meta events are \cinl{SET_TEMPO} and \cinl{END_OF_TRACK}, which has to be the last event of every track. Every meta event consists of a \cinl{0xFF}, an identifier and a variable amount of data.

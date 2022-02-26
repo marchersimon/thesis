@@ -110,8 +110,43 @@ As expected, the coupling factor gets smaller the farther away the primary coil 
 
 \section{The Class-E Stage}
 
+As already explained in aaaaa, it is everything but trivial to design a class E amplifier to drive a tesla resonator. However, for the sake of demonstration, the following subsection will go through the design process of a class E amplifier with an ohmic load.
 
+\subsection{The Design Process}
 
+Nathan Sokal, who popularized the class-E amplifier along with Alan Sokal, presented a set of design equations in 2001 \sidecite{sokal-qex}. Unlike previously published equations, they include the dependence of the loaded Q factor\sidenote{It describes how damped a resonator is, or in other words, how quickly it dissipates its oscillating energy.} as well as on the output power.
+
+The goal of this amplifier is to create 50W of output power with a load of 22\(\Omega\) at a frequency of 4MHz. The Q factor of the load will be assumed as 5, since this is a common starting value. The switching device will be a MOSFET, so the saturation voltage used in the equations can be set to zero. The necessary supply voltage can then be calculated as
+
+\begin{equation*}
+    V_{CC} = \sqrt{R \cdot P \cdot 1.7337 \cdot \frac{1}{1.001245 - \frac{0.451759}{Q_L} - \frac{0.402444}{Q_L^2}}}\textnormal{ ,}
+\end{equation*}
+
+which turns out to be 46.17V. The expected peak drain-source voltage on the MOSFET is 3.56 times the supply voltage plus a safety factor of around 20\%, which means that the MOSFET has to have a drain-source breakdown voltage of at least 197V. By assuming \(L_1\) to be 130\(\mu\)H, \(C_1\), \(C_2\), and \(L_2\) can be calculated with
+
+\begin{equation*}
+    C_1 = \frac{1}{34.2\cdot f R} \cdot \left( 1 + \frac{0.914}{Q_L} - \frac{1.03}{Q_L^2} \right) + \frac{0.6}{(2 \pi f)^2  \cdot L_1} = 387 pF\textnormal{ ,}
+\end{equation*}
+
+\begin{equation*}
+    C_2 = \frac{1}{2 \pi  f  R} \cdot \frac{1}{Q_L - 0.105} \cdot \left( 1 + \frac{1.01}{Q_L - 1.79} \right) - \frac{0.2}{(2 \pi f)^2 \cdot L_1} = 482pF \textnormal{ , and}
+\end{equation*}
+
+\begin{equation*}
+    L_2 = \frac{Q_L \cdot R}{2 \pi f} = 4.38\mu H\textnormal{ .}
+\end{equation*}
+    
+As recommended in \sidecite{sokal-qex}, the impedance \(X_{L1}\) is at least 30 times greater than the impedance \(X_{C1}\) at the operating frequency. The value for \(C_1\) actually is the sum of the component \(C_1\) and the MOSFET's output capacitance. This means that the MOSFET has to have
+
+\begin{itemize}
+    \item a drain-source breakdown voltage greater than 197V,
+    \item an output capacitance less than 387pF,
+    \item switching times much smaller than 250ns, and
+    \item a maximum power dissipation of at least 5W.
+\end{itemize}
+
+One MOSFET which meets all these criteria is the BSC12DN20. It has a drain-source breakdown voltage of 200V, an output capacitance of 39pF, turn-off and turn-on times of less than 5 ns and a maximum power dissipation of 50W.
+    
 \section{The Interrupter}
 
 \subsection{Fiber Optic Receiver}

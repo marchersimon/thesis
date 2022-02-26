@@ -21,13 +21,14 @@ There are four main parts that are important to consider while constructing the 
 
 As seen above the secondary coil is perpendicular and the primary coil is angled at 30°\sidenote{The primary coil design choices have already been explained in the previous part at the end of \ref{sec:designing-the-primary}} to the horizontal. This is the easiest way to calculate and most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeter above the secondary coil.
 
-Technically the PCB can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry} as long as it can be connected to the coils. But to make transportation the easiest, the casing for the PCB should be right beneath the coils. This way everything needed stays in one place. 
+Technically the \gls{pcb} can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry} as long as it can be connected to the coils. But to make transportation the easiest, the casing for the \gls{pcb} should be right beneath the coils. This way everything needed stays in one place. 
 
 \section{Materials}
 
 Deciding which materials to use is also a tedious task, because there are a lot of details and possibilities that have to be considered when designing a tesla coil. The best working material is determined by many factors, most being ones that affect the coils directly and therefore being unsuitable but others are scrapped because their low availability or costly construction.
 
 \subsection{Metals}
+\label{subsec:materials-metals}
 
 Metal is a popular choice for building high-grade casings, because of it's low price and good machinability. However for a tesla coil metals are rather unsuitable, mainly because of their electrical conductivity, which would pose an unnecessary safety risk to the user when touched. One one side, because some internal connection error could be lethal in the worst case, but also because if not properly grounded, static electricity could build up in the casing and shock everyone touching it. Another important factor is, that metals have a very high permeability, so they weaken any magnetic field. This wouldn't be a big problem for the \gls{pcb} enclosure, but would most certainly cause issues when used around the primary or secondary coil.
 
@@ -128,7 +129,7 @@ The second part is a \gls{pmma} piece with another fit a the top this time for t
 
 \subsection{It's not a Bug, it's a Feature}
 
-Because the tesla coil driver was very underdimensioned, the plasma flame forming on the top electrode was very small and often had to be ignited and stabilized by another conductor held close to it. This was realized by placing a second, ancillary electrode over to main electrode. This ancillary electrode is held by a conapy-like structure, resting on three \gls{pmma} rods. It was press fitted into a flat copper cylinder, which was loosely screwed into the cap. This way its height, and therefore the gap between the two electrodes could be changed by turning the ancillary electrode. 
+Because the tesla coil driver was very underdesigned, the plasma flame forming on the top electrode was very small and often had to be ignited and stabilized by another conductor held close to it. This was realized by placing a second, ancillary electrode over to the main electrode. This ancillary electrode is held by a conapy-like structure, resting on three \gls{pmma} rods. It was press fitted into a flat copper cylinder, which was loosely screwed into the cap. This way its height, and therefore the gap between the two electrodes could be changed by turning the ancillary electrode. 
 
 \begin{marginfigure}[-3cm]
     \centering
@@ -139,22 +140,132 @@ Because the tesla coil driver was very underdimensioned, the plasma flame formin
 
 To further examine the effect of the material of the cap, three different versions have been made. One out of \gls{pmma}, and two out of Aluminium, one of which is as smooth as possible and one as pointy as possible.
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.3\textwidth]{kassandra/resources/mirGehtsSuperDankeSmooth.png}
-    \caption{Smooth Cap}
-    \label{fig:smooth-holder}
+    \label{fig:caps}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{kassandra/resources/mirGehtsSuperDankeSmooth.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{kassandra/resources/mirGehtsSuperDankeEdgy.png}
+    \end{subfigure}
+    \caption{Smooth and Pointy Cap}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.3\textwidth]{kassandra/resources/mirGehtsSuperDankeEdgy.png}
-    \caption{Pointy Cap}
-    \label{fig:edgy-holder}
-\end{figure}
-
-ok i gebs auf
+While in section \ref{subsec:materials-metals} it was explained, that metals pose a safety hazard, this isn't quite true for the secondary side of the tesla coil. Despite the high voltages of up to several kilovolts present at the top electrode, it is relatively safe to touch. This is because as soon as a low-resistance path to ground, like a human, opens for the current, the voltage drops to a very low level, which means, that the resulting current can't do any harm, besides the usual burned skin.
 
 \section{PCB Enclosure}
 
+The general placement of the \gls{pcb}, being right beneath the coils was already addressed in the section \ref{sec:concept-design}. The platform where the secondary coil and the supports for the primary coil are mounted was already designed and chosen to be hexagon-shaped, mostly because it works the best with the six supports. To again keep everything as modular as possible, the prototype has the platform resting on top of six pillars. The prototype also has only the most important features and so only consists of a framework, this also makes it easier to access the inside of the \gls{pcb} enclosure. In the final design it would be completely closed off and the platform would be glued on as with the primary coil's supports. % mention that there are two PCBs
+
+As will be explained in section \ref{sec:physical-arrangement}, the electronic circuit are split up in two \glspl{pcb}. The side \gls{pcb} manages all of the connections to the peripheral components, like the power plug, fiber optic cable, etc.
+
+\subsection{Main PCB}
+
+The hexagonal main \gls{pcb} was placed in the center of the enclosure right under the secondary, mostly to balance the design. To ensure that the circuit can also emit heat on the bottom side, it can't be mounted directly onto the enclosure and therefore has to be raised up by a few millimeters. This is done by six steps on which the \gls{pcb} is screwed onto. 
+
+\subsection{Side PCB}
+
 \todo{warum hexgon? - looks nice - no}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+es is net zum aushalten 
