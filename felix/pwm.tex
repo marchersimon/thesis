@@ -24,7 +24,7 @@ Both mode \ref{itm:pcm} and \ref{itm:pfcm} have the option to either use \cinl{I
 To summarize, modes \ref{itm:fpm}, \ref{itm:pcm}, and \ref{itm:pfcm} would be able to generate the desired waveforms. However, modes \ref{itm:pcm} and \ref{itm:pfcm} are twice as accurate as mode \ref{itm:fpm}. Despite their names \enquote{Phase correct} and \enquote{Phase and Frequency correct}, the latter mode isn't more frequency correct than the former. They can both be equally correct or incorrect depending on if the TOP register is double buffered. There is practically no difference between those two, except for the time, the registers are updated. The data sheet however states that
 
 \begin{displayquote}
-\enquote{\emph{It is recommended to use the phase and frequency correct mode instead of the phase correct mode when changing the TOP value while the Timer/Counter is running.}}
+\enquote{It is recommended to use the phase and frequency correct mode instead of the phase correct mode when changing the TOP value while the Timer/Counter is running.}
 \end{displayquote}
 
 Since this is the case for the \gls{midi}-Interrupter, the \textbf{Phase and Frequency Correct PWM Mode} was chosen. Its timing diagram can be seen in figure \ref{fig:timer_diagram}.
