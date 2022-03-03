@@ -64,8 +64,7 @@ Each Timer has three output compare units - A, B, and C - which each have their 
 
 \begin{margintable}
 \centering
-\label{tab:compare-pins}
-\caption{Output compare pins}
+\caption{Output compare pins\label{tab:compare-pins}}
 \begin{tabular}{cc}
     \textbf{MCU pin} & \textbf{Arduino pin}\\\midrule
     OC1B & 12\\
@@ -122,7 +121,7 @@ void PWMTimer::stop() {
 
 Each timer is its own instance of the \cinl{PWMTimer} class. To still be able to access all registers, the register addresses were passed to the constructor. Instead of writing e.g. \cinl{DDRB}, which is just defined as \cinl{_SFR_MEM8(0x24)}, the macros \cinl{_SFR_MEM8} and \cinl{_SFR_MEM16} are used directly with the register address.
 
-To ensure, that \cinl{OCnx} is low when the timer turns off, which will be important in section \ref{sec:signal-combinaton}, the turn-off will be delayed until the counter value is bigger than \cinl{OCRnx}, which means that \cinl{OCnx} has been cleared.
+To ensure, that \cinl{OCnx} is low when the timer turns off, which will be important in section \ref{sec:signal-combination}, the turn-off will be delayed until the counter value is bigger than \cinl{OCRnx}, which means that \cinl{OCnx} has been cleared.
 
 Having to start and stop every timer manually is still a bit tedious, so an additional layer of abstraction was created. This layer was implemented as a namespace, which can be seen of as a singleton, because it doesn't have to be instantiated.
 
