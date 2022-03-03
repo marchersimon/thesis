@@ -178,14 +178,13 @@ Figure \ref{fig:class-e-res} shows the MOSFET waveforms after \(20\,\mu s\), whe
         scaled ticks = false,
         x filter/.code=\pgfmathparse{#1 * 1000000000 - 74},
         ]
-        \addplot+[draw=red] table [x=t, y=v, col sep=comma, mark=none]{simon/resources/classe_res_mosfet.csv};
+        \addplot+[draw=red] table [x=t, y=v, col sep=comma, mark=none]{simon/resources/classe_res_mosfet_v.csv};
         \coordinate (magn) at (axis cs:125,100);
         \draw[black!25, dashed] (axis cs:115,-9) rectangle (axis cs:160,15);
         \draw[black!25, dashed] (axis cs:115,15) -- (axis cs:125,100);
         \draw[black!25, dashed] (axis cs:160,15) -- (axis cs:250,100);
         \node[left, red!30!black] at (axis cs:20,110) {\(V_{DS}\)};
       \end{axis}
-      %\spy [blue, dotted, size=5cm] on (spypoint) in node[fill=white] at (magnifyglass);
       \begin{axis}[
         xmin = -74,
         xmax = 426,
@@ -197,7 +196,7 @@ Figure \ref{fig:class-e-res} shows the MOSFET waveforms after \(20\,\mu s\), whe
         ylabel = \(I_D\) in \(A\),
         x filter/.code=\pgfmathparse{#1 * 1000000000 - 74},
         ]
-        \addplot+[draw=blue!75] table [x=t, y=i, col sep=comma, mark=none]{simon/resources/classe_res_mosfet.csv};
+        \addplot+[draw=blue!75] table [x=t, y=i, col sep=comma, mark=none]{simon/resources/classe_res_mosfet_i.csv};
         \node[above, blue!30!black] at (axis cs:-35,2.9) {\(I_D\)};
       \end{axis}
       \begin{axis}[
@@ -215,7 +214,7 @@ Figure \ref{fig:class-e-res} shows the MOSFET waveforms after \(20\,\mu s\), whe
         width=0.361\textwidth,
         height=0.303\textwidth,
         ]
-        \addplot+[draw=red] table [x=t, y=v, col sep=comma, mark=none]{simon/resources/classe_res_mosfet.csv};
+        \addplot+[draw=red] table [x=t, y=v, col sep=comma, mark=none]{simon/resources/classe_res_mosfet_v.csv};
       \end{axis}
       \draw[fill=black!20] (0,0) rectangle (1.35,-.1);
       \draw[fill=black!40] (1.35,0) rectangle (3.627,-.1);

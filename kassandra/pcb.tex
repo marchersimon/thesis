@@ -1,6 +1,6 @@
 \chapter{Printed Circuit Board}
 
-\glspl{pcb} played an essential role in this project. Because breadboards and other prototyping techniques tend to cause issues with parasitic inductance and capacitance and don't work with \gls{smd} components, \glspl{pcb} were the only way of connecting the components. Once a \gls{pcb} has been produced, it works reliable and usually don't add any erratic effects. On the downside, however, \glspl{pcb} take a lot of time to design, etch, and solder and once they're manufactured, they're very inflexible. This means that for every prototybe, a new \gls{pcb} had to be made.
+\glspl{pcb} playe an essential role in this project. Breadboards and other prototyping techniques tend to cause issues with parasitic inductances and capacitances and don't work with \gls{smd} components, so \glspl{pcb} were the only way of building up the circuits. Once a \gls{pcb} has been produced, it works reliable and usually doesn't add any erratic effects. On the downside however, \glspl{pcb} take a lot of time to design, etch, and solder and once they're manufactured, they're very inflexible. This means that for every prototype, a new \gls{pcb} had to be made.
 
 \section{Component Selection}
 
@@ -11,7 +11,7 @@ Since all the key components were only available as \glspl{smd}, most of the oth
 
 \subsection{ICs}
 
-Most of the ICs were only available in one package and didn't leave much flexibility. The MOSFET driver, \gls{vco}, latch, AND gate and MOSFET for the phototransistor came in standard SOT and SOIC packages which were easy to solder, since they have the pins on their side. The class E MOSFET and the voltage regulator however were a bit more troublesome, because their packages had a big metal area on the underside, which was only indented for one-time reflow soldering. Especially the class E MOSFET however, needed to be replaced multiple times during the testing process.
+Most of the ICs were only available in one package and didn't leave much flexibility. The MOSFET driver, \gls{vco}, latch, AND gate, and MOSFET for the phototransistor came in standard SOT and SOIC packages which were easy to solder since they have the pins on their side. The class-E MOSFET and the voltage regulator were a bit more troublesome because their packages had a big metal area on the underside, which was only indented for one-time reflow soldering. Unfortunately, the class-E MOSFET needed to be replaced multiple times during the testing process anyways.
 
 \subsection{Passive Elements}
 
@@ -50,6 +50,12 @@ All capacitors and resistors have been ordered in a 0805 package, because it's n
 \section{Physical arrangement}
 \label{sec:physical-arrangement}
 
+Two things about the placement of the electronics were already certain - that the class-E amplifier and its surrounding were placed in the center of the casing, and that the connectors and controls had to be mounted on the side of the casing. The question is how to connect them together. Using loose cables would quickly become unclear and cause noise to be picked up by the unamplified interrupter signal from the phototransistor. This could be solved by bundling all signals directly onto a \gls{pcb} and leading them to the main \gls{pcb} via a 6 pin flat ribbon cable. Additionally, this side board could also amplify the interrupter signal to 12V to make it more resilient to induction. 
+
+
+->()<-% Connection to the Coil
+% Connection between the PCBs
+% Connection to the Perpherals
 
 \section{PCB Layout}
 

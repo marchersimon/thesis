@@ -57,6 +57,11 @@
   {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
   {\end{tabular}\par\vspace{\belowdisplayskip}}
 
+% externalize all tikzpictures for faster compilation time
+% https://www.overleaf.com/learn/latex/Questions/I_have_a_lot_of_tikz%2C_matlab2tikz_or_pgfplots_figures%2C_so_I%27m_getting_a_compilation_timeout._Can_I_externalise_my_figures%3F
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/]
+
 % Load packages for testing
 %\usepackage{blindtext}
 %\usepackage{showframe} % Uncomment to show boxes around the text area, margin, header and footer
@@ -84,6 +89,7 @@ QR code \hyperref[qr\theqrlink]{\theqrlink}%
 
 \newcommand{\printqrcodes}{%
   \section*{List of QR codes}
+  As of \today, all URLs listed here were still accessible.\\
   \immediate\closeout\qrfile%
   \input{\jobname.qrs}%
   \pagebreak%
@@ -193,12 +199,12 @@ QR code \hyperref[qr\theqrlink]{\theqrlink}%
 \pagelayout{wide}
 \addpart{Design and Building}
 \pagelayout{margin}
-%\input{kassandra/main}
+\input{kassandra/main}
 
 \pagelayout{wide}
 \addpart{MIDI Interrupter}
 \pagelayout{margin}
-%\input{felix/main.tex}
+\input{felix/main.tex}
 
 \appendix % From here onwards, chapters are numbered with letters, as is the appendix convention
 
