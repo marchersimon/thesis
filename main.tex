@@ -24,6 +24,7 @@
 \usepackage{tcolorbox}
 \usepackage{bytefield}
 \usepackage{qrcode}
+\usepackage{fontspec}
 
 \pgfplotsset{compat=1.3}
 
@@ -74,10 +75,19 @@
   #1\def\@currentlabel{\unexpanded{#1}}\label{#2}%
 }
 
-\newcommand{\newqrcode}[1]{%
+\newfontfamily\qrfont{MinecraftTen.ttf}
+
+\newcommand{\newqrcode}[2]{%
 \stepcounter{qrlink}%
 \immediate\write\qrfile{%
-  \theqrlink.\ \ \noexpand\qrcode[height=3cm,nolink]{#1} \noexpand\hspace{5mm}\noexpand\begin{minipage}{10cm}\noexpand\url{#1} \noexpand\labelword{}{qr\theqrlink}\noexpand\end{minipage}\\[3mm]% 
+  \noexpand\begin{minipage}{4cm}
+  \noexpand\begin{tikzpicture}  
+  \noexpand\draw (0,0) node{\noexpand\qrcode[height=3cm, nolink]{#1}};
+  \noexpand\fill[white] (-4mm,-4mm) rectangle (4mm,4mm);
+  \noexpand\node at (0,0){\noexpand\textbf{\noexpand\huge \noexpand\qrfont \theqrlink}};
+  \noexpand\end{tikzpicture}
+\noexpand\end{minipage}
+\noexpand\begin{minipage}{10cm}\noexpand\section*{#2}\noexpand\url{#1} \noexpand\labelword{}{qr\theqrlink}\noexpand\end{minipage}\\% 
 }%
 \hyperref[qr\theqrlink]{\theqrlink}%
 }
@@ -184,15 +194,15 @@
 \mainmatter % Denotes the start of the main document content, resets page numbering and uses arabic numbers
 \setchapterstyle{kao} % Choose the default chapter heading style
 
-\pagelayout{wide}
-\addpart{The Tesla Coil}
-\pagelayout{margin}
+%\pagelayout{wide}
+%\addpart{The Tesla Coil}
+%\pagelayout{margin}
 %\input{simon/main.tex}
 
-\pagelayout{wide}
-\addpart{Design and Building}
-\pagelayout{margin}
-%\input{kassandra/main}
+%\pagelayout{wide}
+%\addpart{Design and Building}
+%\pagelayout{margin}
+%\input{kassandra/main.tex}
 
 \pagelayout{wide}
 \addpart{MIDI Interrupter}

@@ -8,17 +8,17 @@
 
 \glsreset{midi}\gls{midi} is a protocol for exchanging musical events between devices like synthesizers, keyboards or other electrical instruments. It first appeared as \gls{midi} 1.0 in 1982 and is slowly being replaced by \gls{midi} 2.0, which was introduced in 2020.
 
-Instead of describing the sound of a audio, like e.g. MP3 does, MIDI describes the pitch, volume and duration of every tone. This enables high flexibility for music production, while still being easy to use. For this project, the Interrupter will act as a very simple synthesizer which controls the tesla coil to create the described tones.
-
-As opposed to MIDI streams, which connect two or more devices together and lets them connect in real time, the Interrupter will use \glspl{smf}, which are binary files holding \gls{midi} data.
+Instead of describing the sound of an audio, like e.g. MP3 does, MIDI describes the pitch, volume and duration of every tone. This enables high flexibility for music production, while still being easy to use. For this project, the Interrupter will act as a very simple synthesizer which controls the tesla coil to create the described tones.
 
 \section{Standard MIDI File}
 
-Most of the information in the following section was taken from \sidecite{midi-spec}.
+All the information in the following section was taken from \sidecite{midi-spec}.
 
-\glspl{smf} are build up of a header chunk and one or more track chunks. The header chunk stores the file format, number of following track chunks and the divisions\sidenote{The time resolution of the file}. The track chunks then hold the actual \gls{midi} information. How these track chunks have to be read depends on the file format:
+As opposed to MIDI streams, which connect two or more devices together and lets them communicate in real time, the MIDI-Interrupter will use so-called \glspl{smf}, which are binary files holding \gls{midi} data.
 
-\begin{tabular}{cll}
+\glspl{smf} are build up of a header chunk and one or more track chunks. The header chunk stores the file format, number of track chunks and the division\sidenote{The time resolution of the file}. The track chunks then hold the actual \gls{midi} data. How these track chunks have to be read depends on the file format.
+
+\begin{tabular}{cll@{}}
     \midrule
     0 & Single Track File Format   & \\
     1 & Multiple Track File Format & All tracks are played simultaneously\\
@@ -26,11 +26,13 @@ Most of the information in the following section was taken from \sidecite{midi-s
     \midrule
 \end{tabular}
 
-Every track is a series of delta times with a following \gls{midi}, meta, or sysex event.
+The most common format is the Multiple Track File Format. For songs containing multiple instruments, each instrument usually has its own track. In the same way, piano pieces typically consist of two tracks - one for the left hand and one for the right hand.
+
+The track itself is just a series of delta times with a following \gls{midi}, meta, or sysex event.
 
 \subsection{Events}
 
-Events are instructions for reconstructing the audio of a song. They always consist of an identifier and a variable amount of data. The three types of events are \gls{midi}-Events, Meta-Events, and Sysex-Events, while the latter will not be discussed further, because they are mostly proprietary events from various companies. 
+Events are instructions for reconstructing the sound of a song. They always consist of an identifier and some amount of data. This amount depends on the event, but some events also have a variable amount of data, where the length is given as the first argument. The three types of events are \gls{midi}-Events, Meta-Events, and Sysex-Events
 
 \subsubsection{MIDI-Events}
 
@@ -68,9 +70,9 @@ Non-musical information like song names, lyric texts, tempo settings or end of t
 \subsection{Delta Time}
 
 Delta times specify the time offset to the previous event. They are encoded as Variable Length Quantities, which means they can take up one to four bytes, depending on their size. The MSB % acronym
-of each byte shows if another byte follows and the remaining 7 bits are the delta time. An example implementation for decoding a Variable Length Quantity in C++ can be seen in listing
+of each byte shows if another byte follows and the remaining 7 bits are the delta time. An example implementation for decoding a Variable Length Quantity in C++ can be seen in listing \ref{lst:delta-time}.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption=Decoding the Delta Time, label=lst:delta-time]
 uint32_t deltaTime = 0;
 for (uint8_t i = 0; i < 4; i++) {
     uint8_t byte = nextByte();
@@ -89,7 +91,7 @@ The delta time is the number of ticks, which by itself is not very useful. To co
 
 \subsection{Running Status}
 
-One thing all event types have in common is, that their first identifier byte has an \gls{msb} of 1 and their first argument byte has an \gls{msb} of 0. This way, in case the identifier is omitted, the argument is still cleary recognisable as such and cannot be mistaken for the identifier. The running status scheme now allows it to omit the identifier of an event, if it is of the same type as the previous event. For example, after a NOTE\_ON event, consisting of a delta time, an identifier and its argument, a following NOTE\_ON event could only consist of a delta time followed by the argument.
+One thing all event types have in common is, that their first identifier byte has a \gls{msb} of 1 and their first argument byte has an \gls{msb} of 0. This way, in case the identifier is omitted, the argument is still clearly recognisable as such and cannot be mistaken for the identifier. The running status scheme now allows it to omit the identifier of an event, if it is of the same type as the previous event. For example, after a \newline NOTE\_ON event, consisting of a delta time, an identifier and its argument, a following NOTE\_ON event could only consist of a delta time followed by the argument.
 
 By only by combining this with another trick, which is to turn all NOTE\_OFF events into NOTE\_ON events with a velocity of zero, does this become really useful. Now, for a simple \gls{midi} file, almost the whole file would consist of NOTE\_ON events stringed together and only the first one would need an identifier.
 
@@ -148,4 +150,4 @@ By only by combining this with another trick, which is to turn all NOTE\_OFF eve
 
 \section{Simplifying the MIDI files}
 
-To not have to be able to decode every single MIDI message, most of which aren't useful to the \gls{midi}-Interrupter anyways, a tool called \emph{tinymid}\sidenote{Its source code can be found at \href{https://github.com/marchersimon/tinymid}{github.com/marchersimon/tinymid}.} was used. It removes all unnecessary events, moves them to channel 0, converts them to running status if possible, and most importantly, it merges all tracks of a multiple track file into a single track to make it a single track file. For this the whole file has to be decoded at once and all events sorted by their absolute delta time, which would have been much harder to do with the limited libraries and debugging capabilities available for AVR C++.
+To not have to be able to decode every single MIDI message, most of which aren't useful to the \gls{midi}-Interrupter anyways, a tool called \emph{tinymid}\sidenote{Its source code can be found in QR code \newqrcode{https://github.com/marchersimon/tinymid}{tinymid}.} was used. It removes all unnecessary events, moves them to channel 0, converts them to running status if possible, and most importantly, it merges all tracks of a multiple track file into a single track to make it a single track file. For this the whole file has to be decoded at once and all events sorted by their absolute delta time, which would have been much harder to do with the limited libraries and debugging capabilities available for AVR C++.

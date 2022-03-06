@@ -6,9 +6,9 @@
 \section{Interfacing the SD Card}
 \label{sec:interfacing-the-sd-card}
 
-Most of the information in the following section was taken from \href{http://www.elm-chan.org/docs/mmc/mmc_e.html}{www.elm-chan.org/docs/mmc/mmc\_e.html}
+Most of the information in the following section was taken from QR code \newqrcode{http://www.elm-chan.org/docs/mmc/mmc_e.html}{How to Use MMC/SDC}
 
-A \gls{sdc} or \gls{mmc} is an easy way to store data on embedded systems. More powerful devices use the card in SD mode, which allows faster clock speeds, but microcontrollers mostly use the SPI mode, because of the already existing SPI hardware module. Since all SD devices only operate at voltages between 2.7 and 3.3 volts, a voltage translation has to be added in between the Arduino and the device. For this, a SD card adapter from AZ-Delivery was used. By reverse engineering it, the schematic shown in figure \ref{fig:sd-card-adapter} could be reconstructed.
+A \gls{sdc} or \gls{mmc} is an easy way to store data on embedded systems. More powerful devices use the card in SD mode, which allows faster clock speeds, but microcontrollers mostly use the SPI mode, because of the already existing SPI hardware module. Since all SD devices only operate at voltages between 2.7 and 3.3 volts, a voltage translation has to be added in between the Arduino and the device. For this, a SD card adapter from AZ-Delivery was used. By reverse engineering it, the schematic shown in figure \ref{fig:sd-card-adapter} was reconstructed.
 
 \begin{figure}[h!]
     \centering
@@ -116,7 +116,7 @@ The commands used to communicate with the SD device are build up of a 6-bit comm
 \subsection{Initializing}
 \label{sec:initializing}
 
-Before any commands can be send to the SD card, it has to be put into SPI mode by setting both \cinl{MOSI} and \cinl{CS} high and toggling \cinl{CLK} for at least 74 clock cycles. To start the initialization process, a \cinl{CMD0} command has to be send, followed by a \cinl{CMD8} to detect the kind of device. If it responds with an "Illegal command" flag, the device is a \cinl{SDv1}, otherwise it is a \cinl{SDv2}. The next step is to send a \cinl{CMD55} followed by a \cinl{CMD41}, until the card leaves idle mode. This usually has to be done at least twice. 
+Before any commands can be send to the SD card, it has to be put into SPI mode by setting both \cinl{MOSI} and \cinl{CS} high and toggling \cinl{CLK} for at least 74 clock cycles. To start the initialization process, a \cinl{CMD0} command has to be send, followed by a \cinl{CMD8} to detect the kind of device. If it responds with an "Illegal command" flag, the device is a \cinl{SDv1}, otherwise it is a \cinl{SDv2}. The next step is to send an \cinl{ACMD41}, which is just a \cinl{CMD55} followed by a \cinl{CMD41}, until the card leaves idle mode. This usually has to be done at least twice. 
 
 \begin{marginfigure}
     \centering
@@ -169,7 +169,7 @@ in the system. One cell of the table represents a cluster and shows it's allocat
 
 \subsection{FatFs}
 
-In order to interface this file system a very popular library called FatFs was used. Because of the limited resources available on the low-powered microcontrollers, a smaller version called Petit FatFs was used instead. All information about this library as well as its documentation can be found on \href{http://elm-chan.org/}{elm-chan.org}.
+In order to interface this file system a very popular library called FatFs was used. Because of the limited resources available on the low-powered microcontrollers, a smaller version called Petit FatFs was used instead. All information about this library as well as its documentation can be found in QR code \newqrcode{http://elm-chan.org/fsw/ff/00index_p.html}{Petit FatFs}.
 
 As FatFs was written to be as portable as possible it does not provide any communication with the storage device. Therefore the user has to implement the communication layer by themselves. % is correct?
 The communication layer has to provide the following functions:

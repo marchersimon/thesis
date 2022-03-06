@@ -156,7 +156,31 @@ Based on the previous calculations, the MOSFET must have
 
 One MOSFET which meets all these criteria is the BSC12DN20NS3. It has a drain-source breakdown voltage of 200V, an output capacitance of 39pF, turn-off and turn-on times of less than 5 ns and a maximum power dissipation of 50W. The capacitor \(C_{1*}\) therefore is \(387\,pF - 39\,pF = 348\,pF\).
 
-The driver was then simulated using the analog electronic circuit simulator LTSpice. The LTSpice model for the BSC12DN20NS3 can be found with \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}. This zip file contains a file called \enquote{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the MOSFET into the schematic, a standard \enquote{nmos} has to be added. By Ctrl-right clicking it, \enquote{BSC12DN20NS3\_L1} can be inserted into the \enquote{value} field. The \enquote{L1} means, that switching losses will be simulated.
+The driver was then simulated using the analog electronic circuit simulator LTSpice. The LTSpice model for the BSC12DN20NS3 can be found with \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}{BSC12DN20NS3 LTSpice model}. This zip file contains a file called \enquote{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the MOSFET into the schematic, a standard \enquote{nmos} has to be added. By Ctrl-right clicking it, \enquote{BSC12DN20NS3\_L1} can be inserted into the \enquote{value} field. The \enquote{L1} means, that switching losses will be simulated.
+
+\begin{figure}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{circuitikz}
+        \ctikzset{capacitors/width=0.075, capacitors/height=0.4}
+        \ctikzset{inductors/coils=3, inductors/width=.5, american inductors}
+        \draw (0,1.25) node[right, rotate=90]{Vcc} -- (0,1) to[american voltage source, l2=V1 and 46.1] (0,0) node[sground]{};
+        \draw (2,1.25) node[right, rotate=90]{GATE} -- (2,1) to[american voltage source, l2=V2 and \ ](2,0) node[sground]{} node[rotate=90, yshift=-13mm, xshift=10mm]{PULSE(0 12 0 2n 2n 121n 250n)};
+    
+        \draw (6,.5) node[nigfete](nmos){M1};
+        \draw (nmos.G) node[left]{GATE};
+        \draw (nmos.S) ++(0,.2) node[sground]{};
+        \draw (nmos.D) -- ++(0,.5) to[L, l2_=L1 and 130\textmu] ++(0,1.25) node[right, rotate=90]{Vcc};
+        \draw (nmos.D) -- ++(0,.2) node(sd1){} -- ++(1.5,0) node(sd2){} to[L,l=L2] node[xshift=-4.5mm,yshift=-3mm]{4.38\textmu} ++(1.5,0) to[C,l=C2] node[xshift=-2.5mm,yshift=-5mm]{482p} ++(1,0) -- ++(.5,0) to[R, l2=R1 and 22] ++(0,-1.5) node[sground]{};
+        \draw[fill=black] (sd1) ++(-.05,-.05) rectangle ++(.1,.1) ++(-.05,-.05);
+        \draw[fill=black] (sd2) ++(-.2,0) ++(-.05,-.05) rectangle ++(.1,.1) ++(-.05,-.05);
+            \draw (sd2) ++(-.2,0) -- ++(0,-.5) to[C, l2=C1* and 348p] ++(0,-1.05) node[sground]{};
+        \node at (6,-1.5){.tran 0 30u 20u 10n};
+    \end{circuitikz}    }
+    \caption{Simulation setup in LTSpice}
+    \label{fig:ltspice1}
+\end{figure}
+
 
 Figure \ref{fig:class-e-res} shows the MOSFET waveforms after \(20\,\mu s\), when a steady state has been reached. 
 

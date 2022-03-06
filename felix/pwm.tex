@@ -9,19 +9,19 @@ The main task of the \gls{midi}-Interrupter is to create four PWM signals with f
 
 \subsection{Mode of Operation}
 
-The 16 bit timers of the ATmega2560 have five modes of operation. Each one differs in complexity and flexibility. One thing they all have in common however, is the Output Compare Unit. It constantly compares the counter value to the value set in the \cinl{OCRnx} register. When they match the unit can be configured to either generate an interrupt or set, clear or toggle the corresponding \cinl{OCnx} pin.
+The 16 bit timers of the ATmega2560 have five modes of operation. Each one differs in complexity and flexibility. However, one thing they all have in common is the Output Compare Unit. It constantly compares the counter value to the value set in the \cinl{OCRnx} register. The unit can be configured to either generate an interrupt or set, clear, or toggle the corresponding \cinl{OCnx} pin when a compare match occurs.
 
 \begin{enumerate}
-    \item The \textbf{Normal Mode} just counts from zero to 2\textsuperscript{16}-1, sets an Overflow flag and jumps back to zero. Because it can only count at a few fixed speeds and because using a Compare Match Unit in this mode is not recommended, it is not capable of producing the desired waveforms.
-    \item The \textbf{CTC Mode}, also called \enquote{Clear Timer on Compare Match}, counts up until a Compare Match occurs and then resets to zero. Since the value to compare to can be set by the user, this allows for variable frequencies, however the duty cycle will always be 50\%.
-    \item The \textbf{Fast PWM Mode} counts from zero to TOP, which can be set by the user, and then resets back to zero. By setting a Compare Match somewhere between zero and TOP, \cinl{OCRnx} can be set on compare match and cleared at TOP. This way, both a variable frequency and a variable duty cycle can be achieved.\label{itm:fpm}
-    \item The \textbf{Phase Correct PWM Mode} counts from zero to TOP and then back to zero. While upcounting, \cinl{OCRnx} will be set on compare match and while downcounting, \cinl{OCRnx} will be cleared. Since one period in this mode is twice as long as in the previous modes, the timer acts like a 17 bit timer, which doubles its accuracy.\label{itm:pcm} % explain why we don't use this mode already
+    \item The \textbf{Normal Mode} counts from zero to 2\textsuperscript{16}-1, sets an overflow flag, and jumps back to zero. Because it can only count at a few fixed speeds and because using a compare match Unit in this mode is not recommended, it cannot produce the desired waveforms.
+    \item The \textbf{CTC Mode}, also called \enquote{clear timer on compare match}, counts up until a compare match occurs and then resets to zero. Since the value to compare to can be set by the user, this allows for variable frequencies, however the duty cycle will always be 50\%.
+    \item The \textbf{Fast PWM Mode} counts from zero to TOP, which can be set by the user, and then resets back to zero. By setting a compare match somewhere between zero and TOP, \cinl{OCRnx} can be set on compare match and cleared at TOP. This way, both a variable frequency and a variable duty cycle can be generated.\label{itm:fpm}
+    \item The \textbf{Phase Correct PWM Mode} counts from zero to TOP and then back to zero. While upcounting, \cinl{OCRnx} will be set on compare match, and while downcounting, \cinl{OCRnx} will be cleared. Since one period in this mode is twice as long as in the previous modes, the timer acts like a 17 bit timer, which doubles its accuracy.\label{itm:pcm} % explain why we don't use this mode already
     \item The \textbf{Phase and Frequency Correct PWM Mode} is almost the same as mode \ref{itm:pcm}, except that \cinl{OCRnx} and TOP are updated on BOTTOM instead of on TOP.\label{itm:pfcm}
 \end{enumerate}
 
-Both mode \ref{itm:pcm} and \ref{itm:pfcm} have the option to either use \cinl{ICRn} or \cinl{OCRnA} as TOP. \cinl{ICRn} is not double buffered, which means, that its value will be updated immediately, when it is written. This could lead to issues, when e.g. the timer is upcounting and TOP is set to a value lower then the counter value. The timer will then miss TOP and count all the way to 2\textsuperscript{16}-1, which has an impact on the generated PWM signal. To mitigate this issue, a double bufferd register like \cinl{OCRnA} can be used. In this case, TOP won't be updated until the timer reaches either TOP in mode \ref{itm:pcm} or BOTTOM in mode \ref{itm:pfcm}. The disadvantage of using \cinl{OCRnA} is that it's not possible anymore to use the Output Compare Unit A. This isn't a problem however, since only one PWM signal per timer is needed.
+Both mode \ref{itm:pcm} and \ref{itm:pfcm} can either use \cinl{ICRn} or \cinl{OCRnA} as TOP. \cinl{ICRn} is not double buffered, meaning that its value will be updated immediately when written. This could lead to issues, e.g., the timer is upcounting, and TOP is set to a lower value than the counter value. The timer will then miss TOP and count to 2\textsuperscript{16}-1, which has an impact on the generated PWM signal. A double buffered register like \cinl{OCRnA} can be used to mitigate this issue. In this case, TOP will not be updated until the timer reaches either TOP in mode \ref{itm:pcm} or BOTTOM in mode \ref{itm:pfcm}. The disadvantage of using \cinl{OCRnA} is that it is not possible anymore to use the Output Compare Unit A. However, this is not a problem since only one PWM signal per timer is needed.
 
-To summarize, modes \ref{itm:fpm}, \ref{itm:pcm}, and \ref{itm:pfcm} would be able to generate the desired waveforms. However, modes \ref{itm:pcm} and \ref{itm:pfcm} are twice as accurate as mode \ref{itm:fpm}. Despite their names \enquote{Phase correct} and \enquote{Phase and Frequency correct}, the latter mode isn't more frequency correct than the former. They can both be equally correct or incorrect depending on if the TOP register is double buffered. There is practically no difference between those two, except for the time, the registers are updated. The data sheet however states that
+To summarize, modes \ref{itm:fpm}, \ref{itm:pcm}, and \ref{itm:pfcm} would be able to generate the desired waveforms. However, modes \ref{itm:pcm} and \ref{itm:pfcm} are twice as accurate as mode \ref{itm:fpm}. Despite their names \enquote{Phase correct} and \enquote{Phase and Frequency correct}, the latter mode isn't more frequency correct than the former. They can be equally correct or incorrect depending on whether the TOP register is double-buffered. There is practically no difference between those two, except for the time the registers are updated. The datasheet, however, states that
 
 \begin{displayquote}
 \enquote{It is recommended to use the phase and frequency correct mode instead of the phase correct mode when changing the TOP value while the Timer/Counter is running.}
@@ -38,9 +38,9 @@ Since this is the case for the \gls{midi}-Interrupter, the \textbf{Phase and Fre
 
 \subsection{Prescaler}
 
-The \gls{midi} protocol can encode frequencies from about 8 Hz to 13 kHz, which the timers should be able to cover. To reach this range, a prescaler can be used, which sets the counting speed of the timers to a fraction of the clock speed. Table \ref{tab:prescaler} shows all possible prescalers and their resulting frequency ranges.
+The \gls{midi} protocol can encode frequencies from about 8 Hz to 13 kHz, which the timers should cover. To reach this range, a prescaler can be used, which sets the counting speed of the timers to a fraction of the clock speed. Table \ref{tab:prescaler} shows all possible prescalers and their resulting frequency ranges.
 
-Note that the maximum frequency is not actually the highest frequency possible for each prescaler. This is because the lower the number of steps, until TOP is reached, the lower the number of possible duty cycles. To ensure that for every frequency the duty cycle resolution is at least 2\%, the minimum number of steps for each period was set to 100, which effectively divides the theoretically highest possible frequency by twenty-five.
+Note that the maximum frequency is not actually the highest frequency possible for each prescaler. This is because the lower the number of steps, until TOP is reached, the lower the number of possible duty cycles. To ensure that the duty cycle resolution is at least 2\% for every frequency, the minimum number of steps for each period was set to 100, which effectively divides the theoretically highest possible frequency by twenty-five.
 
 \begin{table}[h!]
     \centering
@@ -60,9 +60,9 @@ The only prescaler within the desired frequency range was the \textbf{prescaler 
 
 \subsection{Output Compare Pins}
 
-Each Timer has three output compare units - A, B, and C - which each have their own pin, OCnA, OCnB, and OCnC, respectively. Unit B was chosen for all timers, whose pins can be seen in table \ref{tab:compare-pins}.
+Each timer has three output compare units - A, B, and C - each with their own pin, OCnA, OCnB, and OCnC, respectively. Unit B was chosen for all timers, whose pins can be seen in table \ref{tab:compare-pins}.
 
-\begin{margintable}
+\begin{margintable}[-3cm]
 \centering
 \caption{Output compare pins\label{tab:compare-pins}}
 \begin{tabular}{cc}
@@ -76,7 +76,7 @@ Each Timer has three output compare units - A, B, and C - which each have their 
 
 \section{Using the Timers}
 
-To use the timers in a convenient way, a timer handler has been implemented as shown in listing \ref{lst:pwmtimer}.
+To use the timers in a convenient way, a timer handler has been implemented, as shown in listing \ref{lst:pwmtimer}.
 
 \begin{lstlisting}[caption=PWMTimer class, label=lst:pwmtimer]
 // Constructor
@@ -119,11 +119,11 @@ void PWMTimer::stop() {
 }
 \end{lstlisting}
 
-Each timer is its own instance of the \cinl{PWMTimer} class. To still be able to access all registers, the register addresses were passed to the constructor. Instead of writing e.g. \cinl{DDRB}, which is just defined as \cinl{_SFR_MEM8(0x24)}, the macros \cinl{_SFR_MEM8} and \cinl{_SFR_MEM16} are used directly with the register address.
+Each timer is its own instance of the \cinl{PWMTimer} class. To still access all registers, the register addresses were passed to the constructor. Instead of writing, e.g., \cinl{DDRB}, which is just defined as \cinl{_SFR_MEM8(0x24)}, the macros \cinl{_SFR_MEM8}, and \cinl{_SFR_MEM16} are used directly with the register address.
 
-To ensure, that \cinl{OCnx} is low when the timer turns off, which will be important in section \ref{sec:signal-combination}, the turn-off will be delayed until the counter value is bigger than \cinl{OCRnx}, which means that \cinl{OCnx} has been cleared.
+To ensure that \cinl{OCnx} is low when the timer turns off, which will be important in section \ref{sec:signal-combination}, the turn-off will be delayed until the counter value is bigger than \cinl{OCRnx}, which means that \cinl{OCnx} has been cleared.
 
-Having to start and stop every timer manually is still a bit tedious, so an additional layer of abstraction was created. This layer was implemented as a namespace, which can be seen of as a singleton, because it doesn't have to be instantiated.
+Starting and Stoping every timer manually is still a bit tedious, so an additional layer of abstraction was created. This layer was implemented as a namespace, which can be seen as a singleton because it does not have to be instantiated.
 
 \begin{lstlisting}[caption=PWM namespace, label=lst:pwm-namespace]
 namespace PWM {
@@ -163,9 +163,9 @@ void PWM::stop(uint16_t freq) {
 }
 \end{lstlisting}
 
-Unfortunately, most C++ standard libraries aren't available for the AVR platform, so instead of storing the timers in a \cinl{std::vector<PWMTimer>}, they had to be stored in a fixed-size C array.
+Unfortunately, most C\texttt{++} standard libraries are not available for the AVR platform, so instead of storing the timers in a \cinl{std::vector<PWMTimer>}, they had to be stored in a fixed-size C array.
 
-This namespace allows very easy control over the timers like shown in listing \ref{lst:pwm-namespace-usage}.
+This namespace allows easy control over the timers as shown in listing \ref{lst:pwm-namespace-usage}.
 
 \begin{lstlisting}[caption=PWM namespace usage, label=lst:pwm-namespace-usage]
 PWM::start(500); // Starts Timer 1
@@ -177,3 +177,22 @@ PWM::start(800); // Starts Timer 3
 
 \section{Signal Combination}
 \label{sec:signal-combination}
+
+% mention input duty cycle and using an AND gate
+
+At the moment, the MIDI-Interrupter can create four PWM signals on four separate pins. The tesla coil, however, needs to be fed a single PWM signal. Unlike regular music made up of a series of sine waves, logic signals cannot be added as easily. One approach would be to convert every PWM signal into a sine wave where the duty cycle corresponds to the amplitude. Those sine waves are then added together and for each point, if the result is above a specific threshold, the output signal is high, else it is low.
+
+This would however be very computation-intensive task and would likely require an additional \gls{mcu}. Instead, a much simpler, yet effective method had been chosen - using logic gates. Just like how a specific PWM frequency modulated onto a higher PWM carrier frequency creates a sound which contains both frequencies\sidenote{This was explained in detail in section \ref{sec:musical-tesla-coils}}, all four PWM channels can be merged using an OR gate. If only one channel is playing, then it's just passing through without any change. If two or more channels are playing, they get overlapped and therefore are all contained in the output signal. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{felix/resources/signalCombinationFourier.jpg}
+    \caption{Frequency Components of the Output Signal}
+    \label{fig:signal-combination-fourier}
+\end{figure}
+
+This merging can also be thought of as adding the PWM signals together like they were analog signals and then just cutting away everything above the previous logic 1 level. However, this also leads to a problem, because every time something is cut away from the waveform, information is being destroyed. The result of this is either added unwanted frequency components, or removed wanted frequency components, or both. In the worst case, if one frequency is an integer multiple of the other and they are in phase, they overlap in a way, that the lower frequency will get completely removed. In the same way, if they are exactly out of phase it will seem like another, higher frequency had been added.
+
+% add moer fourier stuff
+
+Despite the seemingly bad quality of the output signal, all input frequencies are clearly audible when played on a buzzer and the distortions hardly could be noticed.
