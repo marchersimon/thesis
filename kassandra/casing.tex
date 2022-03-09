@@ -1,22 +1,22 @@
 \chapter{Casing}
 
-% Since the tesla coil is intended as a consumer product, the casing plays an important role for its appearance. But apart from optics, there are a lot of safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along playing with open plasma.
+% Since the Tesla coil is intended as a consumer product, the casing plays an important role for its appearance. But apart from optics, there are a lot of safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along playing with open plasma.
 
 % Another point to note is, that the casing was build with modularity in mind. This enables to repair 
-It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is crucial. The simplest of casings often have multiple design stages and variations with different advantages. When designing something as complex and difficult as a tesla coil, the casing is even more rigorous to construct. 
+It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is crucial. The simplest of casings often have multiple design stages and variations with different advantages. When designing something as complex and difficult as a Tesla coil, the casing is even more rigorous to construct. 
 
 
 \section{Concept design}
 \label{sec:concept-design}
 
-There are four main parts that are essential to consider while constructing the tesla coil - the primary coil, the secondary coil, the \gls{pcb}, and the top electrode. Those can be placed in any way possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
+There are four main parts that are essential to consider while constructing the Tesla coil - the primary coil, the secondary coil, the \gls{pcb}, and the top electrode. Those can be placed in any way possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
 
 \begin{figure}
     \centering
     %\missingfigure
     %\includegraphics{}
     \caption{Concept design}
-    \label{BD-envision}
+    \label{fig:envision}
 \end{figure}
 
 As seen above, the secondary coil is perpendicular, and the primary coil is angled at 30°\sidenote{The primary coil design choices have already been explained in the previous part at the end of \ref{sec:designing-the-primary}} to the horizontal. This is the easiest way to calculate and most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary, the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeters above the secondary coil.
@@ -25,25 +25,25 @@ Technically the \gls{pcb} can be placed anywhere\sidenote{There should be a reas
 
 \section{Materials}
 
-Deciding which materials to use is also a tedious task because there are a lot of details and possibilities that have to be considered when designing a tesla coil. Many factors determine the best working material, most affecting the coils directly and therefore being unsuitable, but others are scrapped because of their low availability or costly construction.
+Deciding which materials to use is also a tedious task because there are a lot of details and possibilities that have to be considered when designing a Tesla coil. Many factors determine the best working material, most affecting the coils directly and therefore being unsuitable, but others are scrapped because of their low availability or costly construction.
 
 \subsection{Metals}
 \label{subsec:materials-metals}
 
-Metal is a popular choice for building high-grade casings because of its low price and good machinability. However, metals are rather unsuitable for a tesla coil, mainly because of their electrical conductivity, which would pose an unnecessary safety risk to the user when touched. On one side, because some internal connection error could be lethal in the worst case, but also because if not properly grounded, static electricity could build up in the casing and shock everyone touching it. Another critical factor is that metals have very high permeability, weakening any magnetic field. This would not be a big problem for the \gls{pcb} enclosure but would certainly cause issues when used around the primary or secondary coil.
+Metal is a popular choice for building high-grade casings because of its low price and good machinability. However, metals are rather unsuitable for a Tesla coil, mainly because of their electrical conductivity, which would pose an unnecessary safety risk to the user when touched. On one side, because some internal connection error could be lethal in the worst case, but also because if not properly grounded, static electricity could build up in the casing and shock everyone touching it. Another critical factor is that metals have very high permeability, weakening any magnetic field. This would not be a big problem for the \gls{pcb} enclosure but would certainly cause issues when used around the primary or secondary coil.
 
 \subsection{Woods}
 
-One material that is not often used for casings, especially for commercial products, is wood, mainly because it is more expensive and harder to work with than metal. This tesla coil is not like any device, but wood is still not a good option, mainly because the top electrode emits a high-temperature spark which could inflame the wooden casing. Making the casing for only the board wooden would not work either because if the capacitance of the secondary coil changes, the driver operates outside of its ideal conditions and dissipates a lot of energy as heat, potentially inflaming the wood.
+One material that is not often used for casings, especially for commercial products, is wood, mainly because it is more expensive and harder to work with than metal. This Tesla coil is not like any device, but wood is still not a good option, mainly because the top electrode emits a high-temperature spark which could inflame the wooden casing. Making the casing for only the board wooden would not work either because if the capacitance of the secondary coil changes, the driver operates outside of its ideal conditions and dissipates a lot of energy as heat, potentially inflaming the wood.
 
 \subsection{Glass}
 
-Glass is an electrical insulator, so it would not interfere with the magnetic field, has very high-temperature resistance, and has a polished look. It also comes in various opacities, and surface finishes making the casing very customizable. The main disadvantage of glass is its high production costs. Due to the tesla coil not being commercially produced, this kind of casing is unsustainable.
+Glass is an electrical insulator, so it would not interfere with the magnetic field, has very high-temperature resistance, and has a polished look. It also comes in various opacities, and surface finishes making the casing very customizable. The main disadvantage of glass is its high production costs. Due to the Tesla coil not being commercially produced, this kind of casing is unsustainable.
 
 \subsection{Plastics}
 
 \glsunset{pvcp}\glsunset{pmma}\glsunset{pvcu}\glsunset{ptfe}
-The only remaining option for the type of casings material would be plastic. However, plastic is not plastic. The two types of plastic with the highest availability, in this case, would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu}, but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability, but it cannot provide the suitable characteristics for the tesla coil. One problem with \gls{pvcp} is its water absorption because due to water's diamagnetic properties, it heats up in an oscillating magnetic field, i.e., it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma}, in comparison, has an absorption of 0.4\% at max. On the other hand, \gls{pvcu} has an even more ideal water absorption at 0.1\%. The casing should not be out of \gls{pvcp} or \gls{pvcu} because of its poor temperature resistance, which starts to deform at around 60°C, while \gls{pmma} only starts at about 100°C. \gls{pmma} is not ideal in any way, but due to its easy availability and better properties, it was chosen for the casing. 
+The only remaining option for the type of casings material would be plastic. However, plastic is not plastic. The two types of plastic with the highest availability, in this case, would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu}, but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability, but it cannot provide the suitable characteristics for the Tesla coil. One problem with \gls{pvcp} is its water absorption because due to water's diamagnetic properties, it heats up in an oscillating magnetic field, i.e., it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma}, in comparison, has an absorption of 0.4\% at max. On the other hand, \gls{pvcu} has an even more ideal water absorption at 0.1\%. The casing should not be out of \gls{pvcp} or \gls{pvcu} because of its poor temperature resistance, which starts to deform at around 60°C, while \gls{pmma} only starts at about 100°C. \gls{pmma} is not ideal in any way, but due to its easy availability and better properties, it was chosen for the casing. 
 
 The ideal plastic would be \gls{ptfe}\sidenote{also commercially known as Teflon}, which has a maximum of 0.01\%, a tenth better than \gls{pvcu}. The temperature resistance is also better than \gls{pmma} because it can be used at a working temperature of 280°C\sidecite{blue-bible}. \gls{ptfe} was not used as a casing because it was unavailable, but it might be considered in a future build.  
 
@@ -52,7 +52,7 @@ https://omnexus.specialchem.com/polymer-properties/properties/water-absorption-2
 
 \subsection{Conclusion}
 
-In figure \ref{fig:material-score}, all previously discussed materials are given a subjective score from 1 to 10 in the four most important categories. The score in the circle is then determined by the average points of these categories, quickly visualizing which material is best suited for the tesla coil. Both \gls{ptfe} and \gls{pmma} have the same total score, but as already mentioned above, \gls{ptfe} wasn't used because of the low availability.  
+In figure \ref{fig:material-score}, all previously discussed materials are given a subjective score from 1 to 10 in the four most important categories. The score in the circle is then determined by the average points of these categories, quickly visualizing which material is best suited for the Tesla coil. Both \gls{ptfe} and \gls{pmma} have the same total score, but as already mentioned above, \gls{ptfe} wasn't used because of the low availability.  
 
 \begin{figure}[h!]
     \centering
@@ -90,7 +90,7 @@ The primary coil's holding structure consists of six supports arranged in a hexa
     \label{fig:primary-supports}
 \end{figure}
 
-To avoid gluing the supports to the base plate, a bolt was used to keep it in place, as shown in figure \ref{fig:stayer}. This mechanism was mainly designed for testing purposes as it is easier to assemble and disassemble. In a possible future version or commercial release, it would be safer if the supports were glued on. Also, as shown, the supports have a unique design. This was mostly done to make them look elegant and not stand out too much. That makes them lighter, but given that the supports are just a tiny fraction of the tesla coil's weight, it does not make much difference.
+To avoid gluing the supports to the base plate, a bolt was used to keep it in place, as shown in figure \ref{fig:stayer}. This mechanism was mainly designed for testing purposes as it is easier to assemble and disassemble. In a possible future version or commercial release, it would be safer if the supports were glued on. Also, as shown, the supports have a unique design. This was mostly done to make them look elegant and not stand out too much. That makes them lighter, but given that the supports are just a tiny fraction of the Tesla coil's weight, it does not make much difference.
 
 \begin{figure}[h!]
     \begin{subfigure}{0.5\textwidth}
@@ -114,7 +114,7 @@ The core of the secondary coil was one of the easier parts to design because it 
 
 \section{Top Electrode}
 
-Technically the tesla coil would also work without a top electrode by simply using the end of the secondary coil's wire as the arcing point. however, given that the wire of the secondary has a small diameter and is made of copper, it would likely melt or at least start to deform when it emits a spark. To ensure the arcing point stays intact, the wire is connected to another material - in this case, a welding electrode made of a tungsten alloy. 
+Technically the Tesla coil would also work without a top electrode by simply using the end of the secondary coil's wire as the arcing point. however, given that the wire of the secondary has a small diameter and is made of copper, it would likely melt or at least start to deform when it emits a spark. To ensure the arcing point stays intact, the wire is connected to another material - in this case, a welding electrode made of a tungsten alloy. 
 
 The holder that keeps the electrode at the top of the coil is made of two parts. As seen in figure \ref{fig:top-electrode}, the first is two copper pieces that are kept together with a thread, and in between, the wire of the secondary is clamped. There are also two notches on each to enable fastening and opening with a flat wrench. To mount the tungsten electrode, a press fit was drilled into the top surface of the copper piece. 
 
@@ -129,7 +129,7 @@ The second part is a \gls{pmma} piece with another fit at the top for the copper
 
 \subsection{It's not a Bug, it's a Feature}
 
-Because the tesla coil driver was very underdesigned, the plasma flame forming on the top electrode was very small and often had to be ignited and stabilized by another conductor held close to it. This was realized by placing a second, ancillary electrode over to the main electrode. This ancillary electrode is held by a canopy-like structure, resting on three \gls{pmma} rods. It was press fitted into a flat copper cylinder, which was loosely screwed into the cap. This way, its height and the gap between the two electrodes could be changed by turning the ancillary electrode. 
+Because the Tesla coil driver was very underdesigned, the plasma flame forming on the top electrode was very small and often had to be ignited and stabilized by another conductor held close to it. This was realized by placing a second, ancillary electrode over to the main electrode. This ancillary electrode is held by a canopy-like structure, resting on three \gls{pmma} rods. It was press fitted into a flat copper cylinder, which was loosely screwed into the cap. This way, its height and the gap between the two electrodes could be changed by turning the ancillary electrode. 
 
 \begin{marginfigure}[-3cm]
     \centering
@@ -155,16 +155,27 @@ To further examine the effect of the material of the cap, three different versio
     \caption{Smooth and Pointy Cap}
 \end{figure}
 
-While in section \ref{subsec:materials-metals}, it was explained that metals pose a safety hazard, this is not entirely true for the secondary side of the tesla coil. Despite the high voltages of up to several kilovolts present at the top electrode, it is relatively safe to touch. This is because as soon as a low-resistance path to ground, like a human, opens for the current, the voltage drops to a very low level, which means that the resulting current cannot do any harm besides the usual burned skin.
+While in section \ref{subsec:materials-metals}, it was explained that metals pose a safety hazard, this is not entirely true for the secondary side of the Tesla coil. Despite the high voltages of up to several kilovolts present at the top electrode, it is relatively safe to touch. This is because as soon as a low-resistance path to ground, like a human, opens for the current, the voltage drops to a very low level, which means that the resulting current cannot do any harm besides the usual burned skin.
 
 \section{PCB Enclosure}
 
 The general placement of the \gls{pcb}, being right beneath the coils, was already addressed in section \ref{sec:concept-design}. The platform where the secondary coil and the supports for the primary coil are mounted was already designed and chosen to be hexagon-shaped, mainly because it works the best with the six supports. Again, the prototype has the platform resting on top of six pillars to keep everything as modular as possible. The prototype also has only the most essential features and only consists of a framework, this also makes it easier to access the inside of the \gls{pcb} enclosure. The final design would be completely closed off, and the platform would be glued on as with the primary coil’s supports.
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{kassandra/resources/JerJerWoBistDu.PNG}
+    \caption{PCB Enclosure}
+    \label{fig:bottom-bau}
+\end{figure}
+
 \subsection{PCB}
 
 The hexagonal \gls{pcb} was placed in the center of the enclosure right under the secondary, mostly to balance the design. To ensure that the circuit can also give off heat on the bottom side, it cannot be mounted directly onto the enclosure and therefore has to be raised by a few millimeters. This is done by six steps onto which the \gls{pcb} is screwed. 
 
-\subsection{Connections and Things to Press}
-
-To provide the necessary power and the MIDI-Interrupter signal to the PCB as well as the ability to be turned on and off without being plugged out, one side of the PCB enclosure has been dedicated as a control panel. To provide the necessary power, a 5.5 x 2.1 mm barrel plug was used because of its widespread usage. To connect the fiber optic cable, the phototransistor has been mounted directly into the casing, so it is still accessible from the outside. Additionally, a keyswitch\sidenote{This way, only authorized people are able to turn on the tesla coil and feel important} is used to turn on the power, and an ON-OFF-ON switch either routes the output of the phototransistor for interrupted operation, a constant 12V signal for continuous operating, or a 0V signal for no operation to the interrupt input.
+\begin{marginfigure}[-3cm]
+    \centering
+    \includegraphics[width=0.7\textwidth]{kassandra/resources/JerJerWoBistDuStufe.PNG}
+    \caption{PCB Holder}
+    \label{fig:bottom_stufe}
+\end{marginfigure}
+    

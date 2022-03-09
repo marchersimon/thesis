@@ -108,7 +108,35 @@ where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) an
 
 As expected, the coupling factor gets smaller the farther away the primary coil moves from the middle of the secondary coil.
 
-\section{The Class-E Stage}
+\subsection{Modeling the Transformer in LTSpice}
+
+The analog electronic circuit simulator LTSpice, which was used for this project, did unfortunately not provide any tools to simulate the arc breakout at the secondary coil, which is necessary for testing the continuous operation performance. Also, modeling the magnetic coupling of the transformer involved a trick, which is worth mentioning.
+
+\subsubsection{The Magnetic Coupling}
+
+\sidecite{ltspice}
+
+To simulate a transformer in LTSpice, the K directive can be used. For example, \cinl{K L1 L2 0.3} couples the inductivities L1 and L2 with a coupling coefficient of 30\,\%.
+
+\subsubsection{The Arcing}
+
+\begin{marginfigure}[5mm]
+    \centering
+    \includegraphics[width=0.5\textwidth]{simon/resources/ltspice_sw.png}
+    \caption{Voltage Controlled Switch}
+    \label{fig:ltspice_sw}
+\end{marginfigure}
+
+When the voltage in the secondary coil is high enough to ionize the air around it, a spark forms. This spark then discharges the coil and extinguishes as soon as the voltage drops to a low level. The key component to model this behaviour in LTSpice is a voltage controlled switch. It is an ideal, lossless component which simply connects or disconnects its two terminals depending on the voltage difference of its \texttt{+} and \texttt{-} pin. For more specific use cases, the switch can be used with an hysteresis.
+
+To specify a switch's characteristics, a new switch model has to be defined. For the example of a switch with a hysteresis, this would be \cinl{.model model_name SW(Vt = 20 Vh = 5)}. This switch has a threshold voltage of 20\,V and a hysteresis voltage of 5\,V, which means that it starts conducting above 25\,V and stops conducting below 15\,V. \(R_{ON}\) defaults to 1\,\(\Omega\), \(R_{OFF}\) to \(1\,T\Omega\), and all other parasitics are disabled by default.
+
+This makes it possible to short the secondary coil as soon as its voltage reaches a certain threshold and opening the short when it falls below another threshold. However, the voltage in the secondary coil has no DC component and therefore two zero-crossings every period, so the turn-off threshold would be reached every cycle.% rewrite this sentence
+To have the switch only turn off after it full discharged, the average voltage has to be used instead of the momentary voltage. Also, since the voltage is symmetrical around 0\,V, it has to be rectified first. The averaging part can be modeled with a tiny capacitor and the rectifying can be done by a single diode\sidenote{Known as halve-wave rectifier}. To then discharge the capacitor itself, another switch has to be used.
+
+\todo{add image}
+
+\section{Class-E Design}
 
 As already explained in aaaaa, it is everything but trivial to design a class E amplifier to drive a tesla resonator. However, for the sake of demonstration, the following subsection will go through the design process of a class E amplifier with an ohmic load.
 
@@ -133,7 +161,7 @@ The expected peak drain-source voltage on the MOSFET is 3.56 times the supply vo
 The choke inductance \(L_1\), again, has to be chosen in order to calculate the remaining component values. It has to be big enough to force enough current into \(C_1\) and keep the current ripple low. A rule of thumb is that \(X_{L1}\) should be at least 30 times greater than \(X_{C1}\). However, since \(C_1\) slightly depends on \(L_1\), this is an iterative process. A value for \(L_1\), which turns out to work well is \(130\,\mu H\). \(C_1\), \(C_2\), and \(L_2\) can then be calculated with
 
 \begin{equation*}
-    C_{1t} = \frac{1}{34.2\cdot f R} \cdot \left( 1 + \frac{0.914}{Q_L} - \frac{1.03}{Q_L^2} \right) + \frac{0.6}{(2 \pi f)^2  \cdot L_1} = 387\,pF\textnormal{\,,}
+    C_1 = \frac{1}{34.2\cdot f R} \cdot \left( 1 + \frac{0.914}{Q_L} - \frac{1.03}{Q_L^2} \right) + \frac{0.6}{(2 \pi f)^2  \cdot L_1} = 387\,pF\textnormal{\,,}
 \end{equation*}
 \begin{equation*}
     C_2 = \frac{1}{2 \pi  f  R} \cdot \frac{1}{Q_L - 0.105} \cdot \left( 1 + \frac{1.01}{Q_L - 1.79} \right) - \frac{0.2}{(2 \pi f)^2 \cdot L_1} = 482\,pF \textnormal{\,, and}
@@ -156,7 +184,7 @@ Based on the previous calculations, the MOSFET must have
 
 One MOSFET which meets all these criteria is the BSC12DN20NS3. It has a drain-source breakdown voltage of 200V, an output capacitance of 39pF, turn-off and turn-on times of less than 5 ns and a maximum power dissipation of 50W. The capacitor \(C_{1*}\) therefore is \(387\,pF - 39\,pF = 348\,pF\).
 
-The driver was then simulated using the analog electronic circuit simulator LTSpice. The LTSpice model for the BSC12DN20NS3 can be found with \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}{BSC12DN20NS3 LTSpice model}. This zip file contains a file called \enquote{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the MOSFET into the schematic, a standard \enquote{nmos} has to be added. By Ctrl-right clicking it, \enquote{BSC12DN20NS3\_L1} can be inserted into the \enquote{value} field. The \enquote{L1} means, that switching losses will be simulated.
+The driver was then simulated using LTSpice. The Spice model for the BSC12DN20NS3 can be found in QR code \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}{BSC12DN20NS3 LTSpice model}. This zip file contains a file called \texttt{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the correct one into the schematic, a standard \texttt{nmos} has to be added and its value has to be set to \textttt{BSC12DN20NS3\_L1}\sidenote{This can be done by right-clicking the symbol.}. The \enquote{L1} means, that switching losses will be included in the simulation.
 
 \begin{figure}[h!]
     \centering
@@ -181,11 +209,13 @@ The driver was then simulated using the analog electronic circuit simulator LTSp
     \label{fig:ltspice1}
 \end{figure}
 
+The time-domain for the transient simulation was set to 0 to 30\,\textmu s, while only the last 10\,\textmu s were recorded to ensure that the amplifier has reached a steady state.
 
-Figure \ref{fig:class-e-res} shows the MOSFET waveforms after \(20\,\mu s\), when a steady state has been reached. 
+Figure \ref{fig:class-e-res} shows the voltage across the MOSFET on the left axis and the current through the MOSFET on the right axis.
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
+    \resizebox{\textwidth}{!}{
     \begin{tikzpicture}
       \begin{axis}[
         xmin = -74,
@@ -250,8 +280,22 @@ Figure \ref{fig:class-e-res} shows the MOSFET waveforms after \(20\,\mu s\), whe
       \node[font=\tiny] at (7,-.3) {OFF};
     \end{tikzpicture}
     \caption{Voltage across and current through the MOSFET}
-    \label{fig:class-e-res}
+    \label{fig:class-e-res}}
 \end{figure}
+
+While the current doesn't look as ideal as the one shown in figure \ref{fig:nominal-waveforms}, the overlap between current and voltage is still minimal. The power dissipation in the MOSFET spikes to around 30\,W at the transitions, but averages out at a mere 625\,mW. The total efficiency of the amplifier then is
+
+\begin{equation}
+    \eta = \frac{P_{in}}{P_{out}} = \frac{46.3\,W}{48.8\,W} = 94.9\%\,.
+\end{equation}
+
+This equation uses the averaged powers of the voltage source, and the load resistor after a steady state has been reached. By manually fine-tuning the component values, the efficiency can be further increased. \sidecite{sokal-qex}
+is an excellent resource for this.
+
+\section{The Class-E Tesla Coil Driver}
+
+Because of the rudimentary power engineering expertise this project was tried to be built upon, some of the planned design stages did not go as hoped. The best example for this is this amplifier. Deriving equations for a class-E amplifier with a tesla resonator as load goes far beyond this education's curriculum. 
+
 
 \section{The Interrupter}
 

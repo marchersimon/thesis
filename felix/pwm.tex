@@ -180,9 +180,9 @@ PWM::start(800); // Starts Timer 3
 
 % mention input duty cycle and using an AND gate
 
-At the moment, the MIDI-Interrupter can create four PWM signals on four separate pins. The tesla coil, however, needs to be fed a single PWM signal. Unlike regular music made up of a series of sine waves, logic signals cannot be added as easily. One approach would be to convert every PWM signal into a sine wave where the duty cycle corresponds to the amplitude. Those sine waves are then added together and for each point, if the result is above a specific threshold, the output signal is high, else it is low.
+At the moment, the MIDI-Interrupter can create four PWM signals on four separate pins. However, the tesla coil needs to be fed a single PWM signal. Unlike regular music consisting of a series of sine waves, logic signals cannot be added as easily. One approach would be to convert every PWM signal into a sine wave where the duty cycle corresponds to the amplitude. Those sine waves are then added together, and for each point, if the result is above a specific threshold, the output signal is high, else it is low.
 
-This would however be very computation-intensive task and would likely require an additional \gls{mcu}. Instead, a much simpler, yet effective method had been chosen - using logic gates. Just like how a specific PWM frequency modulated onto a higher PWM carrier frequency creates a sound which contains both frequencies\sidenote{This was explained in detail in section \ref{sec:musical-tesla-coils}}, all four PWM channels can be merged using an OR gate. If only one channel is playing, then it's just passing through without any change. If two or more channels are playing, they get overlapped and therefore are all contained in the output signal. 
+However, this would be very computation-intensive task and would likely require an additional \gls{mcu}. Instead, a simpler yet effective method was chosen - using logic gates. Just like how a specific PWM frequency modulated onto a higher PWM carrier frequency creates a sound that contains both frequencies\sidenote{This was explained in detail in section \ref{sec:musical-tesla-coils}}, all four PWM channels can be merged using an OR gate. If only one channel is playing, then it is just passing through without any change. If two or more channels are playing, they get overlapped and therefore are all contained in the output signal. 
 
 \begin{figure}[h!]
     \centering
@@ -191,8 +191,8 @@ This would however be very computation-intensive task and would likely require a
     \label{fig:signal-combination-fourier}
 \end{figure}
 
-This merging can also be thought of as adding the PWM signals together like they were analog signals and then just cutting away everything above the previous logic 1 level. However, this also leads to a problem, because every time something is cut away from the waveform, information is being destroyed. The result of this is either added unwanted frequency components, or removed wanted frequency components, or both. In the worst case, if one frequency is an integer multiple of the other and they are in phase, they overlap in a way, that the lower frequency will get completely removed. In the same way, if they are exactly out of phase it will seem like another, higher frequency had been added.
+This merging can also be thought of as adding the PWM signals together like analog signals and then just cutting away everything above the previous logic 1 level. However, this also leads to a problem because information is being destroyed every time something is cut away from the waveform. This result is either added unwanted frequency components, removed wanted frequency components, or both. In the worst case, if one frequency is an integer multiple of the other and they are in phase, they overlap so that the lower frequency will get removed entirely. In the same way, if they are exactly out of phase, it will seem like another, higher frequency had been added.
 
 % add moer fourier stuff
 
-Despite the seemingly bad quality of the output signal, all input frequencies are clearly audible when played on a buzzer and the distortions hardly could be noticed.
+Despite the seemingly bad quality of the output signal, all input frequencies are clearly audible when played on a buzzer, and the distortions hardly could be noticed.

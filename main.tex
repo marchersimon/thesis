@@ -93,7 +93,8 @@
 }
 
 \newcommand{\printqrcodes}{%
-  \section*{List of QR codes}
+  \chapter*{List of QR codes}
+  \addcontentsline{toc}{chapter}{List of QR codes}
   As of \today, all URLs listed here were still accessible.\\[3mm]
   \immediate\closeout\qrfile%
   \input{\jobname.qrs}%
@@ -101,6 +102,37 @@
 }
 
 %%%%%%%%%%%%
+
+\definecolor{codegreen}{HTML}{288c53}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{HTML}{dc3d3f}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+  basicstyle=\ttfamily\footnotesize,
+  language=C++,
+  morekeywords={uint8_t, uint16_t, uint32_t},
+  backgroundcolor=\color{backcolour},   
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{codepurple},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+}
+
+\lstset{
+  style=mystyle,
+  literate={~}{{\fontfamily{ptm}\selectfont \textasciitilde}}1
+}
+
+\tcbset{on line, 
+        boxsep=3pt, left=0pt,right=0pt,top=0pt,bottom=0pt,
+        colframe=gr40, colback=gr10,
+        boxrule=0pt, bottomrule=.5pt
+}
+
+\newcommand{\cinl}[1]{\raisebox{1pt}{\tcbox{\lstinline!#1!}}}
+
+%%%%%%%%%%%%%
 
 % Load the bibliography package
 \usepackage{styles/kaobiblio}
@@ -194,20 +226,28 @@
 \mainmatter % Denotes the start of the main document content, resets page numbering and uses arabic numbers
 \setchapterstyle{kao} % Choose the default chapter heading style
 
-%\pagelayout{wide}
-%\addpart{The Tesla Coil}
-%\pagelayout{margin}
-%\input{simon/main.tex}
+\newcommand{\simon}{
+    \pagelayout{wide}
+    \addpart{The Tesla Coil}
+    \pagelayout{margin}
+    \input{simon/main.tex}
+}
 
-%\pagelayout{wide}
-%\addpart{Design and Building}
-%\pagelayout{margin}
-%\input{kassandra/main.tex}
+\newcommand{\kassandra}{
+    \pagelayout{wide}
+    \addpart{Design and Building}
+    \pagelayout{margin}
+    \input{kassandra/main.tex}
+}
 
-\pagelayout{wide}
-\addpart{MIDI Interrupter}
-\pagelayout{margin}
-\input{felix/main.tex}
+\newcommand{\felix}{
+    \pagelayout{wide}
+    \addpart{MIDI Interrupter}
+    \pagelayout{margin}
+    \input{felix/main.tex}
+}
+
+\input{aaa}
 
 \appendix % From here onwards, chapters are numbered with letters, as is the appendix convention
 

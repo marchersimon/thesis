@@ -8,35 +8,6 @@
 
 \setcounter{chapter}{19}
 
-\definecolor{codegreen}{HTML}{288c53}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{HTML}{dc3d3f}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{mystyle}{
-  basicstyle=\ttfamily\footnotesize,
-  language=C++,
-  morekeywords={uint8_t, uint16_t, uint32_t},
-  backgroundcolor=\color{backcolour},   
-  commentstyle=\color{codegreen},
-  keywordstyle=\color{codepurple},
-  numberstyle=\tiny\color{codegray},
-  stringstyle=\color{codepurple},
-}
-
-\lstset{
-  style=mystyle,
-  literate={~}{{\fontfamily{ptm}\selectfont \textasciitilde}}1
-}
-
-\tcbset{on line, 
-        boxsep=3pt, left=0pt,right=0pt,top=0pt,bottom=0pt,
-        colframe=gr40, colback=gr10,
-        boxrule=0pt, bottomrule=.5pt
-}
-
-\newcommand{\cinl}[1]{\raisebox{1pt}{\tcbox{\lstinline!#1!}}}
-
 \include{felix/hardware}
 \include{felix/pwm}
 \include{felix/midi}
