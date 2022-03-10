@@ -106,7 +106,7 @@ where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) an
     \label{fig:coupling-factor}
 \end{figure}
 
-As expected, the coupling factor gets smaller the farther away the primary coil moves from the middle of the secondary coil.
+As expected, the coupling factor gets smaller the farther away the primary coil moves from the center of the secondary coil.
 
 \subsection{Modeling the Transformer in LTSpice}
 
@@ -142,7 +142,7 @@ However, it is not possible to use \(V_{SC}\) directly as the control voltage, b
     \label{fig:ltspice-sparkgap}
 \end{figure}
 
-\texttt{V4} supplies a constant \texttt{HIGH} signal to the latch's input. \texttt{B1} turns the \texttt{CLK} input \texttt{HIGH} as soon as \(V_{SC}\) reaches \(5\,kV\). And lastly, \texttt{B2} resets the latch if the current falls below \(1\,A\). The \emph{falling} is essential here, because at the moment the switch turns on, the current also is below \(1\,A\), which would turn off the switch again. With the additional \texttt{ddt(I(S1))<0} condition it was made sure that the current has to be decreasing. The low pass filter consisting of \texttt{R1} and \texttt{C5} adds a tiny delay to the latch's output signal, without which LTSpice would not be able to simulate the circuit. Figure \ref{fig:spark-gap-simulation} shows the voltage \(V_{SC}\) after the spark gap has been put into place.
+\texttt{V4} supplies a constant \texttt{HIGH} signal to the latch's input. \texttt{B1} turns the \texttt{CLK} input \texttt{HIGH} as soon as \(V_{SC}\) reaches \(5\,kV\). And lastly, \texttt{B2} resets the latch if the current falls below \(1\,A\). The \emph{falling} is essential here, because at the moment the switch turns on, the current also is below \(1\,A\), which would turn off the switch again. With the additional \cinl{ddt(I(S1))<0} condition it was made sure that the current has to be decreasing. The low pass filter consisting of \texttt{R1} and \texttt{C5} adds a tiny delay to the latch's output signal, without which LTSpice would not be able to simulate the circuit. Figure \ref{fig:spark-gap-simulation} shows the voltage \(V_{SC}\) after the spark gap has been put into place.
 
 \begin{figure}[h!]
     \centering
@@ -329,9 +329,26 @@ After many failed attempts to create a simpler equivalent circuit, and many scra
 
 An interesting aspect of the above and similar projects, is that they describe the class-E amplifier in a completely different way than the theoretical publications do. The filter capacitor \(C_2\) is merely thought of as a DC-blocking capacitor, which in fact is the same, but shines a different light on its purpose. The capacitor \(C_1\) is just though of as the value to fine-tune for the best power setting.
 
+\subsection{Simulation}
+
+The schematic presented by Richie Burnett features a class-E output stage, where the primary coil is the load and \(L_2\) at the same time. The DC-blocking capacitor \(C_2\) is given with \(100\,nF\) and \(L_1\) with \(47\mu H\). Blindly inserting these values into the simulation generated surprisingly good results. The optimal value for \(C_1\) has been found to be somewhere between \(20\) and \(150\,nF\) depending on the other component's values. The supply voltage was initially set to \(50\,V\), but later raised to \(54\,V\) as this was the output voltage of the only suitable boost-converter.
+
+From the simulation alone it is hard to tell how well the amplifier will work in practice. Also, fine-tuning capacitor values down to picofarads does not make a lot of sense because of the parasitic capacitances introduced by a real life setup. The best simulation setup by only tuning \(C1\) can be seen in figure \ref{fig:ltspice-complete}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{simon/resources/ltspice-complete.png}
+    \caption{AAAAA}
+    \label{fig:ltspice-complete}
+\end{figure}
+
+
+
 \section{The Interrupter}
 
-\subsection{Fiber Optic Receiver}
+\subsection{Fiber Optic Transmission}
+
+% transmitter and receiver circuit
 
 \subsection{MOSFET protection circuit}
 

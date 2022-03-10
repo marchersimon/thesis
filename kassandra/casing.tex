@@ -112,7 +112,7 @@ The core of the secondary coil was one of the easier parts to design because it 
 
 \todo{Das Gerüst für die zwei spulen. Stayer Desgin und funktion.}
 
-\section{Wire Bending Device}
+\section{Primary Wire Bending}
 
 After the supports for the primary coil have been designed, the the coils itself still has to be bent. Simply bending the wire by placing it in the slots one after another is not an option, because it takes a considerable amount of force to hold a tensioned 1.2\,mm wire in place\sidenote{This force could be brought up by glue, but that would be very unprofessional}. 
 This force is due to the elastic component of the wire's deformation, which tries to bend the wire back to its original shape. 
@@ -207,11 +207,27 @@ During the transformation from \(r_1\) to \(r_2\), the wire not only increases i
 % sounds weird
 The domain of \(r_1\) has to be chosen, so that its length is the same as the length of \(r_1\) in the domain \([0:20\pi]\). To calculate the length of the curves, a WolframAlpha widget\sidenote{an URL to which can be found in QR code \newqrcode{https://www.wolframalpha.com/widgets/view.jsp?id=c26cbb9457ff75f58f479364ddb79cd1}{Arc Length in Polar Coordinates}} has been used. In the domain \([0:20\pi]\), the length of \(r_2\) turns out to be \(2.51\,m\) while \(r_1\) is with just above \(2\,m\) too short. By using the trial-and-error method, it has been found that \(r_1\) needs to have \(11.77\) turns to achieve the desired length.
 
-% 3d bending neglectable
+One remaining problem, however, is that \(r_2\) is only the projection of the actual primary coil. A conic spiral is longer that its flat projection and also needs to be bend, which introduces additional springback. However, the the average inclination of the wire is with \(1.7\,mm\) per turn only about \(0.0002\) degrees, which is negligible.
 
-%secondary bending
+\subsection{Bending Device}
 
+Since bending a wire according to a specific curve equation just by looking at it is rather hard, a bending device was designed. It is just a cone with a spiral-shaped grooving, where the wire can be pressed into. After taking it out again, it bends on the correct form of the primary coil. To ensure, that the wire doesn't get stuck, the grooving was made slightly wider than the wire's diameter.
 
+The trickiest part was drawing the path for the grooving in Autodesk Inventor. First a 2D spiral was drawn by adding a polar equation curve for \(r_1\) which was then projected onto a conical plane as shown in figure \ref{fig:spirae}. Designing the rest of the bending device was relatively straightforward and figure \ref{biegbieg} shows a cut view of the final part. % 3D printed
+
+\begin{marginfigure}[-3cm]
+    \centering
+    \includegraphics[width=0.9\textwidth]{kassandra/resources/JerJerWoBistDuSpirae.PNG}
+    \caption{Projected Curve for the Bending Device}
+    \label{fig:spirae}
+\end{marginfigure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{kassandra/resources/JerJerWoBistDuBiegeBieg.PNG}
+    \caption{Bending Device}
+    \label{fig:biegbieg}
+\end{figure}
 
 \section{Top Electrode}
 
