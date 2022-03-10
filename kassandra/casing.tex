@@ -112,6 +112,107 @@ The core of the secondary coil was one of the easier parts to design because it 
 
 \todo{Das Gerüst für die zwei spulen. Stayer Desgin und funktion.}
 
+\section{Wire Bending Device}
+
+After the supports for the primary coil have been designed, the the coils itself still has to be bent. Simply bending the wire by placing it in the slots one after another is not an option, because it takes a considerable amount of force to hold a tensioned 1.2\,mm wire in place\sidenote{This force could be brought up by glue, but that would be very unprofessional}. 
+This force is due to the elastic component of the wire's deformation, which tries to bend the wire back to its original shape. 
+
+\subsection{Springback}
+
+To remove this component, the wire has to be overbend by a specific angle and to a specific radius. Those values are determined by the springback factor \(k_s\)\sidecite{blue-bible}, and the desired angle and radius, which remain due to purely plastic deformation. \(k_s\) highly depends on the material and geometry, and usually can be found in large databases.
+
+However, since those are often not freely available\sidenote{Especially not for silver-coated copper wires}, this factor had to be measured by hand. This was done by bending the wire by a specific angle \(\alpha_1\) and measuring the angle \(\alpha_2\) it sprung back to. Because \(k_s\) is geometry-dependent, this measurement had to be repeated for multiple diameters. \(k_s\) then simply is the ratio between \(\alpha_2\) and \(\alpha_1\). Figure \ref{fig:springback} shows these calculated values as well as their linear regression fit.
+
+\begin{marginfigure}[-1cm]
+    \centering
+    \resizebox{0.98\textwidth}{!}{
+    \begin{tikzpicture}
+      \begin{axis}[
+        xlabel=Bending radius in \(mm\),
+        ylabel=\(k_s\),
+        y label style={at={(axis description cs:0,1)},rotate=-90},
+        grid=major,
+        axis lines=left,
+        ymin = 0.715,
+        ymax = 0.87,
+        xmin = 15,
+        xmax = 67.5,
+        scale = 0.8
+        ]
+        \addplot[only marks] coordinates{(22.5,0.84)(33.5,0.805)(45,0.78)(58,0.74)};
+        \addplot[domain=17.5:63.5, dashed] {-0.002756 *x + 0.9};
+      \end{axis}
+    \end{tikzpicture}}
+    \caption{Springback factor of the copper wire}
+    \label{fig:springback}
+\end{marginfigure}
+
+In the domain of 25 to 55\,mm, which is the radius of the innermost and outermost winding of the primary coil, the springback factor looks very linear. The equation for the linear regression fit is \(k_s(r_1) = -0.002756 r_1 + 0.9\), where \(r_1\) is the radius the wire has to be bend to. The necessary bending radius can be calculated as
+
+\begin{equation}
+    r_1 = k_S(r_1) \cdot \left(r_2 + r_w\right) - r_w\,,
+\end{equation}
+
+where \(r_2\) is the desired persistent radius and \(r_w\) is the wire radius. Solving this equation for \(r_1\) gives
+
+\begin{equation}\label{eq:r1-overbending}
+    r_1 = \frac{0.9 \cdot \left( r_2 + r_w \right) - r_w}{1 + 0.002756 \cdot \left(r_2 + r_w\right)}\,.
+\end{equation}
+
+In the end, the goal is to create an expression which describes the shape the wire has to be bend into. The first important piece of information is the equation for the curve of the secondary coil\sidenote{To be correct, the projection of the curve along its symmetry line}, which can be described as
+
+\begin{equation}\label{eq:r2-spiral}
+    r_2 = 25 + \frac{1.5}{\pi} \theta\,.
+\end{equation}
+
+Inserting equation \ref{eq:r2-spiral} into equation \ref{eq:r1-overbending}, setting \(r_w\) to \(0.6\,mm\) and simplifying the equation yields that
+
+\begin{equation}
+    r_1 = 326.56 - \frac{248622}{\theta + 813.557}\,.
+\end{equation}
+
+Figure \ref{fig:spirals} shows \(r_1\) and \(r_2\) side by side for a domain of ten full rotations.
+
+\begin{figure}[h!]
+    \centering
+    \resizebox{0.6\textwidth}{!}{
+    \begin{tikzpicture}
+      \begin{polaraxis}[
+        xmin = 270,
+        xmax = 450,
+        ymax = 60,
+        xticklabels = {,,},
+        yticklabels = {,,},
+        ]
+        \addplot[domain=0:20*pi, samples=500, color=red, data cs=polarrad] { 25 + 0.4775 * x };
+      \end{polaraxis}
+      \begin{polaraxis}[
+        xmin = 90,
+        xmax = 270,
+        ymax = 60,
+        xshift = -3.43cm,
+        xticklabels = {,,},
+        ]
+        \addplot[domain=0:20*pi, samples=500, color=red, data cs=polarrad] { 326.56 - 248622 / (x+813.557) };   
+    \end{polaraxis}
+\end{tikzpicture}}
+    \caption{AAA}
+    \label{fig:spirals}
+\end{figure}
+
+Even though it looks like \(r_1\) has a uniform inclination, the distance between each turn actually falls with increasing radius. This is because the bigger the bending radius, the more it has be be overbend. In this case, the distance between the two innermost turns is about \(2.578\,mm\), while the distance between the two outermost turns is only \(2.262\,mm\).
+
+During the transformation from \(r_1\) to \(r_2\), the wire not only increases its diameter, but also decreases its number of turns. This is because the total length of the wire has to stay the same. The overbending angle \(\alpha_1\), which directly relates to the number of turns, is simply the remaining angle \(\alpha_2\) divided by \(k_s\). However, \(k_s\) is a function of \(r_1\), which in turn is a function on \(\alpha_1\), which is a function of \(\alpha_2\). Since this does not only sound impractical, another approach was taken.
+
+% sounds weird
+The domain of \(r_1\) has to be chosen, so that its length is the same as the length of \(r_1\) in the domain \([0:20\pi]\). To calculate the length of the curves, a WolframAlpha widget\sidenote{an URL to which can be found in QR code \newqrcode{https://www.wolframalpha.com/widgets/view.jsp?id=c26cbb9457ff75f58f479364ddb79cd1}{Arc Length in Polar Coordinates}} has been used. In the domain \([0:20\pi]\), the length of \(r_2\) turns out to be \(2.51\,m\) while \(r_1\) is with just above \(2\,m\) too short. By using the trial-and-error method, it has been found that \(r_1\) needs to have \(11.77\) turns to achieve the desired length.
+
+% 3d bending neglectable
+
+%secondary bending
+
+
+
 \section{Top Electrode}
 
 Technically the Tesla coil would also work without a top electrode by simply using the end of the secondary coil's wire as the arcing point. however, given that the wire of the secondary has a small diameter and is made of copper, it would likely melt or at least start to deform when it emits a spark. To ensure the arcing point stays intact, the wire is connected to another material - in this case, a welding electrode made of a tungsten alloy. 

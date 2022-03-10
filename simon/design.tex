@@ -127,14 +127,41 @@ To simulate a transformer in LTSpice, the K directive can be used. For example, 
     \label{fig:ltspice_sw}
 \end{marginfigure}
 
-When the voltage in the secondary coil is high enough to ionize the air around it, a spark forms. This spark then discharges the coil and extinguishes as soon as the voltage drops to a low level. The key component to model this behaviour in LTSpice is a voltage controlled switch. It is an ideal, lossless component which simply connects or disconnects its two terminals depending on the voltage difference of its \texttt{+} and \texttt{-} pin. For more specific use cases, the switch can be used with an hysteresis.
+When the voltage in the secondary coil \(V_{SC}\) is high enough to ionize the air around it, a spark forms. This spark persists as long as the coil can provide enough current to keep it alive. After \(V_{SC}\) dropped to a very low level, the spark extinguishes and allows the secondary coil to charge up again.
 
-To specify a switch's characteristics, a new switch model has to be defined. For the example of a switch with a hysteresis, this would be \cinl{.model model_name SW(Vt = 20 Vh = 5)}. This switch has a threshold voltage of 20\,V and a hysteresis voltage of 5\,V, which means that it starts conducting above 25\,V and stops conducting below 15\,V. \(R_{ON}\) defaults to 1\,\(\Omega\), \(R_{OFF}\) to \(1\,T\Omega\), and all other parasitics are disabled by default.
+A very basic way to model this behaviour in LTSpice is to use a voltage controlled switch with some conditional logic. A voltage controlled switch is an ideal, lossless component which simply connects or disconnects its two terminals depending on the voltage difference of its \texttt{+} and \texttt{-} pins\sidecite{ltspice}. The switch is connected in parallel to the secondary coil's capacitance, which gets discharged rapidly when the switch closes.
 
-This makes it possible to short the secondary coil as soon as its voltage reaches a certain threshold and opening the short when it falls below another threshold. However, the voltage in the secondary coil has no DC component and therefore two zero-crossings every period, so the turn-off threshold would be reached every cycle.% rewrite this sentence
-To have the switch only turn off after it full discharged, the average voltage has to be used instead of the momentary voltage. Also, since the voltage is symmetrical around 0\,V, it has to be rectified first. The averaging part can be modeled with a tiny capacitor and the rectifying can be done by a single diode\sidenote{Known as halve-wave rectifier}. To then discharge the capacitor itself, another switch has to be used.
+To specify the switch's characteristics, a new switch model has to be defined. For the example of a switch without a hysteresis, this can look like \cinl{.model model_name SW(Vt = 1k)}. This switch is closed above and opened below 1\,kV, and has an \(R_{ON}\) of 1\,\(\Omega\), \(R_{OFF}\) of \(1\,T\Omega\), and no additional parasitics. 
 
-\todo{add image}
+However, it is not possible to use \(V_{SC}\) directly as the control voltage, because it returns to zero two times per period, which would instantly turn off the switch again. Instead the switch should turn off when the current through it falls below a certain threshold. For this a D latch and an \emph{arbitrary behavioural voltage source} can be used\sidecite{spark-gap}. This kind of voltage source can be configured to output an arbitrary voltage based on logical and mathematical expressions. The complete spark gap model can be seen in figure \ref{fig:ltspice-sparkgap}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{simon/resources/ltspice_sparkgap.png}
+    \caption{Spark Gap Model in LTSpice}
+    \label{fig:ltspice-sparkgap}
+\end{figure}
+
+\texttt{V4} supplies a constant \texttt{HIGH} signal to the latch's input. \texttt{B1} turns the \texttt{CLK} input \texttt{HIGH} as soon as \(V_{SC}\) reaches \(5\,kV\). And lastly, \texttt{B2} resets the latch if the current falls below \(1\,A\). The \emph{falling} is essential here, because at the moment the switch turns on, the current also is below \(1\,A\), which would turn off the switch again. With the additional \texttt{ddt(I(S1))<0} condition it was made sure that the current has to be decreasing. The low pass filter consisting of \texttt{R1} and \texttt{C5} adds a tiny delay to the latch's output signal, without which LTSpice would not be able to simulate the circuit. Figure \ref{fig:spark-gap-simulation} shows the voltage \(V_{SC}\) after the spark gap has been put into place.
+
+\begin{figure}[h!]
+    \centering
+    \resizebox{0.9\textwidth}{!}{
+    \begin{tikzpicture}
+      \begin{axis}[
+        y filter/.code=\pgfmathparse{#1 / 1000},
+        ylabel = \(V_{SC}\) in \(kV\),
+        x filter/.code=\pgfmathparse{#1 * 1000000},
+        xlabel = \(t\) in \(\mu s\),
+        ytick= {-5,0,5},
+        ymajorgrids,
+        ]
+        \addplot table[x=t,y=v,col sep=comma, mark=none]{simon/resources/sparkgap.csv};
+      \end{axis}
+    \end{tikzpicture}}
+    \caption{Spark Gap Simulation}
+    \label{fig:spark-gap-simulation}
+\end{figure}
 
 \section{Class-E Design}
 
@@ -294,8 +321,13 @@ is an excellent resource for this.
 
 \section{The Class-E Tesla Coil Driver}
 
-Because of the rudimentary power engineering expertise this project was tried to be built upon, some of the planned design stages did not go as hoped. The best example for this is this amplifier. Deriving equations for a class-E amplifier with a tesla resonator as load goes far beyond this education's curriculum. 
+Because of the rudimentary engineering experience this project was tried to be built upon, some design stages did not go as hoped. The best example is this amplifier. Deriving equations for a class-E amplifier with a tesla resonator as load goes far beyond this education's curriculum. However, it was still attempted.
 
+A very professional tool to design and simulate class-E amplifiers for all kinds of applications is Keysight's PathWave Advanced Design System (ADS) and its Class-E amplifier extension, which Keysight was so kind to give us a free license to. % however, too complicated, now using LTSpice
+
+After many failed attempts to create a simpler equivalent circuit, and many scraped hypotheses how the class-E amplifier could work with a tesla coil, the priorities shifted from \emph{understanding how it works} to \emph{making it work}. For this, Richie Burnett's project page\sidecite{richieburnett} has proven very useful.
+
+An interesting aspect of the above and similar projects, is that they describe the class-E amplifier in a completely different way than the theoretical publications do. The filter capacitor \(C_2\) is merely thought of as a DC-blocking capacitor, which in fact is the same, but shines a different light on its purpose. The capacitor \(C_1\) is just though of as the value to fine-tune for the best power setting.
 
 \section{The Interrupter}
 

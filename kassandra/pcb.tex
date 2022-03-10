@@ -69,12 +69,27 @@ The boost converter for the 12\,V to 50\,V conversion was a tricky and very cost
 
 \subsection{Ground Planes}
 
+Ground planes help reducing EMI and
+
+The PCB can be separated into two logic parts - the analog class-E part and the digital part. While the analog part has a relatively high \gls{emc}, the digital part needs to be protected. 
+
 \subsection{High Frequency Stuff}
 
 \section{Manufacturing}
 
+While \glspl{pcb} are typically ordered from an external company to ensure the best quality, this was not possible in this case. Having them produced is very costly and also takes more time, than manufacturing them in-house. The workshop's \gls{pcb} department, although basic, has been a great alternative, especially because of the many prototypes that had to be produced. The downside is the lack of professional equipment, a like solder resist or stencils. Without those, the component assembly process became much more time consuming. But on the other side this way of manufacturing is much more flexible then ordering a \gls{pcb} online.
+
 \subsection{Exposure}
 
+After designing the \gls{pcb}'s layout, it has to be exposed before it can be etched. The 
+
+\todo{entwickeln oda ätzen wegen photoresist}. This way only the copper parts that are not hit with UV light will be protected and the rest will dissolve in the etching phase. 
+
+To be able to etch, the \gls{pcb} first has to be exposed
+
 \subsection{Stripping and Etching}
+
+
+The copper also tended to not dissolve in certain places often resulting in an unwanted short. 
 
 \subsection{Reflow Soldering}
