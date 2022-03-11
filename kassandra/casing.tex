@@ -16,7 +16,7 @@ There are four main parts that are essential to consider while constructing the 
     \label{fig:envision}
 \end{marginfigure}
 
-As seen in figure \ref{fig:envision}, the secondary coil is perpendicular, and the primary coil is angled at 30° to the horizontal, the primary coil design choices have already been detailed in the previous part at the end of section \ref{sec:designing-the-primary}. This is the easiest way to calculate and also the most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary, the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeters above the secondary coil. ***
+As seen in figure \ref{fig:envision}, the secondary coil is perpendicular, and the primary coil is angled at 30° to the horizontal, the primary coil design choices have already been detailed in the previous part at the end of section \ref{sec:designing-the-primary}. This is the easiest way to calculate and also the most practical way to design the secondary. The end of the secondary could technically be used as the top electrode, but the copper will definitively melt as soon as it emits a spark. So it has to be out of a high temperature resistant material that is also conductive. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary, the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeters above the secondary coil.
 
 Technically the \gls{pcb} can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry.}as long as it can be connected to the coils. However, to make transportation the easiest, the casing for the \gls{pcb} should be right beneath the coils. This way, everything needed stays in one place. 
 
@@ -100,6 +100,10 @@ To avoid gluing the supports to the base plate, a bolt was used to keep it in pl
     \label{fig:stayer}
 \end{figure}
 
+\subsubsection{Manufacturing}
+
+Complex structures like the primary supports, that on top of that are also small are best manufactured with an automated process like 3D printing. This way makes it possible to constructed both the supports and the platform their mounted on in one piece, erasing the need for bolts entirely. But the way 3D printing works by drawing multiple layers of fine plastic lines makes the end product inaccurate. Which is unsuitable for the small half circles on the supports, as they will most likely end up too small for the wire of the primary coil. 
+
 \subsection{Secondary Coil}
 
 The core of the secondary coil was one of the easier parts to design because it essentially just consists of a \(30\,mm\) \gls{pmma} tube with a thickness of 3mm and a length of \(120\,mm\). A few millimeters from the top of the tube, a small hole was drilled to guide the wire to the inside and connect it to the top electrode. The 330 turns of \(0.35\,mm\) wire were then wound by hand and then coated with protective and insulating varnish to prevent the wire from loosening and cross-arcing to occur.
@@ -109,7 +113,7 @@ The core of the secondary coil was one of the easier parts to design because it 
 After the supports for the primary coil have been designed, the the coils itself still has to be bent. Simply bending the wire by placing it in the slots one after another is not an option, because it takes a considerable amount of force to hold a tensioned \(1.2\,mm\) wire in place\sidenote{This force could be brought up by glue, but that would be very unprofessional}. 
 This force is due to the elastic component of the wire's deformation, which tries to bend the wire back to its original shape. 
 
-\subsection{Springback}
+\subsection{Springtrap}
 
 To remove this component, the wire has to be overbend by a specific angle and to a specific radius. Those values are determined by the springback factor \(k_s\)\sidecite{blue-bible}, and the desired angle and radius, which remain due to purely plastic deformation. \(k_s\) highly depends on the material and geometry, and usually can be found in large databases.
 
@@ -223,9 +227,9 @@ The trickiest part was drawing the path for the grooving in Autodesk Inventor. F
 
 \section{Top Electrode}
 
-Technically the Tesla coil would also work without a top electrode by simply using the end of the secondary coil's wire as the arcing point. however, given that the wire of the secondary has a small diameter and is made of copper, it would likely melt or at least start to deform when it emits a spark. To ensure the arcing point stays intact, the wire is connected to another material - in this case, a welding electrode made of a tungsten alloy. 
+The top electrode needs to be made out of a temperature resistant, conductive material. It should already be available as thin rod, because turning would not be an option for such small diameters. Welding electrodes fit this criteria, because they are a few millimeters thick and consist of a tungsten alloy with a melting point of around \texttt{insert correct value here}. By using a bench grinder, one side of the electrode could easily be whetted to a pointy spike.
 
-The holder that keeps the electrode at the top of the coil is made of two parts. As seen in figure \ref{fig:top-electrode}, the first is two copper pieces that are kept together with a thread, and in between, the wire of the secondary gets clamped. There are also two notches on each to enable fastening and opening with a flat wrench. To mount the tungsten electrode, a press fit was drilled into the top surface of the copper piece. The second part is a \gls{pmma} piece with another fit at the top for the copper piece. On one side, there is also a gap to direct the wire of the secondary to the inner part. 
+The holder that keeps the electrode at the top of the coil is made of two parts. As seen in figure \ref{fig:top-electrode}, the first is two copper pieces that are kept together with a thread, and in between, the wire of the secondary gets clamped. There are also two notches on each to enable fastening and opening with a flat wrench. To mount the tungsten electrode, a press fit was drilled into the top surface of the copper piece. The second part is a \gls{pmma} piece with another fit at the top for the copper piece. There is also a gap on one side to direct the wire of the secondary to the inner part. 
 
 \begin{marginfigure}[-8cm]
     \centering
@@ -266,7 +270,7 @@ While in section \ref{subsec:materials-metals}, it was explained that metals pos
 
 \section{PCB Enclosure}
 
-The general placement of the \gls{pcb}, being right beneath the coils, was already addressed in section \ref{sec:concept-design}. The platform where the secondary coil and the supports for the primary coil are mounted was already designed and chosen to be hexagon-shaped, mainly because it works the best with the six supports. Again, the prototype has the platform resting on top of six pillars to keep everything as modular as possible. The prototype also has only the most essential features and only consists of a framework, this also makes it easier to access the inside of the \gls{pcb} enclosure. The final design would be completely closed off, and the platform would be glued on as with the primary coil’s supports.
+The general placement of the \gls{pcb}, being right beneath the coils, was already addressed in section \ref{sec:concept-design}. The platform where the secondary coil and the supports for the primary coil are mounted was already designed and chosen to be hexagon-shaped, mainly because it works the best with the six supports. Again, the prototype has the platform resting on top of six pillars to keep everything as modular as possible. The prototype also has only the most essential features and only consists of a framework, this also makes it easier to access the inside of the \gls{pcb} enclosure. The final design would be completely closed off, and the platform would be glued on as like the primary coil’s supports.
 
 \begin{figure}[h!]
     \centering

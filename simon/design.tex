@@ -342,13 +342,19 @@ From the simulation alone it is hard to tell how well the amplifier will work in
     \label{fig:ltspice-complete}
 \end{figure}
 
+\section{Generating the Gate Signal}
 
+To \emph{turn on} the class-E amplifier, a \(4\,MHz\) signal has to be applied to the MOSFET gate. The easiest way to generate this signal would be to use a quartz crystal or an oscillator. The difference between those two is that while a quartz crystal is a passive device and needs external circuitry to oscillate, an oscillator only needs to be supplied to output a signal. Also, a crystal outputs a sine wave, which needs to be converted into a logic pulse signal by using e.g. a Schmitt trigger, and an oscillator directly outputs a logic signal. However, one big disadvantage they both have is that they have a fixed frequency.
+
+Using a variable frequency can be very convenient for tuning the Tesla coil. Every small change in the coil's surroundings causes the resonant frequency to change. Adjusting the operating frequency to the resonant frequency by changing a component's value is easier than vice-versa by changing the coil's parameters. 
 
 \section{The Interrupter}
 
 \subsection{Fiber Optic Transmission}
 
-Fiber optic cables are a popular choice for sending signals from an interrupter to a Tesla coil. First reason being, that the Tesla coil emits a strong electromagnetic field, which would induce a current in any reasonably long cable. Depending on the output power of the coil, this can even cause bitflips in a \(5\,V\) logic transmission line, and damage components due to overvoltage. The second reason is, that any failure in the power amplifier or discharges between nearby \gls{pcb} traces could send a high voltage spike back to the interrupter and destroy it.
+% mention that the fiber has to be cleanly cut at 90°
+
+Fiber optic cables are a popular choice for sending signals from an interrupter to a Tesla coil. First reason being, that the Tesla coil emits a strong electromagnetic field, which would induce a current in any reasonably long cable. Depending on the output power of the coil, this can even cause bitflips in a \(5\,V\) logic transmission line, and damage components due to overvoltage. The second reason is, that any failure in the power amplifier or discharges between nearby \glsunset{pcb}\gls{pcb} traces could send a high voltage spike back to the interrupter and destroy it.
 
 Optical fibers on the other hand are not susceptible to \gls{emi}, and if a high voltage is applied to the receiver, it will go into its limit or directly break, but in no way can it induce this same voltage across the transmitter. The used cable was a \(1\,m\) long \texttt{SH-4001} \(1000\,\mu m\) core jacketed optical fiber.
 
