@@ -59,7 +59,7 @@ Using Wolfram Alpha to solve this equation for \(l\) with a \(D\) of 30 mm gives
 
 \subsection{Tuning the Secondary Coil}\label{TC-tuningTheSecondary}
 
-Tuning the coil to the correct frequency is essential, because all calculated values from above are highly idealized. For example, equation \ref{eq-parasitic-capacitance} is said to have a standard deviation of \(\sigma_{CL} \text{in pF} = 3.6 \cdot D\), which leads to a standard deviation of around 116 kHz of the resonant frequency of the coil. In addition, the relative permeability and permittivity factor of the carrier material are not taken into consideration in the calculations.
+Tuning the coil to the correct frequency is essential, because all calculated values from above are highly idealized. For example, equation \ref{eq-parasitic-capacitance} is said to have a standard deviation of \(\sigma_{CL} \text{ in } pF = 3.6 \cdot D\), which leads to a standard deviation of around 116 kHz of the resonant frequency of the coil. In addition, the relative permeability and permittivity factor of the carrier material are not taken into consideration in the calculations.
 
 The coil was tuned by exciting the base of the secondary coil with a sinusoidal voltage. An oscilloscope probe, formed into a current loop, was placed near the top of the coil. The closer the excitation frequency was to the resonant frequency of the coil, the higher the measured voltage on the oscilloscope. The frequency, at which the measured voltage was at its maximum, was the resonant frequency of the coil. By adding or removing windings, the resonant frequency could be lowered or raised, until it exactly matched 4MHz\sidenote{In order to avoid adding windings, which is more tedious than removing them, the coil was wound a little longer than calculated}. % Add how close the original calculations were
 
@@ -348,9 +348,50 @@ From the simulation alone it is hard to tell how well the amplifier will work in
 
 \subsection{Fiber Optic Transmission}
 
-% transmitter and receiver circuit
+Fiber optic cables are a popular choice for sending signals from an interrupter to a Tesla coil. First reason being, that the Tesla coil emits a strong electromagnetic field, which would induce a current in any reasonably long cable. Depending on the output power of the coil, this can even cause bitflips in a \(5\,V\) logic transmission line, and damage components due to overvoltage. The second reason is, that any failure in the power amplifier or discharges between nearby \gls{pcb} traces could send a high voltage spike back to the interrupter and destroy it.
 
-\subsection{MOSFET protection circuit}
+Optical fibers on the other hand are not susceptible to \gls{emi}, and if a high voltage is applied to the receiver, it will go into its limit or directly break, but in no way can it induce this same voltage across the transmitter. The used cable was a \(1\,m\) long \texttt{SH-4001} \(1000\,\mu m\) core jacketed optical fiber.
+
+\subsubsection{The Transmitter}
+
+The used transmitter LED was a \texttt{IF E91A}, which is compatible with any standard \(1000\,\mu m\) optic fiber. It has a peak wavelength of \(940\,nm\), which lies in the near-infrared spectrum and therefore is not visible. The nominal output power when used with a \(1\,m\) long \texttt{SH-4001} fiber is \(70\,\mu W\) at a forward voltage \(I_F\) of \(20\,mA\). At \(10\,mA\), which will be used instead to not overload the interrupter, only about \(85\%\) of this power (\(60\,\mu W\)) can be expected.
+
+To drive the LED, a \texttt{2N7000} small signal MOSFET in a low side switch configuration was used. With a voltage drop of \(1.2\,V\) across the LED, its series resistor at a supply voltage of \(5\,V\) should be \(380\,\Omega\)\sidenote{The MOSFET's \(R_{DS(ON)}\) of only \(1.8\,\Omega\) is negligible.}. Additionally, adding a \(330\,\Omega\) resistor between the interrupter and the gate of the MOSFET limits the gate current to \(15\,mA\) while still maintaining a high enough transient frequency.
+
+\subsubsection{The Receiver}
+
+To translate the light pulses back into an electric signal, a \texttt{IF-D92} phototransistor\sidenote{A phototransistor is merely a bipolar transistor with a photodiode connected from its collector to its base} has been used. At the wavelength of \(870\,nm\), the responsivity is specified as \(100\,\mu A/\mu W\) and drops to \(94\,\mu A/\mu W\) for a wavelength of \(940\,nm\). This means that the collector current \(I_C\) is expected to be around \(5.6\,mA\).
+
+The phototransistor alone cannot produce a signal large enough to be used for a logic input. This is why it was combined with a \texttt{RUM001L02} MOSFET to form a \emph{darlington pair}. This simply means, that the phototransistor was connected to the gate of the MOSFET, which amplifies the signal to 12V. A pulldown resistor in form of a trimmer potentiometer has been added to the MOSFET's gate to discharge it and set the amplifier's sensitivity. The source resistance has been set to \(4.7\,k\Omega\).
+
+Figure \ref{fig:transmitter-receiver} shows the transmitter and receiver circuit.
+
+\begin{figure}[h!]
+    \centering
+    \resizebox{0.9\textwidth}{!}{
+    \begin{circuitikz}[european resistors]
+      \tikzset{stroke diodes}
+      \draw (0,0) node[nigfete](t){2N7000};
+      \draw (t.S) node[rground]{};
+      \draw (t.D) ++(0,3) node[vcc]{+5V} to[R, l=\ 380\,\(\Omega\)] ++(0,-1.5) to[leD, l=IF E91A] ++(0,-1.5);
+      \draw (t.G) to[R, l=330\,\(\Omega\)] ++(-2,0) to[short,-o] ++(-.2,0) node[left]{Interrupter};
+      \draw[dashed, black!60] (2.2,5) -- (2.2,-1.5);
+      \tikzset{shift={(4,1.5)}};
+      \draw (0,1) node[npn,photo](r){IF-D92};
+      \draw (r.S)++(0,-2.5) node[rground]{} to[vR, name=p, l=\(10\,k\Omega\)] ++(0,1.5) -- ++(0,1);
+      \draw (p) ++(0.48,-.28) -- ++(0,-.5) to[short,-*] (0,-2.3);
+      \draw (2.5,-.3) node[nigfete](a){RUM001L02};
+      \draw (a.G) to[short,-*] ++(-1.52,0);
+      \draw (a.S) -- ++(0,-1.2) node[rground]{};
+      \draw (a.D) to[R, l_=\(4.7\,k\Omega\)] ++(0,1.5) -- ++(0,.25) node[vcc]{+12V};
+      \draw (r.D) -- ++(0,.4) to[short,-*] ++(2.5,0);
+      \draw (a.D) ++(0,-.2) to[short,-o] ++(1,0) node[right]{Tesla Coil};
+    \end{circuitikz}}
+    \caption{Transmitter and Receiver Cicuit}
+    \label{fig:transmitter-receiver}
+\end{figure}
+
+\subsection{Class-E Protection Circuit}
 
 Directly applying the interrupting technique to the class E circuit by just turning it on and off at any given moment would violate both the \gls{zvs} and \gls{zcs} conditions. In the worst case, switching the MOSFET on when the voltage is at its maximum and turning it off when the current is at its maximum a few thousand times a second would result in huge switching losses and device failure. Therefore a security mechanism has to be implemented.
 

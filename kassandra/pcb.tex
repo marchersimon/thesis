@@ -77,15 +77,23 @@ The PCB can be separated into two logic parts - the analog class-E part and the 
 
 \section{Manufacturing}
 
-While \glspl{pcb} are typically ordered from an external company to ensure the best quality, this was not possible in this case. Having them produced is very costly and also takes more time, than manufacturing them in-house. The workshop's \gls{pcb} department, although basic, has been a great alternative, especially because of the many prototypes that had to be produced. The downside is the lack of professional equipment, a like solder resist or stencils. Without those, the component assembly process became much more time consuming. But on the other side this way of manufacturing is much more flexible then ordering a \gls{pcb} online.
+While \glspl{pcb} are typically ordered from an external company, this was not possible in this case. Having them produced is very costly and takes more time, than manufacturing them in-house. The workshop's \gls{pcb} department, although basic, has been a great alternative, especially because of the many prototypes that had to be produced. Also, the flexibility of being able to control every single manufacturing step is impossible to reach when ordering \glspl{pcb}. On the downside, it lacked some professional equipment, like a solder resist station or a stencil cutter. This made the component assembly process significantly harder and more time consuming.
+
+The used manufacturing technique was acidic etching % check if really acidic and not alkaline (https://www.orientdisplay.com/knowledge-base/pcb-basics/what-are-pcb-etching-techniques/)
+and the available \gls{pcb} blanks were single or double layered FR-1 blanks. % probably not FR-1
 
 \subsection{Exposure}
 
-After designing the \gls{pcb}'s layout, it has to be exposed before it can be etched. The top and bottom layer of the \gls{pcb} is covered in photo resist and right beneath it is the copper layer. So when using a positive photoresist process, like in this case and the board is hit with UV light the photo sensitive material will dissolve. By placing a semi transparent paper with only the tracks printed black and placing it on both sides of the \gls{pcb} while being exposed***. This way only the copper parts that are not hit with UV light will be protected and the rest will dissolve in the etching phase. To make the exposure process more convenient the available exposure unit has the option to turn on a vacuum pump to ensure the paper stays in one place during the process. It takes about one and a half minute to complete this process.
+The first step was to chemically apply a footprint of the traces to the PCB to the photoresist layer of the PCB. This was done with a designated UV exposure unit. The part of the positive photoresist which gets hit by UV light becomes soluble, while the part covered by a photomask stays insoluble. This photomask was just a semi-transparent sheet of paper with traces printed onto it. It had to be made sure to use as much ink as possible to make it as lightproof as possible.
+
+The photomask for the top and bottom layer had to be carefully aligned, and it had to be made sure that the printed side of the paper faced the PCB. To further eliminate any possible gap between the ink and the PCB, the exposure unit comes with a vacuum pump to press the paper onto the PCB. Before removing the protective film from the PCB, the room has to be dimmed to prevent light from hitting the photoresist beforehand. The exposure process itself then takes about 90 seconds.
 
 \subsection{Stripping and Etching}
 
+Stripping is the process which removes the UV exposed part of the photoresist. The PCB gets mounted in a fixture and sprayed with a \texttt{insert correct name here} at room temperature for one minute. During this process the room has to be kept dim and can only be lit up afterwards. To clean the \gls{pcb} from remaining \texttt{insert correct name here}-traces, it has to be cleaned with water.
 
-The copper also tended to not properly dissolving in certain places often resulting in an unwanted short. 
+
 
 \subsection{Reflow Soldering}
+
+\subsection{Potential Problems}

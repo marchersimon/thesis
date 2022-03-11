@@ -1,27 +1,24 @@
 \chapter{Casing}
 
-% Since the Tesla coil is intended as a consumer product, the casing plays an important role for its appearance. But apart from optics, there are a lot of safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along playing with open plasma.
-
 % Another point to note is, that the casing was build with modularity in mind. This enables to repair 
-It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is crucial. The simplest of casings often have multiple design stages and variations with different advantages. When designing something as complex and difficult as a Tesla coil, the casing is even more rigorous to construct. 
+It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is crucial. The simplest of casings often have multiple design stages and variations with different advantages. Since the Tesla coil is intended as a consumer product, the casing plays an important role for its appearance. But apart from optics, there are a lot of safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along playing with open plasma.
 
 
 \section{Concept design}
 \label{sec:concept-design}
 
-There are four main parts that are essential to consider while constructing the Tesla coil - the primary coil, the secondary coil, the \gls{pcb}, and the top electrode. Those can be placed in any way possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
+There are four main parts that are essential to consider while constructing the Tesla coil - the primary coil, the secondary coil, the \gls{pcb}, and the top electrode. Technically, those can be placed in any way possible, but there is a reasonable standard practice for their placement, especially for the coils and the top electrode. 
 
-\begin{figure}
+\begin{marginfigure}[1cm]
     \centering
-    %\missingfigure
-    %\includegraphics{}
+    \includegraphics[width=1.2\textwidth]{kassandra/resources/JerJerWoBistDuKonzept.PNG}
     \caption{Concept design}
     \label{fig:envision}
-\end{figure}
+\end{marginfigure}
 
-As seen above, the secondary coil is perpendicular, and the primary coil is angled at 30°\sidenote{The primary coil design choices have already been explained in the previous part at the end of \ref{sec:designing-the-primary}} to the horizontal. This is the easiest way to calculate and most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary, the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeters above the secondary coil.
+As seen in figure \ref{fig:envision}, the secondary coil is perpendicular, and the primary coil is angled at 30° to the horizontal, the primary coil design choices have already been detailed in the previous part at the end of section \ref{sec:designing-the-primary}. This is the easiest way to calculate and also the most practical way to design the secondary. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary, the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeters above the secondary coil. ***
 
-Technically the \gls{pcb} can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry.} as long as it can be connected to the coils. However, to make transportation the easiest, the casing for the \gls{pcb} should be right beneath the coils. This way, everything needed stays in one place. 
+Technically the \gls{pcb} can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry.}as long as it can be connected to the coils. However, to make transportation the easiest, the casing for the \gls{pcb} should be right beneath the coils. This way, everything needed stays in one place. 
 
 \section{Materials}
 
@@ -30,29 +27,26 @@ Deciding which materials to use is also a tedious task because there are a lot o
 \subsection{Metals}
 \label{subsec:materials-metals}
 
-Metal is a popular choice for building high-grade casings because of its low price and good machinability. However, metals are rather unsuitable for a Tesla coil, mainly because of their electrical conductivity, which would pose an unnecessary safety risk to the user when touched. On one side, because some internal connection error could be lethal in the worst case, but also because if not properly grounded, static electricity could build up in the casing and shock everyone touching it. Another critical factor is that metals have very high permeability, weakening any magnetic field. This would not be a big problem for the \gls{pcb} enclosure but would certainly cause issues when used around the primary or secondary coil.
+Metal is a popular choice for building high-grade casings because of its low price and good machinability. However, metals are rather unsuitable for a Tesla coil, mainly because of their electrical conductivity, which would pose an unnecessary safety risk to the user when touched. On one side, because some internal connection error could in the worst case be lethal, but also because if not properly grounded, static electricity could build up in the casing and shock everyone touching it. Another critical factor is that metals have very high permeability, weakening any magnetic field. This would not be a big problem for the \gls{pcb} enclosure but would certainly cause issues when used for the support of the primary or secondary coil.
 
 \subsection{Woods}
 
-One material that is not often used for casings, especially for commercial products, is wood, mainly because it is more expensive and harder to work with than metal. This Tesla coil is not like any device, but wood is still not a good option, mainly because the top electrode emits a high-temperature spark which could inflame the wooden casing. Making the casing for only the board wooden would not work either because if the capacitance of the secondary coil changes, the driver operates outside of its ideal conditions and dissipates a lot of energy as heat, potentially inflaming the wood.
+One material that is not often used for casings, especially for commercial products, is wood, mainly because it is more expensive and harder to work with than metal. This Tesla coil is not like any device, but wood is still not a good option, most notably because the top electrode emits a high-temperature spark which could inflame the wooden casing. Making the casing for only the \gls{pcb} wooden would not work either because if the capacitance of the secondary coil changes, the driver operates outside of its ideal conditions and dissipates a lot of energy as heat, potentially inflaming the wood.
 
 \subsection{Glass}
 
-Glass is an electrical insulator, so it would not interfere with the magnetic field, has very high-temperature resistance, and has a polished look. It also comes in various opacities, and surface finishes making the casing very customizable. The main disadvantage of glass is its high production costs. Due to the Tesla coil not being commercially produced, this kind of casing is unsustainable.
+Glass is an electrical insulator, so it would not interfere with the magnetic field, has very high-temperature resistance, and has a polished look. It also comes in various opacities, and surface finishes making the casing very customizable. The main disadvantage of glass is its high production costs. Due to the Tesla coil not being commercially produced, this kind of casing would be unsustainable.
 
 \subsection{Plastics}
 
 \glsunset{pvcp}\glsunset{pmma}\glsunset{pvcu}\glsunset{ptfe}
-The only remaining option for the type of casings material would be plastic. However, plastic is not plastic. The two types of plastic with the highest availability, in this case, would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu}, but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability, but it cannot provide the suitable characteristics for the Tesla coil. One problem with \gls{pvcp} is its water absorption because due to water's diamagnetic properties, it heats up in an oscillating magnetic field, i.e., it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma}, in comparison, has an absorption of 0.4\% at max. On the other hand, \gls{pvcu} has an even more ideal water absorption at 0.1\%. The casing should not be out of \gls{pvcp} or \gls{pvcu} because of its poor temperature resistance, which starts to deform at around 60°C, while \gls{pmma} only starts at about 100°C. \gls{pmma} is not ideal in any way, but due to its easy availability and better properties, it was chosen for the casing. 
+The only remaining option for the type of casings material would be plastic. However, plastic is not plastic. The two types of plastic with the highest availability, in this case, would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu}, but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability, but it cannot provide the suitable characteristics for the Tesla coil. One problem with \gls{pvcp} is its water absorption because due to water's diamagnetic properties, it heats up in an oscillating magnetic field, i.e., it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma}, in comparison, has an absorption of 0.4\% at max. On the other hand, \gls{pvcu} has an even more ideal water absorption at 0.1\%. \sidecite{water-absorption} The casing should not be out of \gls{pvcp} or \gls{pvcu} because of its poor temperature resistance, which starts to deform at around 60°C, while \gls{pmma} only starts at about 100°C. \gls{pmma} is not ideal in any way, but due to its easy availability and better properties, it was chosen for the casing. 
 
-The ideal plastic would be \gls{ptfe}\sidenote{also commercially known as Teflon}, which has a maximum of 0.01\%, a tenth better than \gls{pvcu}. The temperature resistance is also better than \gls{pmma} because it can be used at a working temperature of 280°C\sidecite{blue-bible}. \gls{ptfe} was not used as a casing because it was unavailable, but it might be considered in a future build.  
-
-\todo{Welche veraussetzung die materialien haben müssen und warum gewisse nicht in frage kommen. Berechnungen auch Permeabilität \& Permittivität
-https://omnexus.specialchem.com/polymer-properties/properties/water-absorption-24-hours einbinden}
+The most ideal plastic would be \gls{ptfe}\sidenote{also commercially known as Teflon}, which has a maximum of 0.01\% water absorption, a tenth better than \gls{pvcu}. The temperature resistance is also better than \gls{pmma} because it can be used at a working temperature of 280°C\sidecite{blue-bible}. But \gls{ptfe} was not used as a casing because it was unavailable, but it might be considered in a future build.  
 
 \subsection{Conclusion}
 
-In figure \ref{fig:material-score}, all previously discussed materials are given a subjective score from 1 to 10 in the four most important categories. The score in the circle is then determined by the average points of these categories, quickly visualizing which material is best suited for the Tesla coil. Both \gls{ptfe} and \gls{pmma} have the same total score, but as already mentioned above, \gls{ptfe} wasn't used because of the low availability.  
+In figure \ref{fig:material-score}, all previously discussed materials are given a subjective score from 1 to 10 in the four most important categories. The score in the circle is then determined by the average points of these categories, visualizing which material is best suited for the Tesla coil. Both \gls{ptfe} and \gls{pmma} have the same total score, but as already mentioned above, \gls{ptfe} wasn't used because of the low availability.  
 
 \begin{figure}[h!]
     \centering
@@ -90,7 +84,7 @@ The primary coil's holding structure consists of six supports arranged in a hexa
     \label{fig:primary-supports}
 \end{figure}
 
-To avoid gluing the supports to the base plate, a bolt was used to keep it in place, as shown in figure \ref{fig:stayer}. This mechanism was mainly designed for testing purposes as it is easier to assemble and disassemble. In a possible future version or commercial release, it would be safer if the supports were glued on. Also, as shown, the supports have a unique design. This was mostly done to make them look elegant and not stand out too much. That makes them lighter, but given that the supports are just a tiny fraction of the Tesla coil's weight, it does not make much difference.
+To avoid gluing the supports to the base plate, a bolt was used to keep it in place, as shown in figure \ref{fig:stayer}. This mechanism was mainly designed for testing purposes as it is easier to assemble and disassemble. In a possible future version or commercial release, it would be safer if the supports were glued on. Also, as shown, the supports have a unique design. This was mostly done to make them look elegant and not stand out too much. That makes them lighter, but given that the supports are just a tiny fraction of the Tesla coil's weight, it does not make much of a difference.
 
 \begin{figure}[h!]
     \begin{subfigure}{0.5\textwidth}
@@ -108,20 +102,18 @@ To avoid gluing the supports to the base plate, a bolt was used to keep it in pl
 
 \subsection{Secondary Coil}
 
-The core of the secondary coil was one of the easier parts to design because it essentially just consists of a 30mm \gls{pmma} tube with a thickness of 3mm. A few millimeters from the top of the tube, a small hole was drilled to guide the wire to the inside and connect it to the top electrode. The 330 turns of 0.35mm wire were then wound by hand and then coated with protective and insulating varnish to prevent the wire from loosening and cross-arcing to occur.
-
-\todo{Das Gerüst für die zwei spulen. Stayer Desgin und funktion.}
+The core of the secondary coil was one of the easier parts to design because it essentially just consists of a \(30\,mm\) \gls{pmma} tube with a thickness of 3mm and a length of \(120\,mm\). A few millimeters from the top of the tube, a small hole was drilled to guide the wire to the inside and connect it to the top electrode. The 330 turns of \(0.35\,mm\) wire were then wound by hand and then coated with protective and insulating varnish to prevent the wire from loosening and cross-arcing to occur.
 
 \section{Primary Wire Bending}
 
-After the supports for the primary coil have been designed, the the coils itself still has to be bent. Simply bending the wire by placing it in the slots one after another is not an option, because it takes a considerable amount of force to hold a tensioned 1.2\,mm wire in place\sidenote{This force could be brought up by glue, but that would be very unprofessional}. 
+After the supports for the primary coil have been designed, the the coils itself still has to be bent. Simply bending the wire by placing it in the slots one after another is not an option, because it takes a considerable amount of force to hold a tensioned \(1.2\,mm\) wire in place\sidenote{This force could be brought up by glue, but that would be very unprofessional}. 
 This force is due to the elastic component of the wire's deformation, which tries to bend the wire back to its original shape. 
 
 \subsection{Springback}
 
 To remove this component, the wire has to be overbend by a specific angle and to a specific radius. Those values are determined by the springback factor \(k_s\)\sidecite{blue-bible}, and the desired angle and radius, which remain due to purely plastic deformation. \(k_s\) highly depends on the material and geometry, and usually can be found in large databases.
 
-However, since those are often not freely available\sidenote{Especially not for silver-coated copper wires}, this factor had to be measured by hand. This was done by bending the wire by a specific angle \(\alpha_1\) and measuring the angle \(\alpha_2\) it sprung back to. Because \(k_s\) is geometry-dependent, this measurement had to be repeated for multiple diameters. \(k_s\) then simply is the ratio between \(\alpha_2\) and \(\alpha_1\). Figure \ref{fig:springback} shows these calculated values as well as their linear regression fit.
+However, since those are often not freely available\sidenote{Especially not for silver-coated copper wires}, this factor had to be measured by hand. This was done by bending the wire by a specific angle \(\alpha_1\) and measuring the angle \(\alpha_2\) that it sprung back to. Because \(k_s\) is geometry-dependent, this measurement had to be repeated for multiple diameters. \(k_s\) then simply is the ratio between \(\alpha_2\) and \(\alpha_1\). Figure \ref{fig:springback} shows these calculated values as well as their linear regression fit.
 
 \begin{marginfigure}[-1cm]
     \centering
@@ -171,7 +163,7 @@ Inserting equation \ref{eq:r2-spiral} into equation \ref{eq:r1-overbending}, set
     r_1 = 326.56 - \frac{248622}{\theta + 813.557}\,.
 \end{equation}
 
-Figure \ref{fig:spirals} shows \(r_1\) and \(r_2\) side by side for a domain of ten full rotations.
+Figure \ref{fig:spirals} shows \(r_1\) and \(r_2\) side by side for the domain of \([0:20\pi]\).
 
 \begin{figure}[h!]
     \centering
@@ -184,7 +176,7 @@ Figure \ref{fig:spirals} shows \(r_1\) and \(r_2\) side by side for a domain of 
         xticklabels = {,,},
         yticklabels = {,,},
         ]
-        \addplot[domain=0:20*pi, samples=500, color=red, data cs=polarrad] { 25 + 0.4775 * x };
+        \addplot[domain=0:20*pi, samples=500, color=black!60, data cs=polarrad] { 25 + 0.4775 * x };
       \end{polaraxis}
       \begin{polaraxis}[
         xmin = 90,
@@ -193,7 +185,7 @@ Figure \ref{fig:spirals} shows \(r_1\) and \(r_2\) side by side for a domain of 
         xshift = -3.43cm,
         xticklabels = {,,},
         ]
-        \addplot[domain=0:20*pi, samples=500, color=red, data cs=polarrad] { 326.56 - 248622 / (x+813.557) };   
+        \addplot[domain=0:20*pi, samples=500, color=black!60, data cs=polarrad] { 326.56 - 248622 / (x+813.557) };   
     \end{polaraxis}
 \end{tikzpicture}}
     \caption{AAA}
@@ -205,7 +197,7 @@ Even though it looks like \(r_1\) has a uniform inclination, the distance betwee
 During the transformation from \(r_1\) to \(r_2\), the wire not only increases its diameter, but also decreases its number of turns. This is because the total length of the wire has to stay the same. The overbending angle \(\alpha_1\), which directly relates to the number of turns, is simply the remaining angle \(\alpha_2\) divided by \(k_s\). However, \(k_s\) is a function of \(r_1\), which in turn is a function on \(\alpha_1\), which is a function of \(\alpha_2\). Since this does not only sound impractical, another approach was taken.
 
 % sounds weird
-The domain of \(r_1\) has to be chosen, so that its length is the same as the length of \(r_1\) in the domain \([0:20\pi]\). To calculate the length of the curves, a WolframAlpha widget\sidenote{an URL to which can be found in QR code \newqrcode{https://www.wolframalpha.com/widgets/view.jsp?id=c26cbb9457ff75f58f479364ddb79cd1}{Arc Length in Polar Coordinates}} has been used. In the domain \([0:20\pi]\), the length of \(r_2\) turns out to be \(2.51\,m\) while \(r_1\) is with just above \(2\,m\) too short. By using the trial-and-error method, it has been found that \(r_1\) needs to have \(11.77\) turns to achieve the desired length.
+The domain of \(r_1\) has to be chosen, so that its length is the same as the length of \(r_1\) in the domain \([0:20\pi]\). To calculate the length of the curves, a WolframAlpha widget\sidenote{an URL to which can be found in QR code \newqrcode{https://www.wolframalpha.com/widgets/view.jsp?id=c26cbb9457ff75f58f479364ddb79cd1}{Arc Length in Polar Coordinates}} has been used. In the domain \([0:20\pi]\), the length of the curve \(r_2\) turns out to be \(2.51\,m\) while \(r_1\) is with just above \(2\,m\) too short. By using the trial-and-error method, it has been found that \(r_1\) needs to have \(11.77\) turns to achieve the desired length.
 
 One remaining problem, however, is that \(r_2\) is only the projection of the actual primary coil. A conic spiral is longer that its flat projection and also needs to be bend, which introduces additional springback. However, the the average inclination of the wire is with \(1.7\,mm\) per turn only about \(0.0002\) degrees, which is negligible.
 
@@ -213,7 +205,7 @@ One remaining problem, however, is that \(r_2\) is only the projection of the ac
 
 Since bending a wire according to a specific curve equation just by looking at it is rather hard, a bending device was designed. It is just a cone with a spiral-shaped grooving, where the wire can be pressed into. After taking it out again, it bends on the correct form of the primary coil. To ensure, that the wire doesn't get stuck, the grooving was made slightly wider than the wire's diameter.
 
-The trickiest part was drawing the path for the grooving in Autodesk Inventor. First a 2D spiral was drawn by adding a polar equation curve for \(r_1\) which was then projected onto a conical plane as shown in figure \ref{fig:spirae}. Designing the rest of the bending device was relatively straightforward and figure \ref{biegbieg} shows a cut view of the final part. % 3D printed
+The trickiest part was drawing the path for the grooving in Autodesk Inventor. First a 2D spiral was drawn by adding a polar equation curve for \(r_1\) which was then projected onto a conical plane as shown in figure \ref{fig:spirae}. Designing the rest of the bending device was relatively straightforward and figure \ref{fig:biegbieg} shows a sliced view of the final part. % 3D printed
 
 \begin{marginfigure}[-3cm]
     \centering
@@ -233,9 +225,7 @@ The trickiest part was drawing the path for the grooving in Autodesk Inventor. F
 
 Technically the Tesla coil would also work without a top electrode by simply using the end of the secondary coil's wire as the arcing point. however, given that the wire of the secondary has a small diameter and is made of copper, it would likely melt or at least start to deform when it emits a spark. To ensure the arcing point stays intact, the wire is connected to another material - in this case, a welding electrode made of a tungsten alloy. 
 
-The holder that keeps the electrode at the top of the coil is made of two parts. As seen in figure \ref{fig:top-electrode}, the first is two copper pieces that are kept together with a thread, and in between, the wire of the secondary is clamped. There are also two notches on each to enable fastening and opening with a flat wrench. To mount the tungsten electrode, a press fit was drilled into the top surface of the copper piece. 
-
-The second part is a \gls{pmma} piece with another fit at the top for the copper piece. On one side, there is also a gap to direct the wire of the secondary to the inner part. 
+The holder that keeps the electrode at the top of the coil is made of two parts. As seen in figure \ref{fig:top-electrode}, the first is two copper pieces that are kept together with a thread, and in between, the wire of the secondary gets clamped. There are also two notches on each to enable fastening and opening with a flat wrench. To mount the tungsten electrode, a press fit was drilled into the top surface of the copper piece. The second part is a \gls{pmma} piece with another fit at the top for the copper piece. On one side, there is also a gap to direct the wire of the secondary to the inner part. 
 
 \begin{marginfigure}[-8cm]
     \centering
