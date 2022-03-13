@@ -8,7 +8,7 @@
 
 \section{The Coils}
 
-The goal was to design an air coil with a resonant frequency of 4MHz. This frequency was chosen, since it is high enough to work well with an class E amplifier, but low enough to not run into too many RF related problems. It was also already known to have worked with a few other class E tesla coils.
+The goal was to design an air coil with a resonant frequency of 4MHz. This frequency was chosen, since it is high enough to work well with an class-E amplifier, but low enough to not run into too many RF related problems. It was also already known to have worked with a few other class-E Tesla coils.
 
 \subsection{Designing the Secondary Coil}
 \label{subsec:designing-the-secondary-coil}
@@ -61,8 +61,8 @@ Using Wolfram Alpha to solve this equation for \(l\) with a \(D\) of 30 mm gives
 \subsection{Designing the Primary Coil}
 \label{sec:designing-the-primary}
 
-The primary coil offers a lot of design freedom and flexibility, but this also means, that there is no \enquote{correct} or \enquote{ideal} design, but only one, which has been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it's too low, not enough energy will be transferred to the secondary, but to raise it, the coils have to be moved closer together which leads to flashover, due to too low insulation. % Test tesla coil with coupling factor of 0.10 to 0.15  Source: book page 55
-This limitation can be bypassed by making the primary coil smaller at the bottom, where the voltage is higher and larger at the top, where the voltage is higher. This results in the well-known conical shape known from many tesla coils.
+The primary coil offers a lot of design freedom and flexibility, but this also means, that there is no \enquote{correct} or \enquote{ideal} design, but only one, which has been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it's too low, not enough energy will be transferred to the secondary, but to raise it, the coils have to be moved closer together which leads to flashover, due to too low insulation. % Test Tesla coil with coupling factor of 0.10 to 0.15  Source: book page 55
+This limitation can be bypassed by making the primary coil smaller at the bottom, where the voltage is higher and larger at the top, where the voltage is higher. This results in the well-known conical shape known from many Tesla coils.
 
 \begin{marginfigure}
 \centering
@@ -160,7 +160,7 @@ However, it is not possible to use \(V_{SC}\) directly as the control voltage, b
 
 \section{Class-E Design}
 
-As already explained in aaaaa, it is everything but trivial to design a class E amplifier to drive a tesla resonator. However, for the sake of demonstration, the following subsection will go through the design process of a class E amplifier with an ohmic load.
+As already explained in aaaaa, it is everything but trivial to design a class-E amplifier to drive a Tesla resonator. However, for the sake of demonstration, the following subsection will go through the design process of a class-E amplifier with an ohmic load.
 
 \subsection{The Design Process}
 \label{subsec:the-design-process}
@@ -207,7 +207,7 @@ Based on the previous calculations, the MOSFET must have
 
 One MOSFET which meets all these criteria is the BSC12DN20NS3. It has a drain-source breakdown voltage of 200V, an output capacitance of 39pF, turn-off and turn-on times of less than 5 ns and a maximum power dissipation of 50W. The capacitor \(C_{1*}\) therefore is \(387\,pF - 39\,pF = 348\,pF\).
 
-The driver was then simulated using LTSpice. The Spice model for the BSC12DN20NS3 can be found in QR code \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}{BSC12DN20NS3 LTSpice model}. This zip file contains a file called \texttt{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the correct one into the schematic, a standard \texttt{nmos} has to be added and its value has to be set to \textttt{BSC12DN20NS3\_L1}\sidenote{This can be done by right-clicking the symbol.}. The \enquote{L1} means, that switching losses will be included in the simulation.
+The driver was then simulated using LTSpice. The Spice model for the BSC12DN20NS3 can be found in QR code \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}{BSC12DN20NS3 LTSpice model}. This zip file contains a file called \texttt{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the correct one into the schematic, a standard \texttt{nmos} has to be added and its value has to be set to \texttt{BSC12DN20NS3\_L1}\sidenote{This can be done by right-clicking the symbol.}. The \enquote{L1} means, that switching losses will be included in the simulation.
 
 \begin{figure}[h!]
     \centering
@@ -317,11 +317,11 @@ is an excellent resource for this.
 
 \section{The Class-E Tesla Coil Driver}
 
-Because of the rudimentary engineering experience this project was tried to be built upon, some design stages did not go as hoped. The best example is this amplifier. Deriving equations for a class-E amplifier with a tesla resonator as load goes far beyond this education's curriculum. However, it was still attempted.
+Because of the rudimentary engineering experience this project was tried to be built upon, some design stages did not go as hoped. The best example is this amplifier. Deriving equations for a class-E amplifier with a Tesla resonator as load goes far beyond this education's curriculum. However, it was still attempted.
 
 A very professional tool to design and simulate class-E amplifiers for all kinds of applications is Keysight's PathWave Advanced Design System (ADS) and its Class-E amplifier extension, which Keysight was so kind to give us a free license to. % however, too complicated, now using LTSpice
 
-After many failed attempts to create a simpler equivalent circuit, and many scraped hypotheses how the class-E amplifier could work with a tesla coil, the priorities shifted from \emph{understanding how it works} to \emph{making it work}. For this, Richie Burnett's project page\sidecite{richieburnett} has proven very useful.
+After many failed attempts to create a simpler equivalent circuit, and many scraped hypotheses how the class-E amplifier could work with a Tesla coil, the priorities shifted from \emph{understanding how it works} to \emph{making it work}. For this, Richie Burnett's project page\sidecite{richieburnett} has proven very useful.
 
 An interesting aspect of the above and similar projects, is that they describe the class-E amplifier in a completely different way than the theoretical publications do. The filter capacitor \(C_2\) is merely thought of as a DC-blocking capacitor, which in fact is the same, but shines a different light on its purpose. The capacitor \(C_1\) is just though of as the value to fine-tune for the best power setting.
 
@@ -410,7 +410,7 @@ Figure \ref{fig:transmitter-receiver} shows the transmitter and receiver circuit
 
 \subsection{Class-E Protection Circuit}
 
-Directly applying the interrupting technique to the class E circuit by just turning it on and off at any given moment would violate both the \gls{zvs} and \gls{zcs} conditions. In the worst case, switching the MOSFET on when the voltage is at its maximum and turning it off when the current is at its maximum a few thousand times a second would result in huge switching losses and device failure. Therefore a security mechanism has to be implemented.
+Directly applying the interrupting technique to the class-E circuit by just turning it on and off at any given moment would violate both the \gls{zvs} and \gls{zcs} conditions. In the worst case, switching the MOSFET on when the voltage is at its maximum and turning it off when the current is at its maximum a few thousand times a second would result in huge switching losses and device failure. Therefore a security mechanism has to be implemented.
 
 One solution is to sample the interrupter signal and only apply it on every falling edge of the 4MHz base signal. The sampling could be done with a falling-edge triggered D-type flip-flop, whose output gets fed into an AND gate along with the base signal.
 

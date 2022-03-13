@@ -1,15 +1,15 @@
 \chapter{Theory of Operation} % How it should work in theory
 \labch{tc-theory-of-operation}
 
-The tesla coil was invented by Nikola Tesla in 1891. His vision was to use this technology to wirelessly transmit power to people all over the world. While his plans did not meet the expectations by far, he still opened up a whole new field of physics, which today helps power the modern world.
+The Tesla coil was invented by Nikola Tesla in 1891. His vision was to use this technology to wirelessly transmit power to people all over the world. While his plans did not meet the expectations by far, he still opened up a whole new field of physics, which today helps power the modern world.
 
-Tesla coils come in a wide variety of sizes, power, and modes of operation. From simple spark gap tesla coils, which consist of only a few passive components, to solid state tesla coils, whose only limitations are one's technical skills, every single one amazes anew by combining the world of High Voltage and High Frequency.
+Tesla coils come in a wide variety of sizes, power, and modes of operation. From simple spark gap Tesla coils, which consist of only a few passive components, to solid state Tesla coils, whose only limitations are one's technical skills, every single one amazes anew by combining the fields of high voltage and plasma science.
 
-In order to understand the class E topology which this thesis is about, we have to understand the basics first. 
+In order to understand the class-E topology which this thesis is about, we have to understand the basics first. 
 
 \section{The Tesla Resonator}
 
-A tesla resonator, also called tesla coil, is a resonant transformer consisting of two loosely coupled air-cored windings: the primary and secondary coil. The primary coil, hooked up to the driver circuit on one side and grounded on the other, is usually made out of every few turns of thick wire. It is placed around the bottom of the secondary coil, either shaped like a flat spiral, a concentric cylinder, or at any angle in between. The secondary coil, on the other hand, has a lot more turns and is a lot higher.
+A Tesla resonator, commonly called Tesla coil, is a resonant transformer consisting of two loosely coupled air-cored coils. The primary coil, hooked up to the driver circuit on one side and grounded on the other, is usually made out of a few turns of thick wire. It is placed around the bottom of the secondary coil, either shaped like a flat spiral, a concentric cylinder, or at any angle in between. The secondary coil on the other hand, is always shaped like cylinder and usually has a few hundred to a few thousand turns.
 
 \begin{marginfigure}[*-5]
 \includegraphics[width=\textwidth]{simon/resources/teslaCoilStrayCapacitance.png}
@@ -17,9 +17,9 @@ A tesla resonator, also called tesla coil, is a resonant transformer consisting 
 \labfig{teslaCoilStrayCapacintance}
 \end{marginfigure}
 
-Like every real component, a coil has parasitic effects. The one relevant to a tesla coil's operation is the parasitic capacitance. A capacitance is just two different isolated voltage potentials, which is exactly what we have along every single winding of a coil. This makes it clear that every coil is an LC oscillator. The lower the inductance and capacitance of the coil, the higher the resonant frequency. This means that to lower the frequency to the desired one, many tesla coils have a top load, which, amongst others, acts as an additional capacity towards ground.
+While in most cases, parasitic effects of components are undesirable, a Tesla coil makes use of exactly that. The effect relevant to a Tesla coil's operation is the parasitic capacitance. A capacitance is just two separated voltage potentials, which can be found along every single winding of a coil. This shows that every coil is an LC oscillator. The lower the inductance and capacitance of the coil, the higher the resonant frequency. This means that to lower the frequency to the desired one, many Tesla coils have a top load, which, amongst others, acts as an additional capacity towards ground.
 
-If a high voltage, whose frequency is the resonant frequency of the secondary, is now applied to the primary coil, the LC circuit in the secondary coil starts oscillating, and a very high voltage builds up gradually. Depending on the size and power of the tesla coil, this voltage can range from a few thousand to a few million volts. Once the voltage is high enough to ionize the air around the top\sidenote{This usually happens at a designated spark point}, it quickly discharges, and the cycle starts over again.
+If a high voltage, whose frequency is the resonant frequency of the secondary, is now applied to the primary coil, the LC circuit in the secondary coil starts oscillating, and a very high voltage builds up gradually. Depending on the size and power of the Tesla coil, this voltage can range from a few thousand to a few million volts. Once the voltage is high enough to ionize the air around the top\sidenote{This usually happens at a designated spark point}, it quickly discharges, and the cycle starts over again.
 
 \section{Exciting The Resonator}
 
@@ -29,13 +29,13 @@ Various circuits can be used for the excitation of the coil. Different Tesla coi
 
 \begin{marginfigure}
 \includegraphics[width=\textwidth]{simon/resources/sparkGapTeslaCoil.png}
-\caption{A simple spark gap tesla coil}
+\caption{A simple spark gap Tesla coil}
 \labfig{sparkGapTeslaCoil}
 \end{marginfigure}
 
 The simplest and oldest of all drivers is the spark gap driver. In the first stage, the 230V mains voltage is transformed into a few kilovolts. Neon sign or microwave transformers are popular choices for this task. The capacitor gets charged until the voltage is high enough to break through the spark gap. The spark gap then has a very low resistance and allows the current to oscillate between the capacitor and the primary coil. This oscillation frequency is usually tens to hundreds kilohertz and is the same frequency as the resonant frequency of the secondary coil. In every cycle, a little energy is transferred to the secondary via the magnetic coupling of the coils. When the voltage in the secondary gets too high, a breakout occurs. This can happen one or more times within a period of the AC mains voltage. Once all the energy in the primary circuit has been transferred to the secondary or dissipated as heat, the spark gap \emph{quenches}, allowing the capacitor to charge up again.
 
-Today, spark gap tesla coils are mostly only used for educational purposes anymore. Due to their many \textbf{disadvantages}, they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
+Today, spark gap Tesla coils are mostly only used for educational purposes anymore. Due to their many \textbf{disadvantages}, they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
 
 \begin{itemize}
 \item A spark gap dissipates a lot of power, part of it as heat and part of it in creating ozone, which also poses a health hazard when operated in closed rooms.
@@ -45,18 +45,18 @@ Today, spark gap tesla coils are mostly only used for educational purposes anymo
 
 \subsection{Solid State Tesla Coils}
 
-Aside from vacuum tube tesla coils, which have existed before, semiconductor technology\sidenote{Unlike relays or hard disk drives, their semiconductor counterparts have no moving components. Hence the name \enquote{solid state}.} opened up a whole new world of possibilities for tesla coils. It was now possible to build up sophisticated amplifier circuits to excite the primary coil. Some still rely on resonant circuits, others use feedback loops to self-excite the primary coil, and others use \glspl{ic} to control the driver.
+Aside from vacuum tube Tesla coils, which have existed before, semiconductor technology\sidenote{Unlike relays or hard disk drives, their semiconductor counterparts have no moving components. Hence the name \enquote{solid state}.} opened up a whole new world of possibilities for Tesla coils. It was now possible to build up sophisticated amplifier circuits to excite the primary coil. Some still rely on resonant circuits, others use feedback loops to self-excite the primary coil, and others use \glspl{ic} to control the driver.
 
 The most common solid state topologies include:
 \begin{itemize}
 \item Slayer exciter
 \item Half-bridge / full-bridge (single or dual resonant)
-\item Class E
+\item class-E
 \end{itemize}
 
 \subsubsection{Slayer Exciter Circuit}
 
-The slayer exciter topology is the most common under hobbyist coilers\sidenote{This is how people building tesla coils often call themselves}, because it is the simplest one, only consisting of very few components. At its heart sits the Transistor T controlling the current through the primary coil L1. When first powering on the circuit, current flows through R into the base of T, allowing current to flow through L1, creating a magnetic field.\sidenote{Since the magnetic field flows through both coils in the same direction, the winding direction of the secondary has to be reversed so that the output voltage will not be reversed.} The rapid change in the field induces a high voltage in the secondary coil L2. The parasitic capacitance C of L2, however, only lets the voltage across it rise slowly, therefore pushing the potential of the bottom of the lower end of L2 to a negative voltage. As soon as the voltage falls below -0.7V, the diode D starts conducting and limits the negative voltage while providing current to charge up C\sidenote{The diode could be left out, since the base emitter junction also acts as diode, but in the most cases this damages the transistor}. Additionally, since the base emitter voltage is now negative, T stops conducting. This causes the magnetic field to start collapsing, causing the potential at the base to slowly rise, until T starts conducting again. The circuit is now in its initial state, except that C is now charged to a high voltage, and the process starts over again.
+The slayer exciter topology is the most common under hobbyist coilers\sidenote{This is how people building Tesla coils often call themselves}, because it is the simplest one, only consisting of very few components. At its heart sits the Transistor T controlling the current through the primary coil L1. When first powering on the circuit, current flows through R into the base of T, allowing current to flow through L1, creating a magnetic field.\sidenote{Since the magnetic field flows through both coils in the same direction, the winding direction of the secondary has to be reversed so that the output voltage will not be reversed.} The rapid change in the field induces a high voltage in the secondary coil L2. The parasitic capacitance C of L2, however, only lets the voltage across it rise slowly, therefore pushing the potential of the bottom of the lower end of L2 to a negative voltage. As soon as the voltage falls below -0.7V, the diode D starts conducting and limits the negative voltage while providing current to charge up C\sidenote{The diode could be left out, since the base emitter junction also acts as diode, but in the most cases this damages the transistor}. Additionally, since the base emitter voltage is now negative, T stops conducting. This causes the magnetic field to start collapsing, causing the potential at the base to slowly rise, until T starts conducting again. The circuit is now in its initial state, except that C is now charged to a high voltage, and the process starts over again.
 
 Since the timing of the circuit only depends on the values of L1, L2, and C, the circuit tunes itself, which makes it very stable to operate. However, because of its simplicity, it comes with a few disadvantages. Firstly, when T is conducting, it shorts L1, which leads to a high current and therefore power dissipated in T. This power can be reduced by choosing R to be relatively high. This reduces the base current and therefore also the collector current. While this helps reducing the power dissipation, it also reduces the output power of the coil. With a bit of extra complexity this circuit can however be made more efficient.
 
@@ -121,22 +121,22 @@ The decision between a half bridge or full bridge design is a tradeoff between t
 
 A half or full bridge design can be deployed either single or dual resonant\sidenote{Mostly known as Dual Resonant SSTC or DRSSTC}. In order to turn a single resonant design into a double resonant design, a capacitor is added to the primary circuit which turns it into an resonator with the same resonant frequency as the secondary coil. Since the reactance of an LC circuit is the lowest at its resonant frequency, it draws a lot more current than the primary coil alone, resulting in more power transmitted to the secondary coil.
 
-This design is often used for medium-sized to large tesla coils due to its high output power. However, due to the MOSFETs\sidenote{Or other switching devices, like IGBTs} switching a high current at a high voltage, a lot of power is dissipated and they have to be adequately cooled. The stress on the MOSFETs can be reduced a bit by interrupting\sidenote{Turning the coil off and on very quickly} the tesla coil. Additionally, this allows the plasma channels to quench during each interrupting cycle, raising its resistance and therefore the breakout voltage, which in turn raises the length of the arcs. So this technique lowers the stress on the switching devices, lowers the input power and raises the arc length. The only drawback is that the arcs sound a lot harsher and louder.
+This design is often used for medium-sized to large Tesla coils due to its high output power. However, due to the MOSFETs\sidenote{Or other switching devices, like IGBTs} switching a high current at a high voltage, a lot of power is dissipated and they have to be adequately cooled. The stress on the MOSFETs can be reduced a bit by interrupting\sidenote{Turning the coil off and on very quickly} the Tesla coil. Additionally, this allows the plasma channels to quench during each interrupting cycle, raising its resistance and therefore the breakout voltage, which in turn raises the length of the arcs. So this technique lowers the stress on the switching devices, lowers the input power and raises the arc length. The only drawback is that the arcs sound a lot harsher and louder.
 
 A big advantage of the bridge design is, that unless a dual resonant design is chosen, the switching frequency is only determined by the circuit driving the bridge. This allows it to work across a very wide range of frequencies and even follow the slightly changing resonant frequency of the secondary coil in real time.
 
 
-\section{Class E Amplifier}
+\section{class-E Amplifier}
 
-The problem with conventional class B or C amplifiers is that with faster switching speed, the efficiency falls drastically. By using a technique called \gls{zvs} / \gls{zcs}, the class E amplifier is able to greatly reduce the power dissipated in the switching device and therefore (in theory) reach efficiency of up to 100\%. In reality, expected efficiencies are over 90\% for frequencies of a few MHz and over 60\% for frequencies of a few GHz\sidecite{sokal-qex}.
+The problem with conventional class B or C amplifiers is that with faster switching speed, the efficiency falls drastically. By using a technique called \gls{zvs} / \gls{zcs}, the class-E amplifier is able to greatly reduce the power dissipated in the switching device and therefore (in theory) reach efficiency of up to 100\%. In reality, expected efficiencies are over 90\% for frequencies of a few MHz and over 60\% for frequencies of a few GHz\sidecite{sokal-qex}.
 
 \subsection{Theory of Operation}
 
-The goal of the class E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, by minimizing its dissipated power. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically, simultaneous high current and voltage occur during the switching process, when the switching device has non-zero, finite resistance.
+The goal of the class-E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, by minimizing its dissipated power. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically, simultaneous high current and voltage occur during the switching process, when the switching device has non-zero, finite resistance.
 
 This can also be thought of as a problem of impedance matching - the power transferred to the load (the switching device) tops out, when the resistance of the load is equal to the resistance of the power source (the load network). However, when the resistance of the load is either zero or infinite, no power will be transferred.
 
-Therefore this kind of amplifier utilizes a reactive load network, which forces the voltage across the switching device to zero just before turn-on and the current to zero just before turn-off. This also means, that the switching device is no longer used as an amplifier, but as a switch\sidenote{This type of amplifier is often referred to as switching mode amplifier} and the load network then shapes the output voltage. Figure \ref{fig:class-e-basic} shows the basic class E amplifier and figure \ref{fig:nominal-waveforms} its nominal voltage across and current through a real MOSFET.
+Therefore this kind of amplifier utilizes a reactive load network, which forces the voltage across the switching device to zero just before turn-on and the current to zero just before turn-off. This also means, that the switching device is no longer used as an amplifier, but as a switch\sidenote{This type of amplifier is often referred to as switching mode amplifier} and the load network then shapes the output voltage. Figure \ref{fig:class-e-basic} shows the basic class-E amplifier and figure \ref{fig:nominal-waveforms} its nominal voltage across and current through a real MOSFET.
 
 \begin{figure}[h!]
   \centering
@@ -183,22 +183,22 @@ One big problem with this type of amplifier however, is that the voltage and cur
 
 \subsection{The Class-E Amplifier as Tesla Coil Driver}
 
-So far, the class E amplifier has only been discussed for driving purely resistive loads. A tesla resonator however is everything but that. When taking into account factors like mutual inductance, stray capacitances of the secondary coil, and the feedback from the secondary coil in general, it is impossible to assign a single impedance value to the load that holds true for more than a single frequency. Ideally, all harmonics should have been filtered out by the time they would have reached the tesla resonator, but in reality, the few harmonics which make their way through make it impossible to form an equivalent circuit.
+So far, the class-E amplifier has only been discussed for driving purely resistive loads. A Tesla resonator however is everything but that. When taking into account factors like mutual inductance, stray capacitances of the secondary coil, and the feedback from the secondary coil in general, it is impossible to assign a single impedance value to the load that holds true for more than a single frequency. Ideally, all harmonics should have been filtered out by the time they would have reached the Tesla resonator, but in reality, the few harmonics which make their way through make it impossible to form an equivalent circuit.
 
-Luckily, there are already well-documented projects about class-E tesla coils online, like the ones from Eirik Taylor\textsuperscript{\sidecite{uzzors2k}}, Richie Burnett\textsuperscript{\sidecite[3mm]{richieburnett}}, or Steve Ward\textsuperscript{\sidecite[6mm]{steveward}}. Those projects mostly used the trial-and-error method for component values to get the best result.
+Luckily, there are already well-documented projects about class-E Tesla coils online, like the ones from Eirik Taylor\textsuperscript{\sidecite{uzzors2k}}, Richie Burnett\textsuperscript{\sidecite[3mm]{richieburnett}}, or Steve Ward\textsuperscript{\sidecite[6mm]{steveward}}. Those projects mostly used the trial-and-error method for component values to get the best result.
 
 % mention how using sub-optimal waveforms can raise the efficiency
 
 \section{Musical Tesla Coils}
 \label{sec:musical-tesla-coils}
 
-Musical Tesla coils have been getting a lot of attraction since the mid-2000s and are probably the reason for the popularity of tesla coils in general. To many it's simply mind-blowing how a single arc can produce anything musical. But the physics behind it is in fact very similar to that of a conventional speaker using a membrane.
+Musical Tesla coils have been getting a lot of attraction since the mid-2000s and are probably the reason for the popularity of Tesla coils in general. To many it's simply mind-blowing how a single arc can produce anything musical. But the physics behind it is in fact very similar to that of a conventional speaker using a membrane.
 
-In a tesla coil's usual, uninterrupted operation mode, the high voltage in the secondary coil causes a plasma channel (the arc) to form, discharging the coil. Since the plasma takes up a much higher volume, it expands rapidly and pushes air away from the coil. Once discharged, the plasma channel extinguishes and the secondary coil begins to charge up again. A single discharge creates a \enquote{snapping} sound well known from arcs, but in a tesla coil this cycle repeats many times a second, resulting in a harsh, square-wave-like sound. Mostly depending on the size of the coil, this frequency can be a few hundred hertz to tens of kilohertz; some smaller coils even exceed the human-audible range, creating a noiseless flame-like discharge.
+In a Tesla coil's usual, uninterrupted operation mode, the high voltage in the secondary coil causes a plasma channel (the arc) to form, discharging the coil. Since the plasma takes up a much higher volume, it expands rapidly and pushes air away from the coil. Once discharged, the plasma channel extinguishes and the secondary coil begins to charge up again. A single discharge creates a \enquote{snapping} sound well known from arcs, but in a Tesla coil this cycle repeats many times a second, resulting in a harsh, square-wave-like sound. Mostly depending on the size of the coil, this frequency can be a few hundred hertz to tens of kilohertz; some smaller coils even exceed the human-audible range, creating a noiseless flame-like discharge.
 
-By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arcs. Since the tesla coil has to complete at least one cycle before being turned off, the modulated frequency cannot be greater than the carrier frequency. 
+By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arcs. Since the Tesla coil has to complete at least one cycle before being turned off, the modulated frequency cannot be greater than the carrier frequency. 
 
-Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word} of the tesla coil for the example of a 500 Hz signal modulated onto a 10 kHz carrier wave. Figure \ref{fig:sound-pressure} visualizes the movement of the air molecules around the tesla coil\sidenote{This graph is very likely not accurate and only indented for demonstration purposes}. By performing a Fourier analysis on figure \ref{fig:sound-pressure}, a graph of all frequency components of the sound wave can be created as shown in figure \ref{fig:frequency-magnitude}. It is clearly visible, that not only the modulated signal, but also the carrier frequency is audible, which distorts the sound. A method to counteract this is by using smaller tesla coils, which often have carrier frequencies well above the human hearing range.
+Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word} of the Tesla coil for the example of a 500 Hz signal modulated onto a 10 kHz carrier wave. Figure \ref{fig:sound-pressure} visualizes the movement of the air molecules around the Tesla coil\sidenote{This graph is very likely not accurate and only indented for demonstration purposes}. By performing a Fourier analysis on figure \ref{fig:sound-pressure}, a graph of all frequency components of the sound wave can be created as shown in figure \ref{fig:frequency-magnitude}. It is clearly visible, that not only the modulated signal, but also the carrier frequency is audible, which distorts the sound. A method to counteract this is by using smaller Tesla coils, which often have carrier frequencies well above the human hearing range.
 
 \begin{figure}[h!]
 \begin{tikzpicture}
@@ -289,7 +289,3 @@ Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word
 \caption{Frequency Magnitude}
 \labfig{frequency-magnitude}
 \end{figure}
-
-\todo{Add section on how to play multiple tones}
-
-\subsection{Analog modulation}
