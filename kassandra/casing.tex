@@ -1,7 +1,7 @@
 \chapter{Casing}
 
 % Another point to note is, that the casing was build with modularity in mind. This enables to repair 
-It might seem like the casing is not very significant, even though the design and function of all kinds of device's exteriors is crucial. The simplest of casings often have multiple design stages and variations with different advantages. Since the Tesla coil is intended as a consumer product, the casing plays an important role for its appearance. But apart from optics, there are a lot of safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along playing with open plasma.
+It might seem like the casing is not very significant, but the design and function of all kinds of devices' exteriors are crucial. Even the simplest casings often have multiple design stages and variations with different advantages. Since the Tesla coil is intended as a consumer product, the casing plays an essential role in its appearance. however, apart from optics, there are many safety hazards, which the casing has to account for. Most notably is the very real fire risk, which goes along with playing with open plasma.
 
 
 \section{Concept design}
@@ -16,13 +16,13 @@ There are four main parts that are essential to consider while constructing the 
     \label{fig:envision}
 \end{marginfigure}
 
-As seen in figure \ref{fig:envision}, the secondary coil is perpendicular, and the primary coil is angled at 30° to the horizontal, the primary coil design choices have already been detailed in the previous part at the end of section \ref{sec:designing-the-primary}. This is the easiest way to calculate and also the most practical way to design the secondary. The end of the secondary could technically be used as the top electrode, but the copper will definitively melt as soon as it emits a spark. So it has to be out of a high temperature resistant material that is also conductive. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary, the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeters above the secondary coil.
+As seen in figure \ref{fig:envision}, the secondary coil is perpendicular, and the primary coil is angled at 30° to the horizontal. The primary coil design choices have already been detailed in the previous part at the end of section \ref{sec:designing-the-primary}. This is the easiest way to calculate and also the most practical way to design the secondary. The end of the secondary could technically be used as the top electrode, but the copper will definitively melt as soon as it emits a spark. So it has to be out of a high temperature resistant material that is also conductive. The placement for the top electrode seems very obvious, but there is an explanation. If the arching point of the electrode is placed further away from the secondary, the behavior of the coils will become less predictable the more distance is between them. So the most practical placement is in the middle and a few centimeters above the secondary coil.
 
 Technically the \gls{pcb} can be placed anywhere\sidenote{There should be a reasonable distance between the PCB and the coils to ensure that the electrical field does not interfere with the circuitry.}as long as it can be connected to the coils. However, to make transportation the easiest, the casing for the \gls{pcb} should be right beneath the coils. This way, everything needed stays in one place. 
 
 \section{Materials}
 
-Deciding which materials to use is also a tedious task because there are a lot of details and possibilities that have to be considered when designing a Tesla coil. Many factors determine the best working material, most affecting the coils directly and therefore being unsuitable, but others are scrapped because of their low availability or costly construction.
+Deciding which materials to use is also a tedious task because there are a lot of details and possibilities that have to be considered when designing a Tesla coil. Many factors determine the best working material, most affecting the coils directly and therefore being unsuitable, but others are scrapped because of their low availability or costly construction. The two main criteria that decided whether or not it was used, those being who it reacts to high temperatures and if it interferes with the coils circuit e.g. disrupting its magnetic field. Another factor would be the materials costs and how hard it would to process it. The materials appearance was more negligible, but in some cases it was graded. 
 
 \subsection{Metals}
 \label{subsec:materials-metals}
@@ -40,7 +40,7 @@ Glass is an electrical insulator, so it would not interfere with the magnetic fi
 \subsection{Plastics}
 
 \glsunset{pvcp}\glsunset{pmma}\glsunset{pvcu}\glsunset{ptfe}
-The only remaining option for the type of casings material would be plastic. However, plastic is not plastic. The two types of plastic with the highest availability, in this case, would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu}, but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability, but it cannot provide the suitable characteristics for the Tesla coil. One problem with \gls{pvcp} is its water absorption because due to water's diamagnetic properties, it heats up in an oscillating magnetic field, i.e., it is wasting energy. \gls{pvcp}s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma}, in comparison, has an absorption of 0.4\% at max. On the other hand, \gls{pvcu} has an even more ideal water absorption at 0.1\%. \sidecite{water-absorption} The casing should not be out of \gls{pvcp} or \gls{pvcu} because of its poor temperature resistance, which starts to deform at around 60°C, while \gls{pmma} only starts at about 100°C. \gls{pmma} is not ideal in any way, but due to its easy availability and better properties, it was chosen for the casing. 
+The only remaining option for the type of casings material would be plastic. However, plastic is not plastic. The two types of plastic with the highest availability, in this case, would be \gls{pvcp} and \gls{pmma}\sidenote{also commercially known as acrylic glass or plexiglass}. There is also \gls{pvcu}, but given that it is harder to process and also less available, \gls{pvcp} is preferred. \gls{pvcp} would be a lot better than \gls{pmma} when it comes to cost and availability, but it cannot provide the suitable characteristics for the Tesla coil. One problem with \gls{pvcp} is its water absorption because due to water's diamagnetic properties, it heats up in an oscillating magnetic field, i.e., it is wasting energy. \gls{pvcp}'s water absorption over 24 hours lies at a maximum of 1\% of its total weight. \gls{pmma}, in comparison, has an absorption of 0.4\% at max. On the other hand, \gls{pvcu} has an even more ideal water absorption at 0.1\%. \sidecite{water-absorption} The casing should not be out of \gls{pvcp} or \gls{pvcu} because of its poor temperature resistance, which starts to deform at around 60°C, while \gls{pmma} only starts at about 100°C. \gls{pmma} is not ideal in any way, but due to its easy availability and better properties, it was chosen for the casing. 
 
 The most ideal plastic would be \gls{ptfe}\sidenote{also commercially known as Teflon}, which has a maximum of 0.01\% water absorption, a tenth better than \gls{pvcu}. The temperature resistance is also better than \gls{pmma} because it can be used at a working temperature of 280°C\sidecite{blue-bible}. But \gls{ptfe} was not used as a casing because it was unavailable, but it might be considered in a future build.  
 
@@ -102,7 +102,9 @@ To avoid gluing the supports to the base plate, a bolt was used to keep it in pl
 
 \subsubsection{Manufacturing}
 
-Complex structures like the primary supports, that on top of that are also small are best manufactured with an automated process like 3D printing. This way makes it possible to constructed both the supports and the platform their mounted on in one piece, erasing the need for bolts entirely. But the way 3D printing works by drawing multiple layers of fine plastic lines makes the end product inaccurate. Which is unsuitable for the small half circles on the supports, as they will most likely end up too small for the wire of the primary coil. 
+Small, complex structures like the primary supports are best manufactured with an automated process like 3D printing. This makes it possible to construct both the supports and the platform their mounted on in one piece, erasing the need for bolts entirely. The way 3D printing works is by drawing multiple layers of fine plastic lines, which enables it to easily construct all kind of pieces with little effort. But it also makes the end product inaccurate, which is unsuitable for the small half circles on the supports, as they will most likely end up too small for the wire of the primary coil. 
+
+Another way to manufacture the supports would be to cut a plastic plane with a laser. This laser cutting method is of course only possible to construct 2D components, which means the supports and the platform had to be made separately. On the other side, laser cutting is a relatively accurate, ensuring that the slots for the primary and also other parts like the bolts fit with only minor post processing. 
 
 \subsection{Secondary Coil}
 
@@ -110,10 +112,10 @@ The core of the secondary coil was one of the easier parts to design because it 
 
 \section{Primary Wire Bending}
 
-After the supports for the primary coil have been designed, the the coils itself still has to be bent. Simply bending the wire by placing it in the slots one after another is not an option, because it takes a considerable amount of force to hold a tensioned \(1.2\,mm\) wire in place\sidenote{This force could be brought up by glue, but that would be very unprofessional}. 
+After the supports for the primary coil have been designed, the coils itself still has to be bent. Simply bending the wire by placing it in the slots one after another is not an option, because it takes a considerable amount of force to hold a tensioned \(1.2\,mm\) wire in place\sidenote{This force could be brought up by glue, but that would be very unprofessional}. 
 This force is due to the elastic component of the wire's deformation, which tries to bend the wire back to its original shape. 
 
-\subsection{Springtrap}
+\subsection{Springback}
 
 To remove this component, the wire has to be overbend by a specific angle and to a specific radius. Those values are determined by the springback factor \(k_s\)\sidecite{blue-bible}, and the desired angle and radius, which remain due to purely plastic deformation. \(k_s\) highly depends on the material and geometry, and usually can be found in large databases.
 
@@ -209,7 +211,7 @@ One remaining problem, however, is that \(r_2\) is only the projection of the ac
 
 Since bending a wire according to a specific curve equation just by looking at it is rather hard, a bending device was designed. It is just a cone with a spiral-shaped grooving, where the wire can be pressed into. After taking it out again, it bends on the correct form of the primary coil. To ensure, that the wire doesn't get stuck, the grooving was made slightly wider than the wire's diameter.
 
-The trickiest part was drawing the path for the grooving in Autodesk Inventor. First a 2D spiral was drawn by adding a polar equation curve for \(r_1\) which was then projected onto a conical plane as shown in figure \ref{fig:spirae}. Designing the rest of the bending device was relatively straightforward and figure \ref{fig:biegbieg} shows a sliced view of the final part. % 3D printed
+The trickiest part was drawing the path for the grooving in Autodesk Inventor. First a 2D spiral was drawn by adding a polar equation curve for \(r_1\) which was then projected onto a conical plane as shown in figure \ref{fig:spirae}. Designing the rest of the bending device was relatively straightforward and figure \ref{fig:biegbieg} shows a sliced view of the final part.
 
 \begin{marginfigure}[-3cm]
     \centering
@@ -224,6 +226,8 @@ The trickiest part was drawing the path for the grooving in Autodesk Inventor. F
     \caption{Bending Device}
     \label{fig:biegbieg}
 \end{figure}
+
+Given this device's peculiar shape, that has to be very accurate\sidenote{when it comes to shape} the best way to manufacture would be 3D printing. Even though the grooving was made bigger the wire was still hard to press into the bending device, because of the way a 3D printer works. In the end the bent wire of the primary still had to be glued to the supports so it would not fall off. 
 
 \section{Top Electrode}
 

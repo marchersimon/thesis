@@ -1,24 +1,21 @@
 \begin{itemize}
-\item Abstract
+\item Abstract deutsch
 \item Introduction (maybe)
-\item (Preface)
 \item Special Thanks
 \end{itemize}
 
 \begin{itemize}
 \item Simon
 \begin{itemize}
-\item stuff
+\item buck booster
 \end{itemize}
 \end{itemize}
 
 \begin{itemize}
 \item Kassandra
 \begin{itemize}
-\item stuff
-\item materials intro die vier criteria
-\item primary supports herstellung
-\item 3d drucken von bending device
+\item PCB Layout
+\item PCB Assembly
 \item poti → trimmer
 \end{itemize}
 \end{itemize}
@@ -26,8 +23,16 @@
 \begin{itemize}
 \item Felix
 \begin{itemize}
-\item Figure 23.1
 \item stuff
 \end{itemize}
 \end{itemize}
+
+Possible inconsistensies:
+\begin{itemize}
+\item Sidenotes end with period
+\item arc (not spark)
+\item numbers in math mode
+\item abbreviations
+\end{itemize}
+
 

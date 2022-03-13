@@ -2,15 +2,16 @@
 \setchapterpreamble[u]{\margintoc}
 
 \chapter{Design and Simulation} % How I thought it was going to work
-\labch{tc-design-and-simulation}
+\labch{ch:design-and-simulation}
 
-\textbf{Disclaimer:} This process was a lot more length and tedious than depicted in the following chapter. It mostly consisted of trial and error, which started with an more or less educated guess and ended in cluelessness and despair. But those errors don't add a lot of value to understanding the topic, so I won't go into much detail.
+\textbf{Disclaimer:} This process was a lot more lengthy and tedious than depicted in the following chapter. It mostly consisted of trial and error, which started with an more or less educated guess and ended in cluelessness and despair. But those errors don't add a lot of value to understanding the topic, so I won't go into much detail.
 
 \section{The Coils}
 
 The goal was to design an air coil with a resonant frequency of 4MHz. This frequency was chosen, since it is high enough to work well with an class E amplifier, but low enough to not run into too many RF related problems. It was also already known to have worked with a few other class E tesla coils.
 
-\subsection{Rough Estimation of the Secondary Coil}
+\subsection{Designing the Secondary Coil}
+\label{subsec:designing-the-secondary-coil}
 
 The inductance of a single-layered air solenoid coil can be calculated with
 
@@ -57,12 +58,6 @@ Due to the materials available, a 30 mm tube was used to wind the wire around. B
 Using Wolfram Alpha to solve this equation for \(l\) with a \(D\) of 30 mm gives a length of 112 mm.
 % 4000000 = 1/(2π(0.03/0.00035)Sqrt[11.1265e-18*(Power[x,2]+0.8245*0.03*x+2.329*Power[0.03,1.5]*Sqrt[x])]) solve for x
 
-\subsection{Tuning the Secondary Coil}\label{TC-tuningTheSecondary}
-
-Tuning the coil to the correct frequency is essential, because all calculated values from above are highly idealized. For example, equation \ref{eq-parasitic-capacitance} is said to have a standard deviation of \(\sigma_{CL} \text{ in } pF = 3.6 \cdot D\), which leads to a standard deviation of around 116 kHz of the resonant frequency of the coil. In addition, the relative permeability and permittivity factor of the carrier material are not taken into consideration in the calculations.
-
-The coil was tuned by exciting the base of the secondary coil with a sinusoidal voltage. An oscilloscope probe, formed into a current loop, was placed near the top of the coil. The closer the excitation frequency was to the resonant frequency of the coil, the higher the measured voltage on the oscilloscope. The frequency, at which the measured voltage was at its maximum, was the resonant frequency of the coil. By adding or removing windings, the resonant frequency could be lowered or raised, until it exactly matched 4MHz\sidenote{In order to avoid adding windings, which is more tedious than removing them, the coil was wound a little longer than calculated}. % Add how close the original calculations were
-
 \subsection{Designing the Primary Coil}
 \label{sec:designing-the-primary}
 
@@ -74,7 +69,7 @@ This limitation can be bypassed by making the primary coil smaller at the bottom
 \includegraphics[width=0.6\textwidth]{simon/resources/teslaCoilSketch.png}
 \end{marginfigure}
 
-\subsection{Simulating the Coupling Coefficient}
+\subsection{Simulating the Coupling}
 
 In order to simulate the resonant transformer, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. The simulation tool EleFAnT2D\sidenote{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed IGTE, TU Graz} was used to simulate the magnetic flux in the system. The coupling coefficient can be described as
 
@@ -108,7 +103,7 @@ where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) an
 
 As expected, the coupling factor gets smaller the farther away the primary coil moves from the center of the secondary coil.
 
-\subsection{Modeling the Transformer in LTSpice}
+\subsection{Modeling the Transformer}
 
 The analog electronic circuit simulator LTSpice, which was used for this project, did unfortunately not provide any tools to simulate the arc breakout at the secondary coil, which is necessary for testing the continuous operation performance. Also, modeling the magnetic coupling of the transformer involved a trick, which is worth mentioning.
 
@@ -168,6 +163,7 @@ However, it is not possible to use \(V_{SC}\) directly as the control voltage, b
 As already explained in aaaaa, it is everything but trivial to design a class E amplifier to drive a tesla resonator. However, for the sake of demonstration, the following subsection will go through the design process of a class E amplifier with an ohmic load.
 
 \subsection{The Design Process}
+\label{subsec:the-design-process}
 
 Nathan Sokal, who popularized the class-E amplifier along with Alan Sokal, presented a set of revised design equations in 2001 \sidecite[-3mm]{sokal-qex}. Unlike previously published equations, they include the dependence of the loaded Q factor\sidenote{It describes how damped a resonator is, or in other words, how quickly it dissipates its oscillating energy.} as well as on the output power.
 
@@ -342,11 +338,26 @@ From the simulation alone it is hard to tell how well the amplifier will work in
     \label{fig:ltspice-complete}
 \end{figure}
 
-\section{Generating the Gate Signal}
+\section{Generating the Gate Signal} % Or clock signal?
 
 To \emph{turn on} the class-E amplifier, a \(4\,MHz\) signal has to be applied to the MOSFET gate. The easiest way to generate this signal would be to use a quartz crystal or an oscillator. The difference between those two is that while a quartz crystal is a passive device and needs external circuitry to oscillate, an oscillator only needs to be supplied to output a signal. Also, a crystal outputs a sine wave, which needs to be converted into a logic pulse signal by using e.g. a Schmitt trigger, and an oscillator directly outputs a logic signal. However, one big disadvantage they both have is that they have a fixed frequency.
 
-Using a variable frequency can be very convenient for tuning the Tesla coil. Every small change in the coil's surroundings causes the resonant frequency to change. Adjusting the operating frequency to the resonant frequency by changing a component's value is easier than vice-versa by changing the coil's parameters. 
+\subsection{Voltage Controlled Oscillator}
+
+Using a variable frequency can be very convenient for tuning the Tesla coil. Every small change in the coil's surroundings causes the resonant frequency to change. Adjusting the operating frequency to the resonant frequency by changing a component's value is easier than vice-versa by changing the coil's number of turns. This is exactly what a \gls{vco} does. By far the most popular one is the \texttt{NE555}. In its astable mode it can be used to generate a clock signal with variable frequency. Sadly, its maximum frequency lies well below the required \(4\,MHz\).
+
+Instead, an \texttt{LTC1799} was used. Its main frequency can be set by a single resistor and ranges from \(100\,kHz\) to \(33\,MHz\). It can be further divided by 10, or 100 by connecting its \texttt{DIV} pin to either +5V or letting it float. When connected to GND, which means no division, the output frequency can be calculated as
+
+\begin{equation}
+    f_{OSC} = 10\,MHz \cdot \frac{10^4}{R_{SET}}\,.
+\end{equation}
+
+To set the output frequency to any arbitrary range, \(R_{SET}\) can be split up into a fixed and a variable resistor. For example, a combination of a \(23.7\,k\Omega\) resistor and a \(5\,k\Omega\) potentiometer, the range can be narrowed down to \(3.48\,MHz\) to \(4.22\,MHz\), which should cover the resonant frequency of the coil in any situation very well.
+
+\subsection{MOSFET Gate Driver}
+
+Due to its high output resistance, this \gls{vco} can however not supply the necessary power to directly drive the MOSFET at those frequencies. There are, again, a lot of possibilities how this amplification could be implemented, but one of the most straightforward is the use of a MOSFET driver \gls{ic}. They are specifically designed for this purpose and are able to sink and source large currents to charge and discharge the MOSFET gate capacitance. The \texttt{IX4310T} achieves this by using a push-pull output, which also allows the gate-source voltage to be bigger than the input voltage. With it's stated output peak current of \(2\,A\), and rise and fall times of less than \(6\,ns\), this \gls{ic} can easily drive the MOSFET at \(4\,MHz\).
+
 
 \section{The Interrupter}
 
@@ -410,10 +421,10 @@ One solution is to sample the interrupter signal and only apply it on every fall
       \draw (0,0) node[flipflop, flipflop def = {t1 = D, c3 = 1, n3 = 1, t3 = CLK, t6 = Q}](D){};
       \draw (4,.61) node[and port](A){};
       \draw (D.pin 6) -- (A.bin 1);
-      \draw (D.pin 1) node[left]{INT};
-      \draw (D.pin 3) ++(-.5,0) node[left]{4MHz} -- (D.pin 3);
+      \draw (D.pin 1) to[short,-o] ++(-.2,0) node[left]{INT};
+      \draw (D.pin 3) to[short,-o] ++(-.8,0) node[left, align=right, font=\scriptsize]{4MHz\\VCO} -- (D.pin 3);
       \draw (D.pin 3) ++(-.25,0) to[short, *-] ++(0,-.8) -- ++(3,0) node(n1){} -- (n1 |- A.bin 2) -- (A.bin 2);
-      \draw (A.bout) ++(.4,0) node[right]{OUT};
+      \draw (A.bout) to[short,-o] ++(.4,0) node[right, align=left, font=\scriptsize]{OUT\\Gate Driver};
     \end{circuitikz}
     \phantom{a}
     \vspace{10mm}
@@ -427,4 +438,43 @@ One solution is to sample the interrupter signal and only apply it on every fall
       \draw[dotted, darkgray] (a) -- ++(0,-6);
       \draw[dotted, darkgray] (b) -- ++(0,-7);
     \end{tikztimingtable}
+\end{figure}
+
+\tikzset{
+  block/.style={
+    draw,
+    minimum width=2cm,
+    minimum height=1.2cm,
+    align=center
+  }
+}
+
+\begin{figure}
+    \centering
+    \resizebox{0.99\textwidth}{!}{
+    \begin{tikzpicture}[timing/slope=0, timing/xunit=.75mm]
+      \node [block] (vco) {VCO};
+      \node [block, right=2cm of vco, yshift=(-2mm)] (flop) {Synchronizer};
+      \node [block, right=1.5cm of flop] (driver) {MOSFET\\Driver};
+      \node [block, right=1.5cm of driver] (e) {Class-E};
+      \node [block, above=1cm of e] (boost) {Boost\\Converter};
+      \node [block] at ($(vco.east)!0.5!(flop.west)+(0,2.3cm)$) (lin) {Voltage\\Regulator};
+    
+      \draw (vco.east) -- (flop.west|-vco.east);
+      \timing[shift={(2.5mm,1mm)}] at (vco.east) {l9{HL}Hl};
+      \draw ($(flop.west)+(0,-2mm)$) -| ++(-3mm,-6mm) node(int-signal){} -- ++(-4cm,0) node(left){} ++(-1mm,0) circle (1mm) node[xshift=(-5mm)]{INT};
+      \timing[shift={(-1.5cm,1mm)}] at (int-signal) {hH4L4H4L4Hl};
+      \draw (flop.east) -- (driver.west);
+      \timing[timing/xunit=.6mm, shift={(1.5mm,1mm)}] at (flop.east) {lH5LHLH5LHLH2Ll};
+      \draw (driver.east) -- (e.west);
+      \timing[timing/xunit=.6mm, line width=.8pt, shift={(1.5mm,1mm)}] at (driver.east) {lH5LHLH5LHLH2Ll};
+      \draw (lin.south) -- ++(0,-6mm) node(lin-node){} node[above right]{5\,V} [fill]circle (.5mm);
+      \draw (vco.north) |- ($(lin-node)+(-5mm,0)$) -| (flop.north);
+      \draw (boost.south) -- (e.north) node[right, yshift=(5mm)]{54\,V};
+      \draw (boost.north) node[above right]{12\,V} -- ++(0,8mm) node(top){} -- (left|-top) ++(-1mm,0) circle (1mm) node[xshift=(-5mm)]{V\textsubscript{CC}};
+      \draw (lin.north) node[above right]{12\,V} -- (lin-node|-top) [fill]circle (.5mm);
+      \draw (e.east) -- ++(5mm,0) ++(1mm,0) circle (1mm) node[right,xshift=(1mm)]{Tesla Coil};
+    \end{tikzpicture}}
+    \caption{Caption}
+    \label{fig:my_label}
 \end{figure}

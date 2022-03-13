@@ -13,64 +13,64 @@ A \gls{sdc} or \gls{mmc} is an easy way to store data on embedded systems. More 
 \begin{figure}[h!]
     \centering
     \begin{circuitikz}
-  \draw (0,0) node[dipchip, num pins=12, no topmark, hide numbers](c){};
-  \node [left, font=\footnotesize] at (c.bpin 7) {GND};
-  \node [left, font=\footnotesize] at (c.bpin 8) {CS};
-  \node [left, font=\footnotesize] at (c.bpin 9) {MOSI};
-  \node [left, font=\footnotesize] at (c.bpin 10) {CLK};
-  \node [left, font=\footnotesize] at (c.bpin 11) {MISO};
-  \node [left, font=\footnotesize] at (c.bpin 12) {VCC};
-  \draw[white, fill=white] (c.pin 1) ++(0,.5) rectangle ++(1,-4);
-
-  \draw (c.pin 7) -| ++(.2,-.2) node[rground]{};
-
-  \draw (2,1.75) node[rectangle,draw,
-  minimum width=.7cm,minimum height=.4cm,line width=.8pt]{};
-  \draw (c.pin 12) -- ++(.2,0) |- (1.65,1.75) node[above left, font=\tiny]{5V};
-  \draw (2,1.55) node[rground]{};
-  \draw (2.22,1.75) node(vout){} node[above, xshift=4mm, font=\tiny]{3.3V};
-  
-  \ctikzset{multipoles/dipchip/width=.8}
-  \draw (3,0) node[dipchip, num pins = 8, no topmark, hide numbers, scale=1](b){};
-  \draw (b.bpin 1) ++(.6,0) node[buffer port, scale=0.3, rotate=180](b1){};
-  \draw (b.bpin 2) ++(.6,0) node[buffer port, scale=0.3](b2){};
-  \draw (b.bpin 3) ++(.6,0) node[buffer port, scale=0.3](b3){};
-  \draw (b.bpin 4) ++(.6,0) node[buffer port, scale=0.3](b4){};
-  \draw (b.bpin 1) -- ++(.2,0) |- (b1.out) (b1.in 1) -- ++(.1,0) |- (b.bpin 8);
-  \draw (b.bpin 2) -- (b2.in 1) (b2.out) -- (b.bpin 7);
-  \draw (b.bpin 3) -- (b3.in 1) (b3.out) -- (b.bpin 6);
-  \draw (b.bpin 4) -- ++(.1,0) |- (b4.in 1) (b4.out) -- ++(.3,0) |- (b.bpin 5);
-  
-  \draw (b.south) node[rground]{};
-
-  \draw (c.pin 8) to[R, european, resistors/scale=0.6] (b.pin 4);
-  \draw (c.pin 10) to[R, european, resistors/scale=0.6] (b.pin 2);
-  \draw (c.pin 9) to[R, european, resistors/scale=0.6] (b.pin 3);
-  \draw (c.pin 11) -- (b.pin 1);
-
-  
-  \tikzset{shift={(5.75,-.5)}}
-  \tikzset{scale=.8}
-
-  \draw[fill=gray] (0,0) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{NC};
-  \draw[fill=gray] (0,.3) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{CS};
-  \draw[fill=gray] (0,.6) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{DI};
-  \draw[fill=gray] (-.1,.9) rectangle ++(.7,.2) node[yshift=-1mm, right, font=\tiny]{VDD};
-  \draw[fill=gray] (0,1.2) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{SCK};
-  \draw[fill=gray] (-.1,1.5) rectangle ++(.7,.2) node[yshift=-1mm, right, font=\tiny]{VSS};
-  \draw[fill=gray] (0,1.8) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{DO};
-  \draw[fill=gray] (0,2.1) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{NC};
-
-  \draw[rounded corners=1, thick] (-.2,-.2) -- (-.2,2.5) -- (3.75,2.5) -- ++(0,-3) -- ++(-1.25,0) -- ++(-.3,.2) -- ++(-.3,0) -- ++(0,-.2) -- ++(-.4,0) -- ++(-.3,.3) -- (-.2,-.2);
-  
-  \draw (b.pin 8) to[R, european, resistors/scale=0.6] ++(1,0) -- ++(.375,0) -- ++(0,.225) to[crossing] ++(.75,0) -- (0,1.9);
-  \draw (vout) -| (b.north);
-  \draw (vout-|b.north) to[short, *-] ++(2.8,0) |- (-.1,1.6);
-  \draw (b.pin 7) |- (0,1.3);
-  \draw (b.pin 6) -- ++(.5,0) |- (-1.2,0.7) to[crossing] (0,0.7);
-  \draw (b.pin 5) -- ++(1,0)|- (-1.2,0.4) to[crossing] (0,0.4);
-  \draw (-.1,1) -- ++(-.5,0) -- ++(0,-1.2) node[rground]{};
-\end{circuitikz}
+      \draw (0,0) node[dipchip, num pins=12, no topmark, hide numbers](c){};
+      \node [left, font=\footnotesize] at (c.bpin 7) {GND};
+      \node [left, font=\footnotesize] at (c.bpin 8) {CS};
+      \node [left, font=\footnotesize] at (c.bpin 9) {MOSI};
+      \node [left, font=\footnotesize] at (c.bpin 10) {CLK};
+      \node [left, font=\footnotesize] at (c.bpin 11) {MISO};
+      \node [left, font=\footnotesize] at (c.bpin 12) {VCC};
+      \draw[white, fill=white] (c.pin 1) ++(0,.5) rectangle ++(1,-4);
+    
+      \draw (c.pin 7) -| ++(.2,-.2) node[rground]{};
+    
+      \draw (2,1.75) node[rectangle,draw,
+      minimum width=.7cm,minimum height=.4cm,line width=.8pt]{};
+      \draw (c.pin 12) -- ++(.2,0) |- (1.65,1.75) node[above left, font=\tiny]{5V};
+      \draw (2,1.55) node[rground]{};
+      \draw (2.22,1.75) node(vout){} node[above, xshift=4mm, font=\tiny]{3.3V};
+      
+      \ctikzset{multipoles/dipchip/width=.8}
+      \draw (3,0) node[dipchip, num pins = 8, no topmark, hide numbers, scale=1](b){};
+      \draw (b.bpin 1) ++(.6,0) node[buffer port, scale=0.3, rotate=180](b1){};
+      \draw (b.bpin 2) ++(.6,0) node[buffer port, scale=0.3](b2){};
+      \draw (b.bpin 3) ++(.6,0) node[buffer port, scale=0.3](b3){};
+      \draw (b.bpin 4) ++(.6,0) node[buffer port, scale=0.3](b4){};
+      \draw (b.bpin 1) -- ++(.2,0) |- (b1.out) (b1.in 1) -- ++(.1,0) |- (b.bpin 8);
+      \draw (b.bpin 2) -- (b2.in 1) (b2.out) -- (b.bpin 7);
+      \draw (b.bpin 3) -- (b3.in 1) (b3.out) -- (b.bpin 6);
+      \draw (b.bpin 4) -- ++(.1,0) |- (b4.in 1) (b4.out) -- ++(.3,0) |- (b.bpin 5);
+      
+      \draw (b.south) node[rground]{};
+    
+      \draw (c.pin 8) to[R, european, resistors/scale=0.6] (b.pin 4);
+      \draw (c.pin 10) to[R, european, resistors/scale=0.6] (b.pin 2);
+      \draw (c.pin 9) to[R, european, resistors/scale=0.6] (b.pin 3);
+      \draw (c.pin 11) -- (b.pin 1);
+    
+      
+      \tikzset{shift={(5.75,-.5)}}
+      \tikzset{scale=.8}
+    
+      \draw[fill=gray] (0,0) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{NC};
+      \draw[fill=gray] (0,.3) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{CS};
+      \draw[fill=gray] (0,.6) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{DI};
+      \draw[fill=gray] (-.1,.9) rectangle ++(.7,.2) node[yshift=-1mm, right, font=\tiny]{VDD};
+      \draw[fill=gray] (0,1.2) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{SCK};
+      \draw[fill=gray] (-.1,1.5) rectangle ++(.7,.2) node[yshift=-1mm, right, font=\tiny]{VSS};
+      \draw[fill=gray] (0,1.8) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{DO};
+      \draw[fill=gray] (0,2.1) rectangle ++(.6,.2) node[yshift=-1mm, right, font=\tiny]{NC};
+    
+      \draw[rounded corners=1, thick] (-.2,-.2) -- (-.2,2.5) -- (3.75,2.5) -- ++(0,-3) -- ++(-1.25,0) -- ++(-.3,.2) -- ++(-.3,0) -- ++(0,-.2) -- ++(-.4,0) -- ++(-.3,.3) -- (-.2,-.2);
+      
+      \draw (b.pin 8) to[R, european, resistors/scale=0.6] ++(1,0) -- ++(.17,0) -- ++(0,.225) to[crossing] ++(.75,0) -- (0,1.9);
+      \draw (vout) -| (b.north);
+      \draw (vout-|b.north) to[short, *-] ++(2.6,0) |- (-.75,1) to[crossing] ++(.5,0) -- (-0.1,1);
+      \draw (b.pin 7) |- (-1,1.3) to[crossing] (-.675,1.3) to[crossing] (-.325,1.3) -- (0,1.3);
+      \draw (b.pin 6) -- ++(.5,0) |- (-1,0.7) to[crossing] (0,0.7);
+      \draw (b.pin 5) -- ++(1,0)|- (-1,0.4) to[crossing] (0,0.4);
+      \draw (-.1,1.6) -- ++(-.4,0) -- ++(0,-1.8) node[rground]{};
+    \end{circuitikz}
     \caption{SD Card Adapter}
     \label{fig:sd-card-adapter}
 \end{figure}

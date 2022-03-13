@@ -481,7 +481,7 @@
 		% Set the style for section entries
 		\etocsetstyle{section}
 		{\parindent -5pt \parskip 0pt}
-		{\leftskip 0pt}
+		{\leftskip 0pt \bfseries}
 		{\makebox[.5cm]{\etocnumber\autodot}
 		\etocname\nobreak\leaders\hbox{\hbox to 1.5ex {\hss.\hss}}\hfill\nobreak
 		\etocpage\par}
@@ -489,7 +489,7 @@
 		% Set the style for subsection entries
 		\etocsetstyle{subsection}
 		{\parindent -5pt \parskip 0pt}
-		{\leftskip 0pt}
+		{\leftskip 0pt \normalfont}
 		{\makebox[.5cm]{}
 		\etocname\nobreak\leaders\hbox{\hbox to 1.5ex {\hss.\hss}}\hfill\nobreak
 		\etocpage\par}
@@ -497,7 +497,7 @@
 		% Set the global style of the toc
 		%\etocsettocstyle{}{}
 		%\etocsettocstyle{\normalfont\sffamily\normalsize}{}
-		\etocsettocstyle{\usekomafont{section}\small}{}
+		\etocsettocstyle{\usekomafont{section}\footnotesize}{}
 		\etocsetnexttocdepth{\themargintocdepth}
 		% Print the table of contents in the margin
 		\marginnote[#1]{\localtableofcontents}

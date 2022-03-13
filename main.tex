@@ -46,7 +46,7 @@
 
 %%% Setup for flowcharts
 
-\usetikzlibrary{shapes.geometric, arrows, fit}
+\usetikzlibrary{shapes.geometric, arrows, fit, positioning, calc}
 \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=gr40]
 \tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=gr20]
 \tikzstyle{command} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=gr10]
@@ -188,10 +188,10 @@
 \KOMAoptions{twoside=false}
 
 %----------------------------------------------------------------------------------------
-%	AFFIDAVIT
+%	Affidavit & Abstract
 %----------------------------------------------------------------------------------------
 
-\include{affidavit}
+\include{prologue}
 
 %----------------------------------------------------------------------------------------
 %	TABLE OF CONTENTS & LIST OF FIGURES/TABLES
@@ -263,7 +263,7 @@
 
 \chapter*{Special Thanks ...}
 
-... to \textbf{Federico Marotta} for providing \enquote{kaobook}, the \LaTeX{} document class this thesis is built upon. It is licensed under the \href{https://www.latex-project.org/lppl/lppl-1-3c/}{LPPL-1.3c} and can be found on \href{https://github.com/fmarotta/kaobook}{github.com/fmarotta/kaobook}.
+... to \textbf{Federico Marotta} for providing \enquote{kaobook}, the \LaTeX{} document class this thesis is built upon. It is licensed under the \href{https://www.latex-project.org/lppl/lppl-1-3c/}{LPPL-1.3c} and can be found on Github (QR code \newqrcode{https://github.com/fmarotta/kaobook}{Kaobook Template}).
 
 ... to various open source projects, like PlatformIO, fritzing, WebPlotDigitizer and some more
 
