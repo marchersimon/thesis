@@ -55,14 +55,14 @@ Due to the materials available, a 30 mm tube was used to wind the wire around. B
     f = \frac{1}{2\pi \dfrac{D}{d_w} \sqrt{\mu_0 \varepsilon_0 \left( l^2 + 0.8245 D l + 2.329 D^{1.5} \sqrt{l} \right)}}
 \end{equation}
 
-Using Wolfram Alpha to solve this equation for \(l\) with a \(D\) of 30 mm gives a length of 112 mm.
+Using Wolfram Alpha to solve this equation for \(l\) with \(D = 30\,mm\) gives a length of 112 mm.
 % 4000000 = 1/(2π(0.03/0.00035)Sqrt[11.1265e-18*(Power[x,2]+0.8245*0.03*x+2.329*Power[0.03,1.5]*Sqrt[x])]) solve for x
 
 \subsection{Designing the Primary Coil}
 \label{sec:designing-the-primary}
 
 The primary coil offers a lot of design freedom and flexibility, but this also means, that there is no \enquote{correct} or \enquote{ideal} design, but only one, which has been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it's too low, not enough energy will be transferred to the secondary, but to raise it, the coils have to be moved closer together which leads to flashover, due to too low insulation. % Test Tesla coil with coupling factor of 0.10 to 0.15  Source: book page 55
-This limitation can be bypassed by making the primary coil smaller at the bottom, where the voltage is higher and larger at the top, where the voltage is higher. This results in the well-known conical shape known from many Tesla coils.
+This limitation can be bypassed by making the primary coil smaller at the bottom, where the voltage is lower and larger at the top, where the voltage is higher. This results in the well-known conical shape known from many Tesla coils.
 
 \begin{marginfigure}
 \centering
@@ -105,7 +105,7 @@ As expected, the coupling factor gets smaller the farther away the primary coil 
 
 \subsection{Modeling the Transformer}
 
-The analog electronic circuit simulator LTSpice, which was used for this project, did unfortunately not provide any tools to simulate the arc breakout at the secondary coil, which is necessary for testing the continuous operation performance. Also, modeling the magnetic coupling of the transformer involved a trick, which is worth mentioning.
+The analog electronic circuit simulator LTSpice, which was used for this project, unfortunately did not provide any tools to simulate the arc breakout at the secondary coil, which is necessary for testing the continuous operation performance. Also, modeling the magnetic coupling of the transformer involved a trick, which is worth mentioning.
 
 \subsubsection{The Magnetic Coupling}
 
@@ -238,7 +238,7 @@ Figure \ref{fig:class-e-res} shows the voltage across the MOSFET on the left axi
 
 \begin{figure}[h!]
     \centering
-    \resizebox{\textwidth}{!}{
+    \resizebox{0.7\textwidth}{!}{
     \begin{tikzpicture}
       \begin{axis}[
         xmin = -74,
@@ -319,11 +319,11 @@ is an excellent resource for this.
 
 Because of the rudimentary engineering experience this project was tried to be built upon, some design stages did not go as hoped. The best example is this amplifier. Deriving equations for a class-E amplifier with a Tesla resonator as load goes far beyond this education's curriculum. However, it was still attempted.
 
-A very professional tool to design and simulate class-E amplifiers for all kinds of applications is Keysight's PathWave Advanced Design System (ADS) and its Class-E amplifier extension, which Keysight was so kind to give us a free license to. % however, too complicated, now using LTSpice
+A very professional tool to design and simulate class-E amplifiers for all kinds of applications is Keysight's PathWave Advanced Design System (ADS) and its Class-E amplifier extension, which Keysight was so kind for giving us a free license to. % however, too complicated, now using LTSpice
 
-After many failed attempts to create a simpler equivalent circuit, and many scraped hypotheses how the class-E amplifier could work with a Tesla coil, the priorities shifted from \emph{understanding how it works} to \emph{making it work}. For this, Richie Burnett's project page\sidecite{richieburnett} has proven very useful.
+After many failed attempts to create a simpler equivalent circuit, and many scraped hypotheses how the class-E amplifier could work with a Tesla coil, the priorities shifted from \emph{understanding how it works} to \emph{making it work}. For this, Richie Burnett's project page\sidecite{richieburnett} has proven as very useful.
 
-An interesting aspect of the above and similar projects, is that they describe the class-E amplifier in a completely different way than the theoretical publications do. The filter capacitor \(C_2\) is merely thought of as a DC-blocking capacitor, which in fact is the same, but shines a different light on its purpose. The capacitor \(C_1\) is just though of as the value to fine-tune for the best power setting.
+An interesting aspect of the above and similar projects is, that they describe the class-E amplifier in a completely different way than the theoretical publications do. The filter capacitor \(C_2\) is merely thought of as a DC-blocking capacitor, which in fact is the same, but shines a different light on its purpose. The capacitor \(C_1\) is just though of as the value to fine-tune for the best power setting.
 
 \subsection{Simulation}
 
@@ -361,11 +361,13 @@ Due to its high output resistance, this \gls{vco} can however not supply the nec
 
 \section{The Interrupter}
 
+While in theory, adding an interrupting feature is as simple as turning the coil on and off, a little more thought has to be paid to the actual implementation. For example, switching the power supply on and off would be very impractical and would probably cause issue with too slow rise and fall times. Connecting or disconnecting the primary coil would very quickly destroy the class-E stage because of load mismatch. Modulating the interrupting signal onto the MOSFET's control signal on the other side sounds more promising.
+
+Then there's the question about how to generate the interrupting signal. Adding another oscillator for this job would be possible, but this makes it hard to control the interrupter's behaviour. Getting the signal from an external source - in this case the MIDI Interrupter - adds both flexibility and modularity.
+
 \subsection{Fiber Optic Transmission}
 
-% mention that the fiber has to be cleanly cut at 90°
-
-Fiber optic cables are a popular choice for sending signals from an interrupter to a Tesla coil. First reason being, that the Tesla coil emits a strong electromagnetic field, which would induce a current in any reasonably long cable. Depending on the output power of the coil, this can even cause bitflips in a \(5\,V\) logic transmission line, and damage components due to overvoltage. The second reason is, that any failure in the power amplifier or discharges between nearby \glsunset{pcb}\gls{pcb} traces could send a high voltage spike back to the interrupter and destroy it.
+Fiber optic cables are a popular choice for sending signals from an interrupter to a Tesla coil. First reason being, that the Tesla coil emits a strong electromagnetic field, which could induce a current in any reasonably long cable. Depending on the output power of the coil, this can even cause bitflips in a \(5\,V\) logic transmission line and damage components due to overvoltage. The second reason is, that any failure in the power amplifier or discharges between nearby \glsunset{pcb}\gls{pcb} traces could send a high voltage spike back to the interrupter and destroy it.
 
 Optical fibers on the other hand are not susceptible to \gls{emi}, and if a high voltage is applied to the receiver, it will go into its limit or directly break, but in no way can it induce this same voltage across the transmitter. The used cable was a \(1\,m\) long \texttt{SH-4001} \(1000\,\mu m\) core jacketed optical fiber.
 
@@ -385,7 +387,7 @@ Figure \ref{fig:transmitter-receiver} shows the transmitter and receiver circuit
 
 \begin{figure}[h!]
     \centering
-    \resizebox{0.9\textwidth}{!}{
+    \resizebox{0.65\textwidth}{!}{
     \begin{circuitikz}[european resistors]
       \tikzset{stroke diodes}
       \draw (0,0) node[nigfete](t){2N7000};
@@ -408,15 +410,17 @@ Figure \ref{fig:transmitter-receiver} shows the transmitter and receiver circuit
     \label{fig:transmitter-receiver}
 \end{figure}
 
-\subsection{Class-E Protection Circuit}
+\subsection{Interrupt Synchronization}
 
 Directly applying the interrupting technique to the class-E circuit by just turning it on and off at any given moment would violate both the \gls{zvs} and \gls{zcs} conditions. In the worst case, switching the MOSFET on when the voltage is at its maximum and turning it off when the current is at its maximum a few thousand times a second would result in huge switching losses and device failure. Therefore a security mechanism has to be implemented.
 
-One solution is to sample the interrupter signal and only apply it on every falling edge of the 4MHz base signal. The sampling could be done with a falling-edge triggered D-type flip-flop, whose output gets fed into an AND gate along with the base signal.
+One way to mitigate this problem is by sampling the interrupter signal and only apply it on every falling edge of the 4MHz base signal. The sampling can be done with a falling-edge triggered D-type flip-flop, whose output gets fed into an AND gate along with the base signal.
+
+\vspace{5mm}
 
 \begin{figure}[h!]
     \centering
-    \caption{Bottom side text}
+    \caption{Synchronizing Circuit}
     \begin{circuitikz}[european]
       \draw (0,0) node[flipflop, flipflop def = {t1 = D, c3 = 1, n3 = 1, t3 = CLK, t6 = Q}](D){};
       \draw (4,.61) node[and port](A){};
@@ -440,6 +444,11 @@ One solution is to sample the interrupter signal and only apply it on every fall
     \end{tikztimingtable}
 \end{figure}
 
+
+\section{Synopsis}
+
+Figure \ref{fig:block-diagram} shows the whole circuitry involved in the Tesla coil\sidenote{Except for the optical transmission circuitry}. To supply the \gls{vco} and the synchronization circuit, the supply voltage of \(12\,V\) gets stepped down to \(5\,V\) by a linear voltage regulator. The power stage, on the other side, needs a higher voltage, which could be achieved by using a boost converter.
+
 \tikzset{
   block/.style={
     draw,
@@ -449,7 +458,7 @@ One solution is to sample the interrupter signal and only apply it on every fall
   }
 }
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \resizebox{0.99\textwidth}{!}{
     \begin{tikzpicture}[timing/slope=0, timing/xunit=.75mm]
@@ -474,7 +483,8 @@ One solution is to sample the interrupter signal and only apply it on every fall
       \draw (boost.north) node[above right]{12\,V} -- ++(0,8mm) node(top){} -- (left|-top) ++(-1mm,0) circle (1mm) node[xshift=(-5mm)]{V\textsubscript{CC}};
       \draw (lin.north) node[above right]{12\,V} -- (lin-node|-top) [fill]circle (.5mm);
       \draw (e.east) -- ++(5mm,0) ++(1mm,0) circle (1mm) node[right,xshift=(1mm)]{Tesla Coil};
+      \draw (driver.north) -- (driver.north|-top) [fill]circle (.5mm);
     \end{tikzpicture}}
-    \caption{Caption}
-    \label{fig:my_label}
+    \caption{Complete Block Diagram}
+    \label{fig:block-diagram}
 \end{figure}

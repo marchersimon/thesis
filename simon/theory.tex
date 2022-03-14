@@ -9,7 +9,7 @@ In order to understand the class-E topology which this thesis is about, we have 
 
 \section{The Tesla Resonator}
 
-A Tesla resonator, commonly called Tesla coil, is a resonant transformer consisting of two loosely coupled air-cored coils. The primary coil, hooked up to the driver circuit on one side and grounded on the other, is usually made out of a few turns of thick wire. It is placed around the bottom of the secondary coil, either shaped like a flat spiral, a concentric cylinder, or at any angle in between. The secondary coil on the other hand, is always shaped like cylinder and usually has a few hundred to a few thousand turns.
+A Tesla resonator, commonly called Tesla coil, is a resonant transformer consisting of two loosely coupled air-cored coils. The primary coil, hooked up to the driver circuit on one side and grounded on the other, is usually made out of a few turns of thick wire. It is placed around the bottom of the secondary coil, either shaped like a flat spiral, a concentric cylinder, or at any angle in between. The secondary coil on the other hand, is always shaped cylindrically and usually has a few hundred to a few thousand turns.
 
 \begin{marginfigure}[*-5]
 \includegraphics[width=\textwidth]{simon/resources/teslaCoilStrayCapacitance.png}
@@ -35,11 +35,11 @@ Various circuits can be used for the excitation of the coil. Different Tesla coi
 
 The simplest and oldest of all drivers is the spark gap driver. In the first stage, the 230V mains voltage is transformed into a few kilovolts. Neon sign or microwave transformers are popular choices for this task. The capacitor gets charged until the voltage is high enough to break through the spark gap. The spark gap then has a very low resistance and allows the current to oscillate between the capacitor and the primary coil. This oscillation frequency is usually tens to hundreds kilohertz and is the same frequency as the resonant frequency of the secondary coil. In every cycle, a little energy is transferred to the secondary via the magnetic coupling of the coils. When the voltage in the secondary gets too high, a breakout occurs. This can happen one or more times within a period of the AC mains voltage. Once all the energy in the primary circuit has been transferred to the secondary or dissipated as heat, the spark gap \emph{quenches}, allowing the capacitor to charge up again.
 
-Today, spark gap Tesla coils are mostly only used for educational purposes anymore. Due to their many \textbf{disadvantages}, they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
+Today, spark gap Tesla coils are mostly used for educational purposes only. Due to their many disadvantages, they are avoided when power efficiency and noise level play a role. The disadvantages most worth mentioning include:
 
 \begin{itemize}
 \item A spark gap dissipates a lot of power, part of it as heat and part of it in creating ozone, which also poses a health hazard when operated in closed rooms.
-\item The rapid igniting and quenching of the spark gap creates a lot of noise.
+\item The rapid ignition and quenching of the spark gap creates a lot of noise.
 \item The whole operation cycle only depends on passive component values, making it hard to control the power output and other characteristics.
 \end{itemize}
 
@@ -132,7 +132,7 @@ The problem with conventional class B or C amplifiers is that with faster switch
 
 \subsection{Theory of Operation}
 
-The goal of the class-E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, by minimizing its dissipated power. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically, simultaneous high current and voltage occur during the switching process, when the switching device has non-zero, finite resistance.
+The goal of the class-E amplifier is to reach very high efficiencies for frequencies upwards of a few MHz, by minimizing its dissipated power. Power dissipation is the product of voltages times current, so the easiest way to minimize it is to keep either voltage or current close to zero at all times. Typically, high current and voltage occur simultaneously during the switching process, when the switching device has non-zero, finite resistance.
 
 This can also be thought of as a problem of impedance matching - the power transferred to the load (the switching device) tops out, when the resistance of the load is equal to the resistance of the power source (the load network). However, when the resistance of the load is either zero or infinite, no power will be transferred.
 
@@ -194,11 +194,11 @@ Luckily, there are already well-documented projects about class-E Tesla coils on
 
 Musical Tesla coils have been getting a lot of attraction since the mid-2000s and are probably the reason for the popularity of Tesla coils in general. To many it's simply mind-blowing how a single arc can produce anything musical. But the physics behind it is in fact very similar to that of a conventional speaker using a membrane.
 
-In a Tesla coil's usual, uninterrupted operation mode, the high voltage in the secondary coil causes a plasma channel (the arc) to form, discharging the coil. Since the plasma takes up a much higher volume, it expands rapidly and pushes air away from the coil. Once discharged, the plasma channel extinguishes and the secondary coil begins to charge up again. A single discharge creates a \enquote{snapping} sound well known from arcs, but in a Tesla coil this cycle repeats many times a second, resulting in a harsh, square-wave-like sound. Mostly depending on the size of the coil, this frequency can be a few hundred hertz to tens of kilohertz; some smaller coils even exceed the human-audible range, creating a noiseless flame-like discharge.
+In a Tesla coil's, usual uninterrupted, operation mode, the high voltage in the secondary coil causes a plasma channel (the arc) to form, discharging the coil. Since the plasma takes up a much higher volume, it expands rapidly and pushes air away from the coil. Once discharged, the plasma channel extinguishes and the secondary coil begins to charge up again. A single discharge creates a \enquote{snapping} sound well known from arcs, but in a Tesla coil this cycle repeats many times a second, resulting in a harsh, square-wave-like sound. Mostly depending on the size of the coil, this frequency can be a few hundred hertz to tens of kilohertz; some smaller coils even exceed the human-audible range, creating a noiseless flame-like discharge.
 
-By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arcs. Since the Tesla coil has to complete at least one cycle before being turned off, the modulated frequency cannot be greater than the carrier frequency. 
+By modulating another frequency onto this carrier frequency, a.k.a. turning the coil on and off at this rate, the frequency is also modulated onto the sound wave created by the arcs. Since the Tesla coil has to complete at least one cycle before being turned off, the modulation frequency cannot be greater than the carrier frequency. 
 
-Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word} of the Tesla coil for the example of a 500 Hz signal modulated onto a 10 kHz carrier wave. Figure \ref{fig:sound-pressure} visualizes the movement of the air molecules around the Tesla coil\sidenote{This graph is very likely not accurate and only indented for demonstration purposes}. By performing a Fourier analysis on figure \ref{fig:sound-pressure}, a graph of all frequency components of the sound wave can be created as shown in figure \ref{fig:frequency-magnitude}. It is clearly visible, that not only the modulated signal, but also the carrier frequency is audible, which distorts the sound. A method to counteract this is by using smaller Tesla coils, which often have carrier frequencies well above the human hearing range.
+Figure \ref{fig:arcing-activity} shows the arcing of the Tesla coil for the example of a 500 Hz signal modulated onto a 10 kHz carrier wave. Figure \ref{fig:sound-pressure} visualizes the movement of the air molecules around the Tesla coil\sidenote{This graph is very likely not accurate and only indented for demonstration purposes}. By performing a Fourier analysis on figure \ref{fig:sound-pressure}, a graph of all frequency components of the sound wave can be created as shown in figure \ref{fig:frequency-magnitude}. It is clearly visible, that not only the modulated signal, but also the carrier frequency is audible, which distorts the sound. A method to counteract this is by using smaller Tesla coils, which often have carrier frequencies well above the human hearing range.
 
 \begin{figure}[h!]
 \begin{tikzpicture}
@@ -232,7 +232,7 @@ Figure \ref{fig:arcing-activity} shows the arcing activity\todo{find better word
     \node at (92.5,112) {\resizebox{1.3mm}{!}{\includegraphics{simon/resources/lighting.png}}};
   \end{axis}
 \end{tikzpicture}
-\caption{Arcing Activity}
+\caption{Arcing}
 \labfig{arcing-activity}
 \end{figure}
 

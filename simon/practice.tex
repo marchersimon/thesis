@@ -20,7 +20,7 @@ The class-E amplifier was by far the trickiest part to get running. It took abou
 
 In the first prototype, it was attempted to design the class-E amplifier using the design equations mentioned in section \ref{subsec:the-design-process}. The Tesla coil was converted into a single impedance value and seen as part of the load network. The calculated value for the capacitor \(C_2\) was already contained in this value, so it was simply left out. Guaranteed failure predicted by the simulation was simply ignored. In fact, without the DC-blocking capacitor, the whole amplifier looked like a short for direct current and the network had no chance to start oscillating.
 
-First it was assumed that this could be solved by reducing the noise in the PCB with a ground plane. In retrospect, this was a stupid idea.
+First it was assumed that this could be solved by reducing the noise in the PCB with a ground plane. In retrospect, which finally was not the solution.
 
 The third design finally solved this problem by adding a \(100\,nF\) capacitor, but soon, another issue was discovered. The \(4\,MHz\) signal was still coming from a signal generator connected via an coaxial cable. Even though the Tesla coil didn't create any arcs yet, it was still producing an electromagnetic field. This field induced a voltage in the long cable from the signal generator and, after being amplified by the MOSFET driver, turned on the MOSFET when it should have been closed.
 
@@ -107,7 +107,7 @@ In the earlier prototypes it was always important to monitor the MOSFET's gate s
     \label{fig:gate-measured}
 \end{figure}
 
-Even while the Tesla coil was operating and generating arcs, it was not directly obvious if the class-E amplifier operated in a stable manner of if the MOSFET could break any moment. Therefore it was crucial to be able to keep a look the voltages in the circuit, especially \(V_{DS}\). If the drain-source voltage was either clipped, did not return to zero before turn-on, or looked problematic in any way, it was safer to quickly turn of the Tesla coil and look for potential issues. Figure \ref{fig:vds-50} shows the \(V_{DS}\) with a supply voltage of \(50\,V\) and an operating frequency of \(3.85\,MHz\).
+Even while the Tesla coil was operating and generating arcs, it was not directly obvious whether the class-E amplifier operated in a stable manner or if the MOSFET could break any moment. Therefore it was crucial to be able to keep a look at the voltages in the circuit, especially \(V_{DS}\). If the drain-source voltage was either clipped, did not return to zero before turn-on, or looked problematic in any way, it was safer to quickly turn of the Tesla coil and look for potential issues. Figure \ref{fig:vds-50} shows the \(V_{DS}\) with a supply voltage of \(50\,V\) and an operating frequency of \(3.85\,MHz\).
 
 \begin{figure}[h!]
     \centering
