@@ -25,7 +25,7 @@ Additionally, the \cinl{VSS} and \cinl{VDD} pins supplies the controller chip wi
 
 After power on and automatic initialization of the controller, it has to be set to 4-bit mode with the \cinl{function set} command. After setting other options, like the size of the display or the cursor shape, text can be printed to the display by writing data to the data register. A complete list of all commands and more details on the initialization process can be found in the datasheet, whose URL can be found in QR code \newqrcode{https://www.sparkfun.com/datasheets/LCD/HD44780.pdf}{HD44780 LCD driver datasheet}. % maybe put in sidenote?
 
-Instead of implementing this communication layer from scratch, a very popular library written by Peter Fleury has been used\sidenote{A URL to the library documentation can be found in QR code \newqrcode{http://www.peterfleury.epizy.com/doxygen/avr-gcc-libraries/group__pfleury__lcd.html}{LCD library}}. In \cinl{lcd.h} the used mode and the port and pin number of each pin has to be specified. After that, it is very easy to use the \gls{lcd} as shown in listing \ref{lst:lcdlibrary}
+Instead of implementing this communication layer from scratch, a very popular library written by Peter Fleury has been used\sidenotes{A URL to the library documentation can be found in QR code \newqrcode{http://www.peterfleury.epizy.com/doxygen/avr-gcc-libraries/group__pfleury__lcd.html}{LCD library}}. In \cinl{lcd.h} the used mode and the port and pin number of each pin has to be specified. After that, it is very easy to use the \gls{lcd} as shown in listing \ref{lst:lcdlibrary}
 
 \begin{lstlisting}[caption=LCD Library, label=lst:lcdlibrary]
 #include "lcd.h"
@@ -76,6 +76,14 @@ In total, the rotary encoder has five pins - two for the supply voltage, one for
     \label{fig:rotary-encoder}
 \end{figure}
 
-The easiest way to read the signal from the decoder is to set an interrupt on the falling edge\sidenote{Setting it on the rising edge would work equally well, however then the following logic would have to be inverted.} of the \cinl{CLK} signal and read the \cinl{DT} signal at this point. If it's high, the encoder has been turned clockwise, and if it's low it has been turned counter-clockwise.
+The easiest way to read the signal from the decoder is to set an interrupt on the falling edge\sidenotes{Setting it on the rising edge would work equally well, however then the following logic would have to be inverted.} of the \cinl{CLK} signal and read the \cinl{DT} signal at this point. If it's high, the encoder has been turned clockwise, and if it's low it has been turned counter-clockwise.
 
 To confirm the selection, the integrated button, which can be activated by pressing down on the rotary shaft has been used. It was connected to the external interrupt pin \cinl{PD3} on the ATmega2560, which was configured to trigger on a rising edge. The de-bouncing was implemented by adding a 50\,ms delay in the \gls{isr} and clear any pending interrupt on this pin by setting the corresponding bit in the \cinl{EIFR} register.
+
+\newpage
+\pagestyle{empty}
+\mbox{}
+\newpage
+\mbox{}
+\newpage
+\pagestyle{scrheadings}

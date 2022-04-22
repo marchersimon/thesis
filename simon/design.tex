@@ -2,30 +2,30 @@
 \setchapterpreamble[u]{\margintoc}
 
 \chapter{Design and Simulation} % How I thought it was going to work
-\labch{ch:design-and-simulation}
+\label{ch:design-and-simulation}
 
-\textbf{Disclaimer:} This process was a lot more lengthy and tedious than depicted in the following chapter. It mostly consisted of trial and error, which started with an more or less educated guess and ended in cluelessness and despair. But those errors don't add a lot of value to understanding the topic, so I won't go into much detail.
+\textbf{Disclaimer:} This process was a lot more lengthy and tedious than depicted in the following chapter. It mainly consisted of trial and error, which started with a more or less educated guess and ended in cluelessness and despair. But those errors do not add a lot of value to understanding the topic, so this section will not go into much detail.
 
 \section{The Coils}
 
-The goal was to design an air coil with a resonant frequency of 4MHz. This frequency was chosen, since it is high enough to work well with an class-E amplifier, but low enough to not run into too many RF related problems. It was also already known to have worked with a few other class-E Tesla coils.
+The goal was to design an air coil with a resonant frequency of 4MHz. This frequency was chosen since it is high enough to work well with a class-E amplifier but low enough to not run into too many RF related problems. It was also already known to have worked with a few other class-E Tesla coils.
 
 \subsection{Designing the Secondary Coil}
 \label{subsec:designing-the-secondary-coil}
 
-The inductance of a single-layered air solenoid coil can be calculated with
+The inductance of a single-layered air solenoid coil can be calculated using the well-known equation \ref{eq-inductivity}.
 
 \begin{equation}\label{eq-inductivity}
     L = \mu_0 \frac{N^2 A}{l}
 \end{equation}
 
-The parasitic capacitance, depending on its length \(l\) and its diameter \(D\) can be calculated with\sidecite{self-capacitance}
+The parasitic capacitance, depending on its length \(l\) and its diameter \(D\) can be calculated as\textsuperscript{\sidecite{self-capacitance}}
 
 \begin{equation}\label{eq-parasitic-capacitance}
-    C_L = \frac{4\varepsilon_0}{\pi} \cdot l \cdot \left( 1 + 0.8249 \frac{D}{l} + 2.329 \left(\frac{D}{l}\right)^{1.5}\right)
+    C_L = \frac{4\varepsilon_0}{\pi} \cdot l \cdot \left( 1 + 0.8249 \frac{D}{l} + 2.329 \left(\frac{D}{l}\right)^{1.5}\right)\,.
 \end{equation}
 
-Defining the length to diameter ratio of the coil to be 4, and \(d_w\) to be the diameter of the wire, both formulas can be rewritten to only depend on \(l\) and \(d_w\). 
+Defining the length-to-diameter ratio of the coil to be \(4\), and \(d_w\) to be the diameter of the wire, the two previous equations can be rewritten to only depend on \(l\) and \(d_w\). 
 
 \begin{equation}
     L = \mu_0 \frac{l^3\ \pi}{32 d_w^2}
@@ -41,43 +41,41 @@ Those equations can then be set into the formula for the resonant frequency of a
     f = \frac{1}{2\pi \cdot \sqrt{0.1872 \cdot \dfrac{1}{d_w^2} \cdot \mu_0 \varepsilon_0 \cdot l^4}}
 \end{equation}
 
-Rearranging the equation to \(l\)
+Rearranging this equation to \(l\) gives
 
 \begin{equation}
-    l = \frac{1}{\sqrt[\scalebox{1}{4}]{4\pi^2 f^2 \cdot0.1872 \cdot \dfrac{1}{d_w^2} \cdot \mu_0 \varepsilon_0}}
+    l = \frac{1}{\sqrt[\scalebox{1}{4}]{4\pi^2 f^2 \cdot0.1872 \cdot \dfrac{1}{d_w^2} \cdot \mu_0 \varepsilon_0}}\,.
 \end{equation}
 
-With a frequency of 4MHz and a wire diameter of 0.35mm, the length of the coil turns out to be around 100mm and the diameter therefore around 25mm.
+With a frequency of \(4\,MHz\) and a wire diameter of \(0.35\,mm\), the length of the coil turns out to be around \(100\,mm\), and the diameter around \(25\,mm\).
 
-Due to the materials available, a 30 mm tube was used to wind the wire around. By using equation \ref{eq-inductivity} and \ref{eq-parasitic-capacitance}, an equation can be derived, which describes the relationship of all relevant variables.
+Due to the materials available, a \(30\,mm\) tube was used as a core for the secondary coil. By using equation \ref{eq-inductivity} and \ref{eq-parasitic-capacitance}, another equation can be derived, which describes the relationship of all relevant variables.
 
 \begin{equation}
     f = \frac{1}{2\pi \dfrac{D}{d_w} \sqrt{\mu_0 \varepsilon_0 \left( l^2 + 0.8245 D l + 2.329 D^{1.5} \sqrt{l} \right)}}
 \end{equation}
 
-Using Wolfram Alpha to solve this equation for \(l\) with \(D = 30\,mm\) gives a length of 112 mm.
+Using Wolfram Alpha to solve this equation for \(l\) with \(D = 30\,mm\) gives a length of \(112\,mm\).
 % 4000000 = 1/(2π(0.03/0.00035)Sqrt[11.1265e-18*(Power[x,2]+0.8245*0.03*x+2.329*Power[0.03,1.5]*Sqrt[x])]) solve for x
 
 \subsection{Designing the Primary Coil}
 \label{sec:designing-the-primary}
 
-The primary coil offers a lot of design freedom and flexibility, but this also means, that there is no \enquote{correct} or \enquote{ideal} design, but only one, which has been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it's too low, not enough energy will be transferred to the secondary, but to raise it, the coils have to be moved closer together which leads to flashover, due to too low insulation. % Test Tesla coil with coupling factor of 0.10 to 0.15  Source: book page 55
-This limitation can be bypassed by making the primary coil smaller at the bottom, where the voltage is lower and larger at the top, where the voltage is higher. This results in the well-known conical shape known from many Tesla coils.
+The primary coil offers a lot of design freedom and flexibility, but this also means that there is no \enquote{correct} or \enquote{ideal} design, but only one, which has been observed to work well. It mostly comes down to optimizing the coupling coefficient between the two coils. If it is too low, not enough energy will be transferred to the secondary, but to raise it, the coils must be moved closer together, which leads to flashover due to too low insulation. % Test Tesla coil with coupling factor of 0.10 to 0.15  Source: book page 55
+This limitation can be bypassed to a specific degree by making the primary coil smaller at the bottom, where the voltage is lower and larger at the top, where the voltage is higher. This results in the well-known conical shape known from many Tesla coils.
 
-\begin{marginfigure}
-\centering
-\includegraphics[width=0.6\textwidth]{simon/resources/teslaCoilSketch.png}
-\end{marginfigure}
 
-\subsection{Simulating the Coupling}
+\subsection[Simulating the Coupling]{Simulating the Coupling Coefficient}
 
-In order to simulate the resonant transformer, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. The simulation tool EleFAnT2D\sidenote{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed IGTE, TU Graz} was used to simulate the magnetic flux in the system. The coupling coefficient can be described as
+In order to simulate the resonant transformer, its coupling coefficient has to be known. It describes how tightly the two coils are magnetically coupled and how much of the generated magnetic field of one coil is induced in the other. The simulation tool EleFAnT2D\sidenotes{\textbf{Ele}ctromagnetic \textbf{F}ield \textbf{An}alyis \textbf{T}ool, developed by IGTE, TU Graz} was used to simulate the magnetic flux in the system. 
+\newpage
+The coupling coefficient can be described as
 
 \begin{equation}
-    k = \frac{\Phi_{ind}}{\sqrt{\Phi_P \cdot \Phi_S}}
+    k = \frac{\Phi_{ind}}{\sqrt{\Phi_P \cdot \Phi_S}}\,,
 \end{equation}
 
-where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) and \(\Phi_S\) are the flux of the primary and secondary coil, respectively.\todo{Is it really?} By using this formula and the simulated values, the coupling factor as a function of the vertical displacement of the primary coil has been calculated as can be seen in figure \ref{fig:coupling-factor}.
+where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) and \(\Phi_S\) are the flux of the primary and secondary coil, respectively. By using this formula and the simulated values, the coupling factor as a function of the vertical displacement of the primary coil has been calculated and can be seen in figure \ref{fig:coupling-factor}.
 
 \begin{figure}[h!]
     \centering
@@ -89,7 +87,7 @@ where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) an
     ymax = 25,
     xmin = -20,
     xmax = 20,
-    xlabel = Vertical displacement in mm,
+    xlabel = Vertical displacement in \(mm\),
     ylabel = Coupling factor in \%
     ]
     \addplot+[mark options={black!50}, draw=black] table [x=d, y=k, col sep=comma]{simon/resources/couplingFactor.csv};
@@ -101,18 +99,17 @@ where \(\Phi_{ind}\) is the flux linkage between the two coils and \(\Phi_P\) an
     \label{fig:coupling-factor}
 \end{figure}
 
-As expected, the coupling factor gets smaller the farther away the primary coil moves from the center of the secondary coil.
+As expected, the coupling factor gets smaller the further away the primary coil moves from the center of the secondary coil.
 
 \subsection{Modeling the Transformer}
 
-The analog electronic circuit simulator LTSpice, which was used for this project, unfortunately did not provide any tools to simulate the arc breakout at the secondary coil, which is necessary for testing the continuous operation performance. Also, modeling the magnetic coupling of the transformer involved a trick, which is worth mentioning.
+The analog electronic circuit simulator LTSpice, which was used for this project, unfortunately, did not provide any tools to simulate the arc breakout at the secondary coil, which is necessary for testing the continuous operation performance. Also, modeling the magnetic coupling of the transformer involved a trick, which is worth mentioning.
 
 \subsubsection{The Magnetic Coupling}
 
-\sidecite{ltspice}
+To simulate a transformer in LTSpice, the \texttt{K} directive can be used. For example, \cinl{K L1 L2 0.3} couples the inductivities L1 and L2 with a coupling coefficient of 30\,\% \textsuperscript{\sidecite{ltspice}}. LTSpice then automatically takes care of the stray inductivities and their voltage drop.
 
-To simulate a transformer in LTSpice, the K directive can be used. For example, \cinl{K L1 L2 0.3} couples the inductivities L1 and L2 with a coupling coefficient of 30\,\%.
-
+\newpage
 \subsubsection{The Arcing}
 
 \begin{marginfigure}[5mm]
@@ -122,13 +119,13 @@ To simulate a transformer in LTSpice, the K directive can be used. For example, 
     \label{fig:ltspice_sw}
 \end{marginfigure}
 
-When the voltage in the secondary coil \(V_{SC}\) is high enough to ionize the air around it, a spark forms. This spark persists as long as the coil can provide enough current to keep it alive. After \(V_{SC}\) dropped to a very low level, the spark extinguishes and allows the secondary coil to charge up again.
+When the voltage in the secondary coil \(V_{SC}\) is high enough to ionize the air around it, a spark forms. This spark persists as long as the coil can provide enough current to keep it alive. After \(V_{SC}\) drops to a very low level, the spark extinguishes and allows the secondary coil to charge up again.
 
-A very basic way to model this behaviour in LTSpice is to use a voltage controlled switch with some conditional logic. A voltage controlled switch is an ideal, lossless component which simply connects or disconnects its two terminals depending on the voltage difference of its \texttt{+} and \texttt{-} pins\sidecite{ltspice}. The switch is connected in parallel to the secondary coil's capacitance, which gets discharged rapidly when the switch closes.
+A very basic way to model this behavior in LTSpice is to use a voltage controlled switch with some conditional logic. A voltage controlled switch is an ideal, lossless component that simply connects or disconnects its two terminals depending on the voltage difference of its \texttt{+} and \texttt{-} pins\textsuperscript{\sidecite{ltspice}}. The switch is connected in parallel to the secondary coil's capacitance, which gets discharged rapidly when the switch closes.
 
-To specify the switch's characteristics, a new switch model has to be defined. For the example of a switch without a hysteresis, this can look like \cinl{.model model_name SW(Vt = 1k)}. This switch is closed above and opened below 1\,kV, and has an \(R_{ON}\) of 1\,\(\Omega\), \(R_{OFF}\) of \(1\,T\Omega\), and no additional parasitics. 
+To specify the switch's characteristics, a new switch model has to be defined. For the example of a switch without a hysteresis, this can look like \cinl{.model model_name SW(Vt = 1k)}. This switch is closed above and opened below \(1\,kV\) and has an \(R_{ON}\) of \(1\,\Omega\), \(R_{OFF}\) of \(1\,T\Omega\), and no additional parasitics.
 
-However, it is not possible to use \(V_{SC}\) directly as the control voltage, because it returns to zero two times per period, which would instantly turn off the switch again. Instead the switch should turn off when the current through it falls below a certain threshold. For this a D latch and an \emph{arbitrary behavioural voltage source} can be used\sidecite{spark-gap}. This kind of voltage source can be configured to output an arbitrary voltage based on logical and mathematical expressions. The complete spark gap model can be seen in figure \ref{fig:ltspice-sparkgap}.
+Unfortunately, it is impossible to use \(V_{SC}\) directly as the control voltage because it returns to zero two times per period, which would instantly turn off the switch again. Instead, the switch should turn off when the current falls below a certain threshold. For this, a D-type latch and an \emph{arbitrary behavioral voltage source} can be used\textsuperscript{\sidecite{spark-gap}}. This kind of voltage source can be configured to output an arbitrary voltage based on a logical and mathematical expression. The complete spark gap model can be seen in figure \ref{fig:ltspice-sparkgap}.
 
 \begin{figure}[h!]
     \centering
@@ -137,11 +134,11 @@ However, it is not possible to use \(V_{SC}\) directly as the control voltage, b
     \label{fig:ltspice-sparkgap}
 \end{figure}
 
-\texttt{V4} supplies a constant \texttt{HIGH} signal to the latch's input. \texttt{B1} turns the \texttt{CLK} input \texttt{HIGH} as soon as \(V_{SC}\) reaches \(5\,kV\). And lastly, \texttt{B2} resets the latch if the current falls below \(1\,A\). The \emph{falling} is essential here, because at the moment the switch turns on, the current also is below \(1\,A\), which would turn off the switch again. With the additional \cinl{ddt(I(S1))<0} condition it was made sure that the current has to be decreasing. The low pass filter consisting of \texttt{R1} and \texttt{C5} adds a tiny delay to the latch's output signal, without which LTSpice would not be able to simulate the circuit. Figure \ref{fig:spark-gap-simulation} shows the voltage \(V_{SC}\) after the spark gap has been put into place.
+\texttt{V4} supplies a constant \texttt{HIGH} signal to the latch's input. \texttt{B1} turns the \texttt{CLK} input \texttt{HIGH} as soon as \(V_{SC}\) reaches \(5\,kV\). And lastly, \texttt{B2} resets the latch if the current falls below \(1\,A\). The \emph{falling} is essential here because when the switch turns on, the current is still below \(1\,A\), which would turn off the switch again. With the additional \cinl{ddt(I(S1))<0} condition, it was made sure that the current has to be decreasing. The low pass filter consisting of \texttt{R1} and \texttt{C5} adds a tiny delay to the latch's output signal, without which LTSpice would not be able to simulate the circuit correctly. Figure \ref{fig:spark-gap-simulation} shows the voltage \(V_{SC}\) after the spark gap has been put into place.
 
-\begin{figure}[h!]
+\begin{marginfigure}
     \centering
-    \resizebox{0.9\textwidth}{!}{
+    \resizebox{1\textwidth}{!}{
     \begin{tikzpicture}
       \begin{axis}[
         y filter/.code=\pgfmathparse{#1 / 1000},
@@ -150,30 +147,32 @@ However, it is not possible to use \(V_{SC}\) directly as the control voltage, b
         xlabel = \(t\) in \(\mu s\),
         ytick= {-5,0,5},
         ymajorgrids,
+        ylabel shift = -3mm,
         ]
-        \addplot table[x=t,y=v,col sep=comma, mark=none]{simon/resources/sparkgap.csv};
+        \addplot+[blue!50] table[x=t,y=v,col sep=comma, mark=none]{simon/resources/sparkgap.csv};
       \end{axis}
-    \end{tikzpicture}}
-    \caption{Spark Gap Simulation}
+    \end{tikzpicture}\phantom{AAA}}
+    \caption{Spark Gap Model}
     \label{fig:spark-gap-simulation}
-\end{figure}
+\end{marginfigure}
 
+\newpage
 \section{Class-E Design}
 
-As already explained in aaaaa, it is everything but trivial to design a class-E amplifier to drive a Tesla resonator. However, for the sake of demonstration, the following subsection will go through the design process of a class-E amplifier with an ohmic load.
+As already explained in section \ref{subsec:e-for-tesla}, it is everything but trivial to design a class-E amplifier to drive a Tesla resonator. However, for the sake of demonstration, the following subsection will go through the design process of a class-E amplifier with an ohmic load.
 
 \subsection{The Design Process}
 \label{subsec:the-design-process}
 
-Nathan Sokal, who popularized the class-E amplifier along with Alan Sokal, presented a set of revised design equations in 2001 \sidecite[-3mm]{sokal-qex}. Unlike previously published equations, they include the dependence of the loaded Q factor\sidenote{It describes how damped a resonator is, or in other words, how quickly it dissipates its oscillating energy.} as well as on the output power.
+Nathan Sokal, who popularized the class-E amplifier along with Alan Sokal, presented a set of revised design equations in 2001\textsuperscript{\sidecite{sokal-qex}}. Unlike previously published equations, they include the dependence of the loaded Q factor\sidenotes{It describes how damped a resonator is, or in other words, how quickly it dissipates its oscillating energy.} as well as on the output power.
 
-The goal of this amplifier is to create 50\,W of output power in a load of 22\,\(\Omega\) at a frequency of 4\,MHz. The Q factor of the load network has to be chosen by the designer and involves 
+This amplifier aims to create \(50\,W\) of output power in a load of \(22\,\Omega\) at a frequency of \(4\,MHz\). The Q factor of the load network has to be chosen by the designer and involves 
 
 \begin{displayquote}
 \enquote{a trade-off among the operating bandwidth (wider with lower \(Q_L\)), harmonic content of the output power (\textelp{} lower with higher \(Q_L\)) and power loss in the parasitic resistances of the load-network inductor \(L_2\) and capacitor \(C_2\) (lower with lower \(Q_L\)).}
 \end{displayquote}
 
-The chosen value for \(Q_L\) is 5, because it is a common starting value for simple class-E amplifiers. The switching device will be a MOSFET, so the saturation voltage used in the equations have already been set to zero. Also, to make the calculations clearer, all numbers, as well as the results have been rounded to three significant digits. The necessary supply voltage is
+The chosen value for \(Q_L\) is \(5\) because it is a common starting value for simple class-E amplifiers. The switching device will be a MOSFET, so the saturation voltage used in the equations have already been set to zero. Also, to make the calculations clearer, all numbers, as well as the results, have been rounded to three significant digits. The necessary supply voltage for the amplifier is
 
 \begin{equation*}
     V_{CC} = \sqrt{R \cdot P \cdot 1.73 \cdot \frac{1}{1 - \frac{0.452}{Q_L} - \frac{0.402}{Q_L^2}}} = 46.1\,V\textnormal{\,.}
@@ -181,7 +180,10 @@ The chosen value for \(Q_L\) is 5, because it is a common starting value for sim
 
 The expected peak drain-source voltage on the MOSFET is 3.56 times the supply voltage plus a safety factor of around 20\%, which means that the MOSFET has to have a drain-source breakdown voltage of at least 197\,V. 
 
-The choke inductance \(L_1\), again, has to be chosen in order to calculate the remaining component values. It has to be big enough to force enough current into \(C_1\) and keep the current ripple low. A rule of thumb is that \(X_{L1}\) should be at least 30 times greater than \(X_{C1}\). However, since \(C_1\) slightly depends on \(L_1\), this is an iterative process. A value for \(L_1\), which turns out to work well is \(130\,\mu H\). \(C_1\), \(C_2\), and \(L_2\) can then be calculated with
+The choke inductance \(L_1\), again, has to be chosen in order to calculate the remaining component values. It has to be big enough to force enough current into \(C_1\) and keep the current ripple low. A rule of thumb is that \(X_{L1}\) should be at least 30 times greater than \(X_{C1}\). However, since \(C_1\) slightly depends on \(L_1\), this is an iterative process. A value for \(L_1\), which turns out to work well, is \(130\,\mu H\). 
+
+\newpage
+\(C_1\), \(C_2\), and \(L_2\) can then be calculated with
 
 \begin{equation*}
     C_1 = \frac{1}{34.2\cdot f R} \cdot \left( 1 + \frac{0.914}{Q_L} - \frac{1.03}{Q_L^2} \right) + \frac{0.6}{(2 \pi f)^2  \cdot L_1} = 387\,pF\textnormal{\,,}
@@ -205,9 +207,9 @@ Based on the previous calculations, the MOSFET must have
     \item a maximum power dissipation of at least 5\,W.
 \end{itemize}
 
-One MOSFET which meets all these criteria is the BSC12DN20NS3. It has a drain-source breakdown voltage of 200V, an output capacitance of 39pF, turn-off and turn-on times of less than 5 ns and a maximum power dissipation of 50W. The capacitor \(C_{1*}\) therefore is \(387\,pF - 39\,pF = 348\,pF\).
+One MOSFET which meets all these criteria is the BSC12DN20NS3. It has a drain-source breakdown voltage of 200V, an output capacitance of 39pF, turn-off and turn-on times of less than 5 ns and a maximum power dissipation of 50W. The capacitor \(C_{1*}\), therefore, is \(387\,pF - 39\,pF = 348\,pF\).
 
-The driver was then simulated using LTSpice. The Spice model for the BSC12DN20NS3 can be found in QR code \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}{BSC12DN20NS3 LTSpice model}. This zip file contains a file called \texttt{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the correct one into the schematic, a standard \texttt{nmos} has to be added and its value has to be set to \texttt{BSC12DN20NS3\_L1}\sidenote{This can be done by right-clicking the symbol.}. The \enquote{L1} means, that switching losses will be included in the simulation.
+The driver was then simulated using LTSpice. The Spice model for the BSC12DN20NS3 can be found in QR code \newqrcode{https://www.infineon.com/dgdl/Infineon-PowerMOSFET_OptiMOS_PSpice_200V_N-Channel-SimulationModels-v02_00-EN.zip?fileId=5546d4624f72be57014f73c9c774060e}{BSC12DN20NS3 LTSpice model}. This ZIP file contains a file called \texttt{OptiMOS3\_200V\_LTSpice.lib}, which contains multiple MOSFET models. To include the correct one into the schematic, a standard \texttt{nmos} has to be added and its value has to be set to \texttt{BSC12DN20NS3\_L1}\sidenotes{This can be done by right-clicking the symbol.}. The \emph{L1} means that switching losses will be included in the simulation.
 
 \begin{figure}[h!]
     \centering
@@ -232,8 +234,9 @@ The driver was then simulated using LTSpice. The Spice model for the BSC12DN20NS
     \label{fig:ltspice1}
 \end{figure}
 
-The time-domain for the transient simulation was set to 0 to 30\,\textmu s, while only the last 10\,\textmu s were recorded to ensure that the amplifier has reached a steady state.
+The time-domain for the transient simulation was set to \(0\) to \(30\,\mu s\), while only the last \(10\,\mu s\) were recorded to ensure that the amplifier has reached a steady state.
 
+\newpage
 Figure \ref{fig:class-e-res} shows the voltage across the MOSFET on the left axis and the current through the MOSFET on the right axis.
 
 \begin{figure}[h!]
@@ -306,88 +309,87 @@ Figure \ref{fig:class-e-res} shows the voltage across the MOSFET on the left axi
     \label{fig:class-e-res}}
 \end{figure}
 
-While the current doesn't look as ideal as the one shown in figure \ref{fig:nominal-waveforms}, the overlap between current and voltage is still minimal. The power dissipation in the MOSFET spikes to around 30\,W at the transitions, but averages out at a mere 625\,mW. The total efficiency of the amplifier then is
+While the current does not look as ideal as the one shown in figure \ref{fig:nominal-waveforms}, the overlap between current and voltage is still minimal. The power dissipation in the MOSFET spikes to around 30\,W at the transitions but averages out at a mere 625\,mW. The total efficiency of the amplifier then is
 
 \begin{equation}
     \eta = \frac{P_{in}}{P_{out}} = \frac{46.3\,W}{48.8\,W} = 94.9\%\,.
 \end{equation}
 
-This equation uses the averaged powers of the voltage source, and the load resistor after a steady state has been reached. By manually fine-tuning the component values, the efficiency can be further increased. \sidecite{sokal-qex}
-is an excellent resource for this.
+This equation uses the averaged powers of the voltage source and the load resistor after a steady state has been reached. By manually fine-tuning the component values, the efficiency can be further increased. Resource \sidecite{sokal-qex} is an excellent resource for this.
 
 \section{The Class-E Tesla Coil Driver}
 
-Because of the rudimentary engineering experience this project was tried to be built upon, some design stages did not go as hoped. The best example is this amplifier. Deriving equations for a class-E amplifier with a Tesla resonator as load goes far beyond this education's curriculum. However, it was still attempted.
+Because of the limited engineering experience, some design stages of this project did not go as hoped. Deriving equations for a class-E amplifier with a Tesla resonator as load goes far beyond this education's curriculum. However, it was still attempted.
 
-A very professional tool to design and simulate class-E amplifiers for all kinds of applications is Keysight's PathWave Advanced Design System (ADS) and its Class-E amplifier extension, which Keysight was so kind for giving us a free license to. % however, too complicated, now using LTSpice
+A very professional tool to design and simulate class-E amplifiers for all kinds of applications is Keysight's \emph{PathWave Advanced Design System} (\emph{ADS}) and its Class-E amplifier extension, which Keysight was so kind for giving us a free license to. However, without any previous training for this tool, it was hard to use its full potential, which is why LTSpice was preferred.
 
-After many failed attempts to create a simpler equivalent circuit, and many scraped hypotheses how the class-E amplifier could work with a Tesla coil, the priorities shifted from \emph{understanding how it works} to \emph{making it work}. For this, Richie Burnett's project page\sidecite{richieburnett} has proven as very useful.
+After many failed attempts to create a simpler equivalent circuit and many scraped hypotheses on how the class-E amplifier could work with a Tesla coil, the priorities shifted from \emph{understanding how it works} to \emph{making it work}. For this, Richie Burnett's project page\textsuperscript{\sidecite{richieburnett}} has proven very useful.
 
-An interesting aspect of the above and similar projects is, that they describe the class-E amplifier in a completely different way than the theoretical publications do. The filter capacitor \(C_2\) is merely thought of as a DC-blocking capacitor, which in fact is the same, but shines a different light on its purpose. The capacitor \(C_1\) is just though of as the value to fine-tune for the best power setting.
+An interesting aspect of the above and similar projects is that they describe the class-E amplifier in a completely different way than the theoretical publications do. The filter capacitor \(C_2\) is merely thought of as a DC-blocking capacitor, which shines a different light on its purpose. The capacitor \(C_1\) is just thought of as the value to fine-tune for the best power setting.
 
 \subsection{Simulation}
 
-The schematic presented by Richie Burnett features a class-E output stage, where the primary coil is the load and \(L_2\) at the same time. The DC-blocking capacitor \(C_2\) is given with \(100\,nF\) and \(L_1\) with \(47\mu H\). Blindly inserting these values into the simulation generated surprisingly good results. The optimal value for \(C_1\) has been found to be somewhere between \(20\) and \(150\,nF\) depending on the other component's values. The supply voltage was initially set to \(50\,V\), but later raised to \(54\,V\) as this was the output voltage of the only suitable boost-converter.
+The schematic presented by Richie Burnett features a class-E output stage, where the primary coil is the load and the load network inductor at the same time. The DC-blocking capacitor \(C_2\) is given with \(100\,nF\) and \(L_1\) with \(47\mu H\). Blindly inserting these values into the simulation generated surprisingly good results. The optimal value for \(C_1\) has been found to be somewhere between \(20\) and \(150\,nF\) depending on the other component's values. The supply voltage was initially set to \(50\,V\) but later raised to \(54\,V\) as this was the output voltage of the only suitable boost-converter.
 
-From the simulation alone it is hard to tell how well the amplifier will work in practice. Also, fine-tuning capacitor values down to picofarads does not make a lot of sense because of the parasitic capacitances introduced by a real life setup. The best simulation setup by only tuning \(C1\) can be seen in figure \ref{fig:ltspice-complete}.
+From the simulation alone, it is hard to tell how well the amplifier will work in practice. Also, fine-tuning capacitor values down to picofarads does not make much sense because of the parasitic capacitances introduced by a real-life setup. The best simulation setup by only tuning \(C1\) can be seen in figure \ref{fig:ltspice-complete}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{simon/resources/ltspice-complete.png}
-    \caption{AAAAA}
+    \includegraphics[width=0.9\textwidth]{simon/resources/ltspice-complete.png}
+    \caption{Complete Tesla Coil Driver in LTSpice}
     \label{fig:ltspice-complete}
 \end{figure}
 
 \section{Generating the Gate Signal} % Or clock signal?
 
-To \emph{turn on} the class-E amplifier, a \(4\,MHz\) signal has to be applied to the MOSFET gate. The easiest way to generate this signal would be to use a quartz crystal or an oscillator. The difference between those two is that while a quartz crystal is a passive device and needs external circuitry to oscillate, an oscillator only needs to be supplied to output a signal. Also, a crystal outputs a sine wave, which needs to be converted into a logic pulse signal by using e.g. a Schmitt trigger, and an oscillator directly outputs a logic signal. However, one big disadvantage they both have is that they have a fixed frequency.
+To start the class-E amplifier, a \(4\,MHz\) signal has to be applied to the MOSFET gate. The easiest way to generate this signal would be to use a quartz crystal or an oscillator. The difference between those two is that while a quartz crystal is a passive device and needs external circuitry to oscillate, an oscillator only needs to be supplied to output a signal. Also, a crystal generates a sine wave, which needs to be converted into a logic pulse signal by using e.g. a Schmitt trigger, and an oscillator directly generates a logic signal. However, one big disadvantage of both of them is that they have a fixed frequency.
 
 \subsection{Voltage Controlled Oscillator}
 
-Using a variable frequency can be very convenient for tuning the Tesla coil. Every small change in the coil's surroundings causes the resonant frequency to change. Adjusting the operating frequency to the resonant frequency by changing a component's value is easier than vice-versa by changing the coil's number of turns. This is exactly what a \gls{vco} does. By far the most popular one is the \texttt{NE555}. In its astable mode it can be used to generate a clock signal with variable frequency. Sadly, its maximum frequency lies well below the required \(4\,MHz\).
+Using a variable frequency can be very convenient for tuning the Tesla coil. Every small change in the coil's surroundings causes the resonant frequency to change. Adjusting the operating frequency to the resonant frequency by changing a component's value is easier than vice-versa by changing the coil's number of turns. This is exactly what a \gls{vco} is able to do. By far, the most popular one is the \texttt{NE555}. In its astable mode, it can be used to generate a clock signal with variable frequency. Sadly, its maximum frequency lies well below the required \(4\,MHz\).
 
-Instead, an \texttt{LTC1799} was used. Its main frequency can be set by a single resistor and ranges from \(100\,kHz\) to \(33\,MHz\). It can be further divided by 10, or 100 by connecting its \texttt{DIV} pin to either +5V or letting it float. When connected to GND, which means no division, the output frequency can be calculated as
+Instead, an \texttt{LTC1799} was used. Its main frequency can be set by a single resistor and ranges from \(100\,kHz\) to \(33\,MHz\). It can be further divided by \(10\) or \(100\) by connecting its \texttt{DIV} pin to either \(+5\,V\) or letting it float. When connected to GND, which means no division, the output frequency can be calculated as
 
 \begin{equation}
     f_{OSC} = 10\,MHz \cdot \frac{10^4}{R_{SET}}\,.
 \end{equation}
 
-To set the output frequency to any arbitrary range, \(R_{SET}\) can be split up into a fixed and a variable resistor. For example, a combination of a \(23.7\,k\Omega\) resistor and a \(5\,k\Omega\) potentiometer, the range can be narrowed down to \(3.48\,MHz\) to \(4.22\,MHz\), which should cover the resonant frequency of the coil in any situation very well.
+To set the output frequency to any arbitrary range, \(R_{SET}\) can be split up into a fixed and a variable resistor. For example, with a combination of a \(23.7\,k\Omega\) resistor and a \(5\,k\Omega\) potentiometer, the range can be narrowed down to \(3.48\,MHz\) to \(4.22\,MHz\), which should cover the resonant frequency of the coil in any situation.
 
 \subsection{MOSFET Gate Driver}
 
-Due to its high output resistance, this \gls{vco} can however not supply the necessary power to directly drive the MOSFET at those frequencies. There are, again, a lot of possibilities how this amplification could be implemented, but one of the most straightforward is the use of a MOSFET driver \gls{ic}. They are specifically designed for this purpose and are able to sink and source large currents to charge and discharge the MOSFET gate capacitance. The \texttt{IX4310T} achieves this by using a push-pull output, which also allows the gate-source voltage to be bigger than the input voltage. With it's stated output peak current of \(2\,A\), and rise and fall times of less than \(6\,ns\), this \gls{ic} can easily drive the MOSFET at \(4\,MHz\).
+Due to its high output resistance, this \gls{vco} can, however, not supply the necessary power to directly drive the MOSFET at those frequencies. There are, again, a lot of possibilities how this amplification could be implemented, but one of the most straightforward is the use of a MOSFET driver \gls{ic}. They are specifically designed for this purpose and are able to sink and source large currents to charge and discharge the MOSFET's gate capacitance. The \texttt{IX4310T} achieves this by using a push-pull output, allowing the gate-source voltage to be bigger than the input voltage. With its stated output peak current of \(2\,A\), and rise and fall times of less than \(6\,ns\), this \gls{ic} can easily drive the MOSFET at \(4\,MHz\).
 
 
 \section{The Interrupter}
 
-While in theory, adding an interrupting feature is as simple as turning the coil on and off, a little more thought has to be paid to the actual implementation. For example, switching the power supply on and off would be very impractical and would probably cause issue with too slow rise and fall times. Connecting or disconnecting the primary coil would very quickly destroy the class-E stage because of load mismatch. Modulating the interrupting signal onto the MOSFET's control signal on the other side sounds more promising.
+While, in theory, adding an interrupting feature is as simple as turning the coil on and off, a little more thought has to be paid to the actual implementation. For example, switching the power supply on and off would be very impractical and would probably cause issues with too slow rise and fall times. Connecting or disconnecting the primary coil would quickly destroy the class-E stage because of load mismatch. Modulating the interrupting signal onto the MOSFET's control signal on the other side sounds more promising.
 
-Then there's the question about how to generate the interrupting signal. Adding another oscillator for this job would be possible, but this makes it hard to control the interrupter's behaviour. Getting the signal from an external source - in this case the MIDI Interrupter - adds both flexibility and modularity.
+Then there is the question about how to generate the interrupting signal. Adding another oscillator for this job would be possible, but this makes it hard to control the interrupter's behavior. Getting the signal from an external source - in this case, the MIDI Interrupter - adds both flexibility and modularity.
 
 \subsection{Fiber Optic Transmission}
 
-Fiber optic cables are a popular choice for sending signals from an interrupter to a Tesla coil. First reason being, that the Tesla coil emits a strong electromagnetic field, which could induce a current in any reasonably long cable. Depending on the output power of the coil, this can even cause bitflips in a \(5\,V\) logic transmission line and damage components due to overvoltage. The second reason is, that any failure in the power amplifier or discharges between nearby \glsunset{pcb}\gls{pcb} traces could send a high voltage spike back to the interrupter and destroy it.
+Fiber optic cables are a popular choice for sending signals from an interrupter to a Tesla coil. The first reason is that the Tesla coil emits a strong electromagnetic field, which could induce a current in any reasonably long cable. Depending on the output power of the coil, this can even cause bitflips in a \(5\,V\) logic transmission line and damage components due to overvoltage. The second reason is that any failure in the power amplifier or discharges between nearby \glsunset{pcb}\gls{pcb} traces could send a high voltage spike back to the interrupter and destroy it.
 
-Optical fibers on the other hand are not susceptible to \gls{emi}, and if a high voltage is applied to the receiver, it will go into its limit or directly break, but in no way can it induce this same voltage across the transmitter. The used cable was a \(1\,m\) long \texttt{SH-4001} \(1000\,\mu m\) core jacketed optical fiber.
+Optical fibers, on the other hand, are not susceptible to \gls{emi}, and if a high voltage is applied to the receiver, it will go into its limit or directly break, but in no way can it induce this same voltage across the transmitter. The used cable was a \(1\,m\) long \texttt{SH-4001} \(1000\,\mu m\) core jacketed optical fiber.
 
 \subsubsection{The Transmitter}
 
-The used transmitter LED was a \texttt{IF E91A}, which is compatible with any standard \(1000\,\mu m\) optic fiber. It has a peak wavelength of \(940\,nm\), which lies in the near-infrared spectrum and therefore is not visible. The nominal output power when used with a \(1\,m\) long \texttt{SH-4001} fiber is \(70\,\mu W\) at a forward voltage \(I_F\) of \(20\,mA\). At \(10\,mA\), which will be used instead to not overload the interrupter, only about \(85\%\) of this power (\(60\,\mu W\)) can be expected.
+The used transmitter LED was an \texttt{IF E91A}, which is compatible with any standard \(1000\,\mu m\) optic fiber. It has a peak wavelength of \(940\,nm\), which lies in the near-infrared spectrum and therefore is not visible. When used with a \(1\,m\) long \texttt{SH-4001} fiber, the nominal output power is \(70\,\mu W\) at a forward voltage \(I_F\) of \(20\,mA\). At \(10\,mA\), which will be used instead as to not overload the interrupter, only about \(85\%\) of this power (\(60\,\mu W\)) can be expected.
 
-To drive the LED, a \texttt{2N7000} small signal MOSFET in a low side switch configuration was used. With a voltage drop of \(1.2\,V\) across the LED, its series resistor at a supply voltage of \(5\,V\) should be \(380\,\Omega\)\sidenote{The MOSFET's \(R_{DS(ON)}\) of only \(1.8\,\Omega\) is negligible.}. Additionally, adding a \(330\,\Omega\) resistor between the interrupter and the gate of the MOSFET limits the gate current to \(15\,mA\) while still maintaining a high enough transient frequency.
+To drive the LED, a \texttt{2N7000} small-signal MOSFET in a low-side switch configuration was used. With a voltage drop of \(1.2\,V\) across the LED, its series resistor at a supply voltage of \(5\,V\) should be \(380\,\Omega\)\sidenotes{The MOSFET's \(R_{DS(ON)}\) of only \(1.8\,\Omega\) is negligible.}. Additionally, adding a \(330\,\Omega\) resistor between the interrupter and the gate of the MOSFET limits the gate current to \(15\,mA\) while still maintaining a high enough transient frequency.
 
 \subsubsection{The Receiver}
 
-To translate the light pulses back into an electric signal, a \texttt{IF-D92} phototransistor\sidenote{A phototransistor is merely a bipolar transistor with a photodiode connected from its collector to its base} has been used. At the wavelength of \(870\,nm\), the responsivity is specified as \(100\,\mu A/\mu W\) and drops to \(94\,\mu A/\mu W\) for a wavelength of \(940\,nm\). This means that the collector current \(I_C\) is expected to be around \(5.6\,mA\).
+To translate the light pulses back into an electric signal, an \texttt{IF-D92} phototransistor\sidenotes{A phototransistor is merely a bipolar transistor with a photodiode connected from its collector to its base} has been used. At the wavelength of \(870\,nm\), the responsivity is specified as \(100\,\mu A/\mu W\) and drops to \(94\,\mu A/\mu W\) for a wavelength of \(940\,nm\). This means that the collector current \(I_C\) is expected to be around \(5.6\,mA\).
 
-The phototransistor alone cannot produce a signal large enough to be used for a logic input. This is why it was combined with a \texttt{RUM001L02} MOSFET to form a \emph{darlington pair}. This simply means, that the phototransistor was connected to the gate of the MOSFET, which amplifies the signal to 12V. A pulldown resistor in form of a trimmer potentiometer has been added to the MOSFET's gate to discharge it and set the amplifier's sensitivity. The source resistance has been set to \(4.7\,k\Omega\).
+The phototransistor alone cannot produce a signal large enough to be used for a logic input. This is why it was combined with a \texttt{RUM001L02} MOSFET to form a \emph{Darlington pair}. This means that the phototransistor was connected to the gate of the MOSFET, which amplifies the signal to 12V. A pulldown resistor in the form of a trimmer potentiometer has been added to the MOSFET's gate to discharge it and set the amplifier's sensitivity. The source resistance has been set to \(4.7\,k\Omega\).
 
 Figure \ref{fig:transmitter-receiver} shows the transmitter and receiver circuit.
 
 \begin{figure}[h!]
     \centering
-    \resizebox{0.65\textwidth}{!}{
+    \resizebox{0.75\textwidth}{!}{
     \begin{circuitikz}[european resistors]
       \tikzset{stroke diodes}
       \draw (0,0) node[nigfete](t){2N7000};
@@ -410,11 +412,12 @@ Figure \ref{fig:transmitter-receiver} shows the transmitter and receiver circuit
     \label{fig:transmitter-receiver}
 \end{figure}
 
+\newpage
 \subsection{Interrupt Synchronization}
 
 Directly applying the interrupting technique to the class-E circuit by just turning it on and off at any given moment would violate both the \gls{zvs} and \gls{zcs} conditions. In the worst case, switching the MOSFET on when the voltage is at its maximum and turning it off when the current is at its maximum a few thousand times a second would result in huge switching losses and device failure. Therefore a security mechanism has to be implemented.
 
-One way to mitigate this problem is by sampling the interrupter signal and only apply it on every falling edge of the 4MHz base signal. The sampling can be done with a falling-edge triggered D-type flip-flop, whose output gets fed into an AND gate along with the base signal.
+One way to mitigate this problem is by sampling the interrupter signal and only applying it on every falling edge of the 4MHz base signal. The sampling can be done with a falling-edge triggered D-type latch, whose output gets fed into an AND gate along with the base signal.
 
 \vspace{5mm}
 
@@ -447,7 +450,7 @@ One way to mitigate this problem is by sampling the interrupter signal and only 
 
 \section{Synopsis}
 
-Figure \ref{fig:block-diagram} shows the whole circuitry involved in the Tesla coil\sidenote{Except for the optical transmission circuitry}. To supply the \gls{vco} and the synchronization circuit, the supply voltage of \(12\,V\) gets stepped down to \(5\,V\) by a linear voltage regulator. The power stage, on the other side, needs a higher voltage, which could be achieved by using a boost converter.
+Figure \ref{fig:block-diagram} shows the whole circuitry involved in the Tesla coil\sidenotes{Except for the optical transmission circuitry}. To supply the \gls{vco} and the synchronization circuit, the supply voltage of \(12\,V\) gets stepped down to \(5\,V\) by a linear voltage regulator. On the other side, the power stage needs a higher voltage, which could be achieved by using a boost converter.
 
 \tikzset{
   block/.style={

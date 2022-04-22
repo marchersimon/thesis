@@ -31,7 +31,7 @@ Since this is the case for the \gls{midi}-Interrupter, the \textbf{Phase and Fre
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{felix/resources/timer_diagram.png}
+    \includegraphics[width=0.8\textwidth]{felix/resources/timer_diagram.png}
     \caption{Timing diagram of the Phase and Frequency correct PWM mode}
     \label{fig:timer_diagram}
 \end{figure}
@@ -56,7 +56,7 @@ Note that the maximum frequency is not actually the highest frequency possible f
     \label{tab:prescaler}
 \end{table}
 
-The only prescaler within the desired frequency range was the \textbf{prescaler 8}.
+The only prescaler in the desired frequency range was the \textbf{prescaler 8}.
 
 \subsection{Output Compare Pins}
 
@@ -182,13 +182,87 @@ PWM::start(800); // Starts Timer 3
 
 At the moment, the MIDI-Interrupter can create four PWM signals on four separate pins. However, the tesla coil needs to be fed a single PWM signal. Unlike regular music consisting of a series of sine waves, logic signals cannot be added as easily. One approach would be to convert every PWM signal into a sine wave where the duty cycle corresponds to the amplitude. Those sine waves are then added together, and for each point, if the result is above a specific threshold, the output signal is high, else it is low.
 
-However, this would be very computation-intensive task and would likely require an additional \gls{mcu}. Instead, a simpler yet effective method was chosen - using logic gates. Just like how a specific PWM frequency modulated onto a higher PWM carrier frequency creates a sound that contains both frequencies\sidenote{This was explained in detail in section \ref{sec:musical-tesla-coils}}, all four PWM channels can be merged using an OR gate. If only one channel is playing, then it is just passing through without any change. If two or more channels are playing, they get overlapped and therefore are all contained in the output signal. 
+However, this would be very computation-intensive task and would likely require an additional \gls{mcu}. Instead, a simpler yet effective method was chosen - using logic gates. Just like how a specific PWM frequency modulated onto a higher PWM carrier frequency creates a sound that contains both frequencies\sidenotes{This was explained in section \ref{sec:musical-tesla-coils}}, all four PWM channels can be merged using an OR gate. If only one channel is playing, then it is just passing through without any change. If two or more channels are playing, they get overlapped and therefore are all contained in the output signal. 
 
 \begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{felix/resources/signalCombinationFourier.jpg}
-    \caption{Frequency Components of the Output Signal}
-    \label{fig:signal-combination-fourier}
+  \centering
+\begin{minipage}{0.5\textwidth}
+  \begin{tikzpicture}
+  \begin{axis}[
+    x filter/.code=\pgfmathparse{#1 * 1000},
+    xmax=7.5,
+    ymax=1.1,
+    ytick={0,1},
+    height=4cm,
+    width=\textwidth,
+    axis lines=left,
+    xticklabels=\empty,
+    ylabel=\(A\) (\(600\,Hz\))
+    ]
+    \addplot+[const plot, black!80] table[x=t1,y=y1, col sep=comma, mark=none]{felix/resources/signalCombination.csv};
+  \end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+  \begin{axis}[
+    x filter/.code=\pgfmathparse{#1 * 1000},
+    xmax=7.5,
+    ymax=1.1,
+    ytick={0,1},
+    height=4cm,
+    width=\textwidth,
+    axis lines=left,
+    xticklabels=\empty,
+    ylabel = \(B\) (\(800\,Hz\))
+    ]
+    \addplot+[const plot, black!80] table[x=t2,y=y2, col sep=comma, mark=none]{felix/resources/signalCombination.csv};
+  \end{axis}
+\end{tikzpicture}
+\begin{tikzpicture}
+  \begin{axis}[
+    x filter/.code=\pgfmathparse{#1 * 1000},
+    xmax=7.5,
+    ymax=1.1,
+    ytick={0,1},
+    height=4cm,
+    width=\textwidth,
+    axis lines=left,
+    ylabel = \(A \lor B\),
+    xlabel = \(t\) in \(ms\),
+    ]
+    \addplot+[const plot, black!80] table[x=t,y=y, col sep=comma, mark=none]{felix/resources/signalCombination1.csv};
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+\hspace{-4mm}
+\begin{minipage}{0.49\textwidth}
+  \vspace{7mm}
+  \begin{tikzpicture}
+  \begin{axis}[
+    xmode = log,
+    xmin = 500,
+    ymax = 90,
+    xmax = 5000,
+    ytick = {0},
+    scaled ticks = false,
+    yticklabels = \empty,
+    %xticklabels = \empty,
+    xtick = {600,800,1000,1400,1800},
+    axis y line = left,
+    axis x line = middle,
+    tick align = inside,
+    log ticks with fixed point,
+    width=1.2\textwidth,
+    height=8cm,
+    xlabel = \parbox{9mm}{\(\log f\)\\in \(Hz\)},
+    x tick label style={rotate=70,anchor=east},
+    ylabel = Frequency Components of \(A \lor B\)
+    ]
+    \addplot+[ycomb, black!80, mark options={black!80}] table[x=f,y=mag,col sep=comma]{felix/resources/signalCombination_fourier.csv};
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
+  \caption{Signal Combination}
+  \label{fig:signalCombination}
 \end{figure}
 
 This merging can also be thought of as adding the PWM signals together like analog signals and then just cutting away everything above the previous logic 1 level. However, this also leads to a problem because information is being destroyed every time something is cut away from the waveform. This result is either added unwanted frequency components, removed wanted frequency components, or both. In the worst case, if one frequency is an integer multiple of the other and they are in phase, they overlap so that the lower frequency will get removed entirely. In the same way, if they are exactly out of phase, it will seem like another, higher frequency had been added.

@@ -1,6 +1,9 @@
+\setchapterstyle{kao}
+\setchapterpreamble[u]{\margintoc}
+
 \chapter{Printed Circuit Board}
 
-\glspl{pcb} play an essential role in this project. Breadboards and other prototyping techniques tend to cause issues with parasitic inductances and capacitances and do not work with \gls{smd} components, so \glspl{pcb} were the only way to build up the circuits. Once a \gls{pcb} has been produced, it works reliable and usually does not add any erratic effects. On the downside, however, \glspl{pcb} take a lot of time to design, etch, and solder, and once they are manufactured, they are very inflexible. This means that a new \gls{pcb} had to be made for every prototype..
+\glspl{pcb} play an essential role in this project. Breadboards and other prototyping techniques tend to cause issues with parasitic inductances and capacitances and do not work with \gls{smd} components, so \glspl{pcb} were the only way to build up the circuits. Once a \gls{pcb} has been produced, it works reliable and usually does not add any erratic effects. On the downside, however, \glspl{pcb} take a lot of time to design, etch, and solder, and once they are manufactured, they are very inflexible. This means that a new \gls{pcb} had to be made for every prototype.
 
 \section{Component Selection}
 
@@ -20,7 +23,7 @@ All capacitors and resistors have been ordered in a 0805 package because it is n
 \subsection{Peripherals}
 
 To provide the necessary power and lead the MIDI-Interrupter signal to the \gls{pcb} as well as the ability to be turned on and off without being plugged out, one side of the \gls{pcb} enclosure has been dedicated as a control panel. % Possibly wordy sentence
-For the power, a 5.5 x 2.1 mm barrel plug was used because of its widespread usage. To connect the fiber optic cable, the phototransistor has been mounted directly into the casing, so it is still accessible from the outside. Additionally, a keyswitch\sidenote{This way, only authorized people are able to turn on the Tesla coil and feel important} is used to turn on the power, and an ON-OFF-ON switch either routes the output of the phototransistor for interrupted operation, a constant 12V signal for continuous operating, or a 0V signal for no operation to the interrupt input.
+For the power, a 5.5 x 2.1 mm barrel plug was used because of its widespread usage. To connect the fiber optic cable, the phototransistor has been mounted directly into the casing, so it is still accessible from the outside. Additionally, a keyswitch\sidenotes{This way, only authorized people can turn on the Tesla coil and feel important} is used to turn on the power, and an ON-OFF-ON switch either routes the output of the phototransistor for interrupted operation, a constant 12V signal for continuous operating, or a 0V signal for no operation to the interrupt input.
 
 \subsection{Miscellaneous Parts}
 
@@ -28,76 +31,65 @@ Since the four peripheral components cannot be mounted directly on the \gls{pcb}
 
 A fuse was added on the Vcc rail to protect the circuit and the power supply from overcurrent. To save space and adhere to the \gls{smd}-only strategy, a 1206 package was used.
 
-The boost converter for the 12\,V to 50\,V conversion was a tricky and very costly part. There were only very few parts for the desired voltage range and most of them were designed for hundreds of watts and came with a corresponding price tag. The final decision fell on the \emph{PKE3316HPI} from \emph{Flex Power Modules} which costs \emph{only} 33\,€.
+The boost converter for the 12\,V to 50\,V conversion was a tricky and very costly part. There were only very few parts for the desired voltage range and most of them were designed for hundreds of watts and came with a corresponding price tag. The final decision fell on the \emph{PKE3316HPI} from \emph{Flex Power Modules} which cost \emph{only} 33\,€.
 
-% connectors to coil
+\section{Layout}
 
-\begin{tabular}{@{}lll@{}}
-    \toprule
-    \textbf{Part name} & \textbf{Footprint} & \textbf{Description}\\\midrule
-    BSC12DN20N & PG-TDSON-8 & MOSFET\\
-    IX4310 & SOT-23 & MOSFET driver\\
-    LTC1799 & SOT-23 & Oscillator\\
-    LM7805 & TO252 & Voltage regulator\\
-    PKE3316 & Custom THT & boost converter\\
-    74HC72 & SOIC127 & D-type latch\\
-    TC7SZ08F & SOT-32 & AND gate\\
-    RUM001L02 & SOT-723 & MOSFET\\
-    47\(\mu\)H choke & Custom SMD &\\
-    Various Capacitors & 0805 &\\
-    Various Resistors & 0805 &\\
-    Potentiometers & PT-10&\\
-    Fuse 250mA & 1206 &\\
-    Clamp & ? &\\
-    \bottomrule
-\end{tabular}
-
-\section{Wiring}
-
-\subsection{Peripherals}
-
-\subsection{Coil connection}
-
-\section{PCB Layout}
+After all components were selected and the schematic reconstructed in Autodesk Eagle, a \gls{pcb} layout had to be designed. The bottom layer was almost completely designated as ground plate, as well as many parts of the top layer. Figure \ref{fig:final-layout} shows the top and bottom layer of the final design.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{kassandra/resources/Tesla6Final.PNG}
+    \includegraphics[width=0.7\textwidth]{kassandra/resources/Tesla6Final.png}
     \caption{Final PCB Layout}
-    \label{fig:tesla_layout}
+    \label{fig:final-layout}
 \end{figure}
-
-\subsection{Ground Planes}
-
-Ground planes help reducing EMI and
-
-The PCB can be separated into two logic parts - the analog class-E part and the digital part. While the analog part has a relatively high \gls{emc}, the digital part needs to be protected. 
-
-\subsection{High Frequency Stuff}
 
 \section{Manufacturing}
 
-While \glspl{pcb} are typically ordered from an external company, this was not possible in this case. Having them produced is very costly and takes more time, than manufacturing them in-house. The workshop's \gls{pcb} department, although basic, has been a great alternative, especially because of the many prototypes that had to be produced. Also, the flexibility of being able to control every single manufacturing step is impossible to reach when ordering \glspl{pcb}. On the downside, it lacked some professional equipment, like a solder resist station or a stencil cutter. This made the component assembly process significantly harder and more time consuming.
+While \glspl{pcb} are typically ordered from an external company, this was not possible in this case. Having them produced is very costly and takes more time, than manufacturing them in-house. The workshop's \gls{pcb} department, although basic, has been a great alternative, primarily because of the many prototypes that had to be produced. Also, the flexibility of controlling every single manufacturing step is impossible to reach when ordering \glspl{pcb}. On the downside, it lacked some professional equipment, like a solder resist station or a stencil cutter. This made the component assembly process significantly harder and more time-consuming.
 
-The used manufacturing technique was acidic etching % check if really acidic and not alkaline (https://www.orientdisplay.com/knowledge-base/pcb-basics/what-are-pcb-etching-techniques/)
-and the available \gls{pcb} blanks were single or double layered FR-1 blanks. % probably not FR-1
+The used manufacturing technique was acidic etching and the available \gls{pcb} blanks were single or double layered, \(1.5\,mm\) FR-2 blanks with a \(35\,\mu m\) thick copper layer.
 
 \subsection{Exposure}
 
-The first step was to chemically apply a footprint of the traces to the PCB to the photoresist layer of the PCB. This was done with a designated UV exposure unit. The part of the positive photoresist which gets hit by UV light becomes soluble, while the part covered by a photomask stays insoluble. This photomask was just a semi-transparent sheet of paper with traces printed onto it. It had to be made sure to use as much ink as possible to make it as lightproof as possible.
+The first step was to chemically apply a footprint of the traces to the PCB to the photoresist layer of the PCB. This was done with a designated UV exposure unit. The part of the positive photoresist which gets hit by UV light becomes soluble, while the part covered by a photomask stays insoluble. This photomask was just a semi-transparent sheet of paper with traces printed onto it. It had to be made sure to use as much ink as possible to make it completely lightproof.
 
-The photomask for the top and bottom layer had to be carefully aligned, and it had to be made sure that the printed side of the paper faced the PCB. To further eliminate any possible gap between the ink and the PCB, the exposure unit comes with a vacuum pump to press the paper onto the PCB. Before removing the protective film from the PCB, the room has to be dimmed to prevent light from hitting the photoresist beforehand. The exposure process itself then takes about 90 seconds.
+The photomask for the top and bottom layer had to be carefully aligned, and it had to be made sure that the printed side of the paper faced the PCB. To further eliminate any possible gap between the ink and the PCB, the exposure unit comes with a vacuum pump to press the paper onto the PCB. Before removing the protective film from the PCB, the room must be dimmed to prevent light from hitting the photoresist beforehand. The exposure process itself then takes about 90 seconds.
 
 \subsection{Stripping, Etching}
 
-Stripping is the process which removes the UV exposed part of the photoresist. The PCB gets mounted in a fixture and sprayed with a \texttt{insert correct name here} at room temperature for one minute. During this process the room has to be kept dim and can only be lit up afterwards. To clean the \gls{pcb} from any remaining \texttt{insert correct name here}-traces, it has to be cleaned with water. % last sentence is weird
+Stripping is the process that removes the UV exposed part of the photoresist. The PCB gets mounted in a fixture and sprayed with a sodium hydroxide solution at room temperature for one minute. The room has to be kept dim during this process and can only be lit up afterward. To clean the \gls{pcb} from any remaining chemicals, it has to be cleaned with water.
 
-The next step is etching away the naked copper areas. This is done by immersing the PCB into a stream of foamed \texttt{insert correct name here}, which was heated up to 50\textdegree C. It takes about 10 minutes for the \texttt{insert correct name here} to fully dissolve the copper, but that slightly changes from time to time and it has to be made sure that no unwanted copper is left manually. Finally, the remaining, unexposed photoresist has to be removed with propanone\sidenote{Formally known as acetone.}.
+The next step is etching away the naked copper areas. This is done by immersing the PCB into a stream of foamed sodium persulfate, which was heated up to 50\textdegree C. It takes about 10 minutes for the acid to fully dissolve the copper, but that slightly changes from time to time and it has to be made sure that no unwanted copper is left manually. Finally, the remaining unexposed photoresist has to be removed with propanone\sidenotes{Formally known as acetone.}.
 
-\subsection{Holes and Vias}
+\subsection{Holes and Rivets}
 
-
+Even though there are not many, the few \gls{tht} devices on the board needed to be mounted in holes. Those were drilled by using a designated \gls{pcb} drill station. Depending on the component, the diameter reached from \(0.9\,mm\) to \(1.2\,mm\). Additionally, a rived had to be added for every via used in the board. Rivets are simply small copper tubes, which can be inserted into a hole and pressed tight to connect the bottom and top layer.
 
 \subsection{Assembly}
 
+The assembly had to be done without solder stop or a stencil. This complicated the whole process, but it was still manageable. To solder the components, a reflow oven has been used. This oven was capable of following a predefined heating curve, which was optimized for small \gls{smd} components. A pick-and-place station with a pneumatic pick-up tool and solder paste dispenser simplified the process.
+
 \subsection{Potential Problems}
+
+During this whole manufacturing process there, are many opportunities for things to go wrong. This is a list of the most critical mistakes gathered by personal experience:
+
+\begin{itemize}
+    \item If the exposure time is too short, the photoresist cannot be fully stripped.
+    \item If the exposure time is too long, the small amount of light passing through the printer ink will cause the complete photoresist to be stripped.
+    \item If the stripping time is too short, the copper will not fully dissolve, leaving shorts.
+    \item If the stripping time is too long, the whole copper will dissolve, leaving nothing.
+    \item If the concentration of sodium hydroxide or sodium persulfate is too low, the process will take forever.
+    \item If too little solder paste is applied to a pad, it can become a cold solder joint.
+    \item If too much solder paste is applied to a pad, it can short nearby pads.
+\end{itemize}
+
+With some experience, however, these issues are easy to mitigate.
+
+\newpage
+\pagestyle{empty}
+\mbox{}
+\newpage
+\mbox{}
+\newpage
+\pagestyle{scrheadings}

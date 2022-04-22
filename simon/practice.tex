@@ -4,15 +4,13 @@
 \chapter{Practice and Measurements} % How it actually works
 \labch{tc-practice-and-measurements}
 
-\section{The Coil}
+\section{Tuning the Secondary Coil}\label{TC-tuningTheSecondary}
 
-\subsection{Tuning the Secondary Coil}\label{TC-tuningTheSecondary}
+Tuning the secondary coil to the correct frequency is essential because all calculated values from section \ref{subsec:designing-the-secondary-coil} are highly idealized. For example, equation \ref{eq-parasitic-capacitance} is said to have a standard deviation of \(\sigma_{CL} \text{ in } \\pF = 3.6 \cdot D\), which leads to a standard deviation of around \(116\,kHz\) of the coil's resonant frequency. In addition, the relative permeability and permittivity of the carrier material is not taken into consideration in the calculations.
 
-Tuning the secondary coil to the correct frequency is essential, because all calculated values from section \ref{subsec:designing-the-secondary-coil} are highly idealized. For example, equation \ref{eq-parasitic-capacitance} is said to have a standard deviation of \(\sigma_{CL} \text{ in } pF = 3.6 \cdot D\), which leads to a standard deviation of around 116 kHz of the resonant frequency of the coil. In addition, the relative permeability and permittivity factor of the carrier material are not taken into consideration in the calculations.
+The coil was tuned by exciting the base of the secondary coil with a sinusoidal voltage. An oscilloscope probe, formed into a current loop, was placed near the top of the coil. The closer the excitation frequency was to the coil's resonant frequency, the higher the measured voltage on the oscilloscope. The frequency at which the measured voltage was at its maximum was the resonant frequency of the coil. By adding or removing windings, the resonant frequency could be lowered or raised until it exactly matched \(4\,MHz\).
 
-The coil was tuned by exciting the base of the secondary coil with a sinusoidal voltage. An oscilloscope probe, formed into a current loop, was placed near the top of the coil. The closer the excitation frequency was to the resonant frequency of the coil, the higher the measured voltage on the oscilloscope. The frequency, at which the measured voltage was at its maximum, was the resonant frequency of the coil. By adding or removing windings, the resonant frequency could be lowered or raised, until it exactly matched 4MHz.
-
-In order to avoid adding windings, which is more tedious than removing them, the coil was initially wound \(120\,mm\) long, which is \(8\,mm\) longer than calculated. After going through the procedure of sweeping through all frequencies close to 4MHz, finding out the exact resonant frequency, and tuning it slightly towards the correct value over and over again, the final length turned out to be \(113\,mm\). This corresponds to a deviation from the calculation of only 0.9\%.
+In order to avoid adding windings, which is more tedious than removing them, the coil was initially wound \(120\,mm\) long, which is \(8\,mm\) longer than calculated. After going through the procedure of sweeping through all frequencies close to \(4\,MHz\), finding out the exact resonant frequency, and tuning it slightly towards the correct value over and over again, the final length turned out to be \(113\,mm\). This corresponds to a deviation of only 0.9\% from the calculation.
 
 \section{The Class-E Stage}
 
@@ -20,27 +18,27 @@ The class-E amplifier was by far the trickiest part to get running. It took abou
 
 In the first prototype, it was attempted to design the class-E amplifier using the design equations mentioned in section \ref{subsec:the-design-process}. The Tesla coil was converted into a single impedance value and seen as part of the load network. The calculated value for the capacitor \(C_2\) was already contained in this value, so it was simply left out. Guaranteed failure predicted by the simulation was simply ignored. In fact, without the DC-blocking capacitor, the whole amplifier looked like a short for direct current and the network had no chance to start oscillating.
 
-First it was assumed that this could be solved by reducing the noise in the PCB with a ground plane. In retrospect, which finally was not the solution.
+First, it was assumed that this could be solved by reducing the noise in the PCB with a ground plane, which finally was not the solution.
 
-The third design finally solved this problem by adding a \(100\,nF\) capacitor, but soon, another issue was discovered. The \(4\,MHz\) signal was still coming from a signal generator connected via an coaxial cable. Even though the Tesla coil didn't create any arcs yet, it was still producing an electromagnetic field. This field induced a voltage in the long cable from the signal generator and, after being amplified by the MOSFET driver, turned on the MOSFET when it should have been closed.
+The third design finally solved this problem by adding a \(100\,nF\) capacitor, but soon, another issue was discovered. The \(4\,MHz\) signal was still coming from a signal generator connected via a coaxial cable. Even though the Tesla coil did not create any arcs yet, it still produced an electromagnetic field. This field induced a voltage in the long cable from the signal generator and, after being amplified by the MOSFET driver, turned on the MOSFET when it should have been off.
 
-Initially, this was believed to be black magic, but the fourth design tackled this flaw by adding the previously described \gls{vco} very close to the MOSFET driver. With some tweaking it was able to produce arcs, even without any help from a grounded object.
+Initially, this was believed to be black magic, but the fourth design tackled this flaw by adding the previously described \gls{vco} very close to the MOSFET driver. With some tweaking, it was able to produce arcs, even without any help from a grounded object.
 
-The next step was to involve the interrupter signal. The first design didn't use a latch, but just two NPN transistors, which form an AND gate. This does of course not take care of the synchronity between the interrupter and base signal. Another bad decision was the use of current driven transistors, which usually need to be handled with care in logic circuits. Even though the calculated resistor values seemed to be correct, the VCO always broke because the base of the connected transistor apparently draw too much current.
+The next step was to involve the interrupter signal. The first design did not use a latch, but two NPN transistors, which form an AND gate. This does, of course, not take care of the synchronization between the interrupter and base signal. Another bad decision was using current-driven transistors, which usually need to be handled with care in logic circuits. Even though the calculated resistor values seemed to be correct, the VCO always broke because the base of the connected transistor apparently drew too much current.
 
-The signal synchronization and current issues were fixed by the sixth and final design. Its schematic corresponds to the one derived in chapter \ref{ch:design-and-simulation}. When operated in continuous mode by tying the interrupter signal to \(V_{CC}\), the coil behaved just like expected. In interrupted mode, the coil was able to play a single, if not only very distorted, frequency. Unfortunately, due to time limitations, this was as far as it got and the project had to be put temporarily on hold.
+The signal synchronization and current issues were fixed by the sixth and final design. Its schematic corresponds to the one derived in chapter \ref{ch:design-and-simulation}. When operated in continuous mode by tying the interrupter signal to \(V_{CC}\), the coil behaved just like expected. In interrupted mode, the coil was able to play a single, if not only very distorted, frequency. Unfortunately, due to time constraints, this was as far as it got and the project had to be put temporarily on hold.
 
 \subsection{Fine-Tuning the Setup} % Or Fine-tuning?
 
-It is very unlikely that a class-E Tesla coil\sidenote{And this is true for almost any Tesla coil} is able to achieve a stable operation at the first try. There are many different parameters which influence the behaviour of the coil, but three have been found to have a major impact.
+It is very unlikely that a class-E Tesla coil\sidenotes{And this is true for almost any Tesla coil} can achieve a stable operation on the first try. There are many different parameters that influence the behavior of the coil, but three have been found to have a major impact.
 
 \subsubsection{Number of Primary Windings}
 
-The turns ratio of a transformer is one of its most important properties, and a Tesla coil is no exception. With only ten turns, adding or removing a winding greatly affects the primary coil's inductivity as well as the transformers coupling factor. This relationship has been simulated in \texttt{EleFAnT2D} and is portrayed in figure \ref{fig:tuning-the-primary}.
+The turns ratio of a transformer is one of its most important properties, and a Tesla transformer is no exception. With only ten turns, adding or removing a winding greatly affects the primary coil's inductivity as well as the transformer's coupling factor. This relationship has been simulated in \texttt{EleFAnT2D} and is portrayed in figure \ref{fig:tuning-the-primary}.
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
-    \resizebox{0.8\textwidth}{!}{
+    \resizebox{0.7\textwidth}{!}{
     \begin{tikzpicture}
       \begin{axis}[
         axis y line* = right,
@@ -70,7 +68,7 @@ The turns ratio of a transformer is one of its most important properties, and a 
     \label{fig:tuning-the-primary}
 \end{figure}
 
-It has been shown that using between 7.5 and 8.5 windings yielded the best results. With 10 windings, the amplifier does run stable, but can't produce enough output power to create an arc.
+It has been shown that using between \(7\) and \(8.5\) windings yielded the best results. With \(10\) windings, the amplifier does run stable but cannot produce enough output power to create an arc.
 
 \subsubsection{Operating Frequency}
 
@@ -78,12 +76,12 @@ As already observed in simulations, the overall efficiency falls drastically as 
 
 \subsubsection{Supply Voltage}
 
-One last thing that surprisingly had a very big impact on the coil's output power was the supply voltage. While in theory, the output power should be proportional to the square of the voltage, raising \(V_{CC}\) from \(50\,V\) to \(54\,V\) roughly doubled the maximum stable arc length.
+One last thing whose impact impact on the coil's output power was bigger than expected was the supply voltage. While in theory, the output power should be proportional to the square of the voltage, raising \(V_{CC}\) from \(50\,V\) to \(54\,V\) roughly doubled the maximum stable arc length.
 
 
 \subsection{Measurements}
 
-In the earlier prototypes it was always important to monitor the MOSFET's gate signal. For one, to confirm that the signal generation worked as intended and for another, to measure the current operating frequency. Figure \ref{fig:gate-measured} shows the gate signal for a frquency of \(3.85\,MHz\).
+In the earlier prototypes, it was always important to monitor the MOSFET's gate signal. For one, to confirm that the signal generation worked as intended and for another, to measure the current operating frequency. Figure \ref{fig:gate-measured} shows the gate signal for a frequency of \(3.85\,MHz\).
 
 \begin{figure}[h!]
     \centering
@@ -98,7 +96,7 @@ In the earlier prototypes it was always important to monitor the MOSFET's gate s
         xmin=0, xmax=600,
         extra y ticks={12},
         height=6cm,
-        width=0.8\textwidth
+        width=0.95\textwidth
         ]
         \addplot+[rounded corners=.5pt, black!80] table[x=t,y=v,col sep=comma, mark=none]{simon/resources/mosfet_gate_measured.csv};
       \end{axis}
@@ -107,7 +105,8 @@ In the earlier prototypes it was always important to monitor the MOSFET's gate s
     \label{fig:gate-measured}
 \end{figure}
 
-Even while the Tesla coil was operating and generating arcs, it was not directly obvious whether the class-E amplifier operated in a stable manner or if the MOSFET could break any moment. Therefore it was crucial to be able to keep a look at the voltages in the circuit, especially \(V_{DS}\). If the drain-source voltage was either clipped, did not return to zero before turn-on, or looked problematic in any way, it was safer to quickly turn of the Tesla coil and look for potential issues. Figure \ref{fig:vds-50} shows the \(V_{DS}\) with a supply voltage of \(50\,V\) and an operating frequency of \(3.85\,MHz\).
+\newpage
+Even while the Tesla coil was operating and generating arcs, it was not directly obvious whether the class-E amplifier operated in a stable manner or if the MOSFET could break any moment. Therefore it was crucial to be able to keep a look at the voltages in the circuit, especially \(V_{DS}\). If the drain-source voltage was either clipped, did not return to zero before turn-on, or looked problematic in any other way, it was safer to quickly turn off the Tesla coil and look for potential issues. Figure \ref{fig:vds-50} shows the \(V_{DS}\) with a supply voltage of \(50\,V\) and an operating frequency of \(3.85\,MHz\).
 
 \begin{figure}[h!]
     \centering
@@ -126,11 +125,11 @@ Even while the Tesla coil was operating and generating arcs, it was not directly
     \label{fig:vds-50}
 \end{figure}
 
-As already mentioned, increasing the supply voltage to the indented \(54\,V\) clearly increases the output power, but it also pushes the MOSFET to its limits as shown in figure \ref{fig:vds-54}. This can be clearly seen by abrupt drop of the second and third half-wave. Also, the ringing after turn-on and the differently high voltage peaks are a clear indicator that the amplifier is not running ideally.
+As already mentioned, increasing the supply voltage to the indented \(54\,V\) clearly increased the output power, but it also pushed the MOSFET to its limits, as shown in figure \ref{fig:vds-54}. This can be seen by the abrupt drop of the second and third half-wave. Also, the ringing after turn-on and the different heights of the voltage peaks are a clear indicator that the amplifier is not running ideally.
 
 \begin{figure}[h!]
     \centering
-    \resizebox{0.7\textwidth}{!}{
+    \resizebox{0.8\textwidth}{!}{
     \begin{tikzpicture}
       \begin{axis}[
         ylabel = \(V_{SC}\) in \(V\),

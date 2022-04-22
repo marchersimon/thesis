@@ -16,7 +16,7 @@ All the information in the following section was taken from \sidecite{midi-spec}
 
 Unlike MIDI streams, which connects two or more devices and lets them communicate in real time, the MIDI-Interrupter will use so-called \glspl{smf}, which are binary files holding \gls{midi} data.
 
-\glspl{smf} are build up of a header chunk and one or more track chunks. The header chunk stores the file format, number of track chunks, and the division\sidenote{The time resolution of the file}. The track chunks then hold the actual \gls{midi} data. How these track chunks have to be read depends on the file format.
+\glspl{smf} are build up of a header chunk and one or more track chunks. The header chunk stores the file format, number of track chunks, and the division\sidenotes{The time resolution of the file}. The track chunks then hold the actual \gls{midi} data. How these track chunks have to be read depends on the file format.
 
 \begin{tabular}{cll@{}}
     \midrule
@@ -150,4 +150,4 @@ Only by combining this with another trick, which is to turn all NOTE\_OFF events
 
 \section{Simplifying the MIDI files}
 
-To not have to decode every single MIDI message, most of which are not valuable to the \gls{midi}-Interrupter, a tool called \emph{tinymid}\sidenote{Its source code can be found in QR code \newqrcode{https://github.com/marchersimon/tinymid}{tinymid}.} was used. It removes all unnecessary events, moves them to channel 0, converts them to running status if possible, and most importantly, it merges all tracks of a multiple track file into a single track to make it a single track file. For this, the whole file has to be decoded at once and all events sorted by their absolute delta time, which would have been much harder to do with the limited libraries and debugging capabilities available for AVR C++.
+To not have to decode every single MIDI message, most of which are not valuable to the \gls{midi}-Interrupter, a tool called \emph{tinymid}\sidenotes{Its source code can be found in QR code \newqrcode{https://github.com/marchersimon/tinymid}{tinymid}.} was used. It removes all unnecessary events, moves them to channel 0, converts them to running status if possible, and most importantly, it merges all tracks of a multiple track file into a single track to make it a single track file. For this, the whole file has to be decoded at once and all events sorted by their absolute delta time, which would have been much harder to do with the limited libraries and debugging capabilities available for AVR C++.

@@ -1,7 +1,7 @@
 \documentclass[
 	fontsize=10pt, % Base font size
-	twoside=false, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
-	open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
+	twoside=true, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
+	%open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
 	%chapterprefix=true, % Uncomment to use the word "Chapter" before chapter numbers everywhere they appear
 	%chapterentrydots=true, % Uncomment to output dots from the chapter name to the page number in the table of contents
 	numbers=noenddot, % Comment to output dots after chapter numbers; the most common values for this option are: enddot, noenddot and auto (see the KOMAScript documentation for an in-depth explanation)
@@ -53,16 +53,17 @@
 \tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, aspect=1.5, text centered, draw=black, fill=gr30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
-\usepackage{array} % for custom conditions environment
 
-\newenvironment{conditions}
-  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
-  {\end{tabular}\par\vspace{\belowdisplayskip}}
 
 % Load packages for testing
 %\usepackage{blindtext}
 %\usepackage{showframe} % Uncomment to show boxes around the text area, margin, header and footer
 %\usepackage{showlabels} % Uncomment to output the content of \label commands to the document where they are used
+
+
+%%%%% Fix spaces after sidenote references
+
+\newcommand{\sidenotes}[1]{\sidenote{#1}\hspace{-1mm}}
 
 %%%%%% QR Codes
 \newcounter{qrlink}
@@ -107,7 +108,7 @@
 \definecolor{codegreen}{HTML}{288c53}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{HTML}{dc3d3f}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.96}
 
 \lstdefinestyle{mystyle}{
   basicstyle=\ttfamily\footnotesize,
@@ -161,14 +162,14 @@
 %----------------------------------------------------------------------------------------
 
 %\titlehead{The \texttt{kaobook} class}
-\subject{Diploma Thesis}
+%\subject{Diploma Thesis}
 
-\title{Class-E Tesla Coil}
+%\title{Class-E Tesla Coil}
 %\subtitle{Customise this page according to your needs}
 
-\author{Marcher Simon\\Peyer Kassandra\\Felix Hamrle}
+%\author{Marcher Simon\\Peyer Kassandra\\Felix Hamrle}
 
-\date{\today}
+%\date{\today}
 
 %----------------------------------------------------------------------------------------
 
@@ -184,7 +185,42 @@
 % If twoside=false, \uppertitleback and \lowertitleback are not printed
 % To overcome this issue, we set twoside=semi just before printing the title pages, and set it back to false just after the title pages
 \KOMAoptions{twoside=semi}
-\maketitle
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+            
+        \Large
+        \textbf{Diploma Thesis}
+            
+        \vspace{0.5cm}
+        \Huge
+        \textbf{Class-E Tesla Coil}
+        
+        \vspace{1.5cm}
+
+        \LARGE
+        Simon Marcher\\Kassandra Peyer\\Felix Hamrle
+
+        \vspace{1cm}
+        \Large
+        \today
+
+        \vspace{2cm}
+
+        \large
+        Supervised by\\
+        \Large
+        Dipl.-Ing. Thomas Jerman\\
+        Dipl.-Ing. Michael Lieschnegg\\
+
+        \vfill
+
+        \large
+        Powered by\\
+        \Large
+        HTL Arnfels
+      \end{center}
+\end{titlepage}
 \KOMAoptions{twoside=false}
 
 %----------------------------------------------------------------------------------------
@@ -202,7 +238,7 @@
 % Define the style for the TOC, LOF, and LOT
 %\setstretch{1} % Uncomment to modify line spacing in the ToC
 %\hypersetup{linkcolor=blue} % Uncomment to set the colour of links in the ToC
-%\setlength{\textheight}{23cm} % Manually adjust the height of the ToC pages
+\setlength{\textheight}{21cm} % Manually adjust the height of the ToC pages
 
 % Turn on compatibility mode for the etoc package
 \etocstandarddisplaystyle % "toc display" as if etoc was not loaded
@@ -219,23 +255,24 @@
 \mainmatter % Denotes the start of the main document content, resets page numbering and uses arabic numbers
 \setchapterstyle{kao} % Choose the default chapter heading style
 
+
 \newcommand{\simon}{
     \pagelayout{wide}
-    \addpart{The Tesla Coil}
+    \addpart[The Tesla Coil]{\parbox{\textwidth}{\centering The Tesla Coil\\[4mm]\large \normalfont by Simon Marcher}}
     \pagelayout{margin}
     \input{simon/main.tex}
 }
 
 \newcommand{\kassandra}{
     \pagelayout{wide}
-    \addpart{Design and Building}
+    \addpart[Design and Building]{\parbox{\textwidth}{\centering Design and Building\\[4mm]\large \normalfont by Kassandra Peyer}}
     \pagelayout{margin}
     \input{kassandra/main.tex}
 }
 
 \newcommand{\felix}{
     \pagelayout{wide}
-    \addpart{MIDI Interrupter}
+    \addpart[MIDI Interrupter]{\parbox{\textwidth}{\centering MIDI Interrupter\\[4mm]\large \normalfont by Felix Hamrle}}
     \pagelayout{margin}
     \input{felix/main.tex}
 }
@@ -254,16 +291,22 @@
 \setchapterstyle{plain} % Output plain chapters from this point onwards
 
 \chapter*{Special Thanks ...}
+\addcontentsline{toc}{chapter}{Special Thanks}
 
-... to \textbf{Federico Marotta} for providing \enquote{kaobook}, the \LaTeX{} document class this thesis is built upon. It is licensed under the \href{https://www.latex-project.org/lppl/lppl-1-3c/}{LPPL-1.3c} and can be found on Github (QR code \newqrcode{https://github.com/fmarotta/kaobook}{Kaobook Template}).
+... to our supervisors, consultants, and sponsors Thomas Jerman und Michael Lieschnegg.
 
-... to various open source projects, like PlatformIO, fritzing, WebPlotDigitizer and some more
+... to our workshop teachers, especially Hubert Tuscher, Albin Waiker and Konrad Wilhelm.
 
-... to \textbf{Overleaf} for taking so long to compile documents, that we had plenty of time to reconsider our wording.
+... to Federico Marotta for providing \enquote{kaobook}, the \LaTeX{} document class this thesis is built upon. It is licensed under the \href{https://www.latex-project.org/lppl/lppl-1-3c/}{LPPL-1.3c} and can be found on GitHub (QR code \newqrcode{https://github.com/fmarotta/kaobook}{Kaobook Template}).
 
-... to our headmaster \textit{Hofrat Günter Schweigler}. Just kidding.
+... to various open source projects, like PlatformIO, fritzing, WebPlotDigitizer, MIDIopsy, and many more.
 
-... to some others too.
+... to every kind soul on this world.
+
+%... to \textbf{Overleaf} for taking so long to compile documents, that we had plenty of time to reconsider our wording.
+
+%... to our headmaster \textit{Hofrat Günter Schweigler}. Just kidding.
+
 
 \pagebreak
 
